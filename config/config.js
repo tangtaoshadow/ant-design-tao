@@ -8,6 +8,7 @@ export default {
         dva:  true,
       }],
     ],
+    
     routes: [
       {
         path: '/login',
