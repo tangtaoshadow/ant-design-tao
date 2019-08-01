@@ -121,7 +121,7 @@ addLocaleData([...locale_en, ...locale_zh]);
 
 ### 语言结构
 
-```js
+```jsx
 // src/locale/zh_CN.js
 let language_ch={
     "prorpo.login":'登录',
@@ -132,7 +132,7 @@ let language_ch={
 export default language_ch;
 ```
 
-```js
+```jsx
 // src/locale/en_US.js
 let language_en={
     'prorpo.login':'Login',
@@ -147,7 +147,7 @@ export default language_en;
 
 ### 默认语言
 
-```json
+```jsx
   constructor(props){
     super(props);
     dev_consolelog('Initializing ...');
@@ -172,7 +172,7 @@ export default language_en;
 
 ### 设置默认语言
 
-```json
+```jsx
 // 提取语言
     const language=this.state.locale;
     return (
@@ -185,7 +185,7 @@ export default language_en;
 
 ### 设置切换语言
 
-```json
+```jsx
 <Select defaultValue="中文" style={{ 
                     // padding:'5px 10px',
                     marginLeft:'8px',
@@ -204,7 +204,7 @@ export default language_en;
 
 **思路**：通过 `onChange()` 事件触发 `changeLanguage()` ,从 `changeLanguage()`  中读取 `value` ，将`value`作为新值赋值给 `this.state.locale` 从而实现语言切换。
 
-```json
+```jsx
   //  切换语言 触发
   changeLanguage= e=>{
     dev_consolelog(`change language ${e}`);
@@ -228,7 +228,7 @@ export default language_en;
 
 `src/models/language.js`
 
-```js
+```jsx
 // 语言配置 所有页面共用 
 // navigator.language.split(/[-_]/)  zh-CN
 // 默认从浏览器头读 但是只支持 中文 和 英语 没有读取成功 显示中文
@@ -260,7 +260,7 @@ export default {
 
 `src/layout/LoginLayout.js`
 
-```js
+```jsx
 // state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
 const languageStateToProps = (state) => {
   // 先从 models 里读取
@@ -291,7 +291,7 @@ const languageDispatchToProps = (dispatch) => {
 
 ### 连接
 
-```js
+```jsx
 // 登录
 @connect(languageStateToProps, languageDispatchToProps)
 export default class LoginLayout extends React.Component  {
@@ -302,7 +302,7 @@ export default class LoginLayout extends React.Component  {
 
 ### 获取
 
-```js
+```jsx
 // 提取目标语言 从 model 中获取
     const language=this.props.language;
 ```
@@ -311,7 +311,7 @@ export default class LoginLayout extends React.Component  {
 
 ### 设置默认语言
 
-```json
+```jsx
 // 提取语言
     const language=this.state.locale;
     return (
@@ -324,7 +324,7 @@ export default class LoginLayout extends React.Component  {
 
 ### 设置切换语言
 
-```json
+```jsx
 <Select defaultValue="中文" style={{ 
                     // padding:'5px 10px',
                     marginLeft:'8px',
@@ -341,7 +341,7 @@ export default class LoginLayout extends React.Component  {
 
 `2019-8-2 04:00:52`
 
-```js
+```jsx
 //  切换语言 触发
   changeLanguage= e=>{
     dev_consolelog(`change language ${e}`);
