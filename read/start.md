@@ -78,7 +78,7 @@ npm install --save react-intl
 
 
 
-# 多国语言切换模块
+# 多国语言切换模块-1
 
 **作者**：[`唐涛`](https://www.woaihdu.top)
 
@@ -218,11 +218,161 @@ export default language_en;
 
 
 
+# 多国语言切换模块-2(DVA)
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-2 03:50:43`
+
+**修改**：`2019-8-2 04:07:43`
+
+`src/models/language.js`
+
+```js
+// 语言配置 所有页面共用 
+// navigator.language.split(/[-_]/)  zh-CN
+// 默认从浏览器头读 但是只支持 中文 和 英语 没有读取成功 显示中文
+// 先从本地数据库读
+let local_language=localStorage.getItem("locale");
+// 第二次尝试从浏览器头取
+let language0=  ('zh'==local_language || 'en'==local_language) ? local_language : navigator.language.split(/[-_]/)[0] ;
+// 第三次 设置默认值
+let language= ('zh'==language0 || 'en'==language0) ? language0 : 'zh' ;
+// 把值添加到 localStorage 解决刷新问题
+localStorage.locale = language;
+
+export default {
+    namespace: 'language',
+    state: {
+      // 设置 语言
+      language:localStorage.locale,
+    },
+    reducers: {
+      changeLanguage(state, { payload: new_language }){
+            return {
+              // 更新语言配置
+                language: new_language.language,
+            };
+      }
+    },
+  };
+```
+
+`src/layout/LoginLayout.js`
+
+```js
+// state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
+const languageStateToProps = (state) => {
+  // 先从 models 里读取
+  const language = state['language'].language;
+  return {
+    language,
+  };
+};
+
+// 语言改变触发器
+const languageDispatchToProps = (dispatch) => {
+  return {
+    changeLanguage: (language) => {
+      const action = {
+        //  触发类型
+        type: 'language/changeLanguage',
+        // 数据 payload 传入新的语言
+        payload: language,
+      };
+      // 触发
+      dispatch(action);
+    },
+  };
+};
+
+/***********  语言初始化 end  ***************/
+```
+
+### 连接
+
+```js
+// 登录
+@connect(languageStateToProps, languageDispatchToProps)
+export default class LoginLayout extends React.Component  {
+...
+```
+
+
+
+### 获取
+
+```js
+// 提取目标语言 从 model 中获取
+    const language=this.props.language;
+```
+
+
+
+### 设置默认语言
+
+```json
+// 提取语言
+    const language=this.state.locale;
+    return (
+    <IntlProvider locale={language} messages={messages[language]} >
+    </IntlProvider>
+	);
+```
+
+
+
+### 设置切换语言
+
+```json
+<Select defaultValue="中文" style={{ 
+                    // padding:'5px 10px',
+                    marginLeft:'8px',
+                    height:'35px',
+                  }} onChange={this.changeLanguage}>
+                    <Option value="ch" >中文</Option>
+                    <Option value="en">English</Option>
+                </Select>
+```
+
+
+
+### 切换过程
+
+`2019-8-2 04:00:52`
+
+```js
+//  切换语言 触发
+  changeLanguage= e=>{
+    dev_consolelog(`change language ${e}`);
+    this.props.changeLanguage({
+      language: e,
+    });
+    // 将值添加到 localStorage
+    localStorage.locale = e;
+  }
+  
+```
+
+实现思路（[`TangTao`](https://www.woaihdu.top)）：
+
+`this.props.changeLanguage`  会去触发 `languageDispatchToProps`  中定义的 `changeLanguage` ，它再去通过 `dispatch(action);` 去触发 `language/changeLanguage`  ,再有它去设置 `language: new_language.language`  ，达到改变语言状态的目的。最后状态改变会回调 `languageStateToProps`  ，最后再触发 `render`，达到更换界面语言的目的。
+
+
+
+
+
+
+
 
 
 # 安装bootstrap
 
+**作者**：[`唐涛`](https://www.woaihdu.top)
 
+**创建**：`2019-8-2 04:08:53`
+
+**修改**：`2019-8-2 04:10:59`
 
 ```bash
  npm install bootstrap

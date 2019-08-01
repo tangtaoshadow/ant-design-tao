@@ -1,4 +1,3 @@
-console.log('========');
 // 语言配置 所有页面共用 
 // navigator.language.split(/[-_]/)  zh-CN
 // 默认从浏览器头读 但是只支持 中文 和 英语 没有读取成功 显示中文
@@ -20,6 +19,7 @@ export default {
     reducers: {
       changeLanguage(state, { payload: new_language }){
             return {
+              // 更新语言配置
                 language: new_language.language,
             };
       }

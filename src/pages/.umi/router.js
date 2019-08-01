@@ -3,7 +3,7 @@ import { Router as DefaultRouter, Route, Switch } from 'react-router-dom';
 import dynamic from 'umi/dynamic';
 import renderRoutes from 'umi/lib/renderRoutes';
 import history from '@tmp/history';
-import RendererWrapper0 from 'F:/java/antd-2/ant-tao1-0725/0801/src/pages/.umi/LocaleWrapper.jsx';
+import RendererWrapper0 from 'F:/java/antd-2/ant-design-tao/src/pages/.umi/LocaleWrapper.jsx';
 import { routerRedux } from 'dva';
 
 const Router = routerRedux.ConnectedRouter;
@@ -21,7 +21,7 @@ const routes = [
       {
         component: () =>
           React.createElement(
-            require('F:/java/antd-2/ant-tao1-0725/0801/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+            require('F:/java/antd-2/ant-design-tao/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
               .default,
             { pagesPath: 'src/pages', hasRoutesInConfig: true },
           ),
@@ -65,7 +65,7 @@ const routes = [
       {
         component: () =>
           React.createElement(
-            require('F:/java/antd-2/ant-tao1-0725/0801/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+            require('F:/java/antd-2/ant-design-tao/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
               .default,
             { pagesPath: 'src/pages', hasRoutesInConfig: true },
           ),
@@ -75,7 +75,7 @@ const routes = [
   {
     component: () =>
       React.createElement(
-        require('F:/java/antd-2/ant-tao1-0725/0801/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+        require('F:/java/antd-2/ant-design-tao/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
           .default,
         { pagesPath: 'src/pages', hasRoutesInConfig: true },
       ),

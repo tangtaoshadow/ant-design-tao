@@ -61,26 +61,26 @@ let dev_consolelog=function(){
 
 
 
-const namespace = 'language';
+/***********  语言初始化   ***************/
+/***********  语言初始化   ***************/
 
-// state 发生改变 触发该函数 该函数返回新状态 直接导致页面刷新
-const mapStateToProps = (state) => {
+
+// state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
+const languageStateToProps = (state) => {
   // 先从 models 里读取
-  const language = state[namespace].language;
-  console.log('mapStateToProps 1',language);
+  const language = state['language'].language;
   return {
     language,
   };
 };
 
-// 熟悉触发器
-const mapDispatchToProps = (dispatch) => {
+// 语言改变触发器
+const languageDispatchToProps = (dispatch) => {
   return {
     changeLanguage: (language) => {
-        console.log('onClickAdd 1',language);
       const action = {
         //  触发类型
-        type: `${namespace}/changeLanguage`,
+        type: 'language/changeLanguage',
         // 数据 payload 传入新的语言
         payload: language,
       };
@@ -89,6 +89,8 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
+
+/***********  语言初始化 end  ***************/
 
 const { Header, Footer, Content , Sider } = Layout;
 
@@ -99,7 +101,7 @@ const { Option } = Select;
 
 
 // 登录
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(languageStateToProps, languageDispatchToProps)
 export default class LoginLayout extends React.Component  {
   
 
@@ -127,19 +129,7 @@ export default class LoginLayout extends React.Component  {
     super(props);
     dev_consolelog('Initializing Login ...');
 
-    // navigator.language.split(/[-_]/)  zh-CN
-    // 默认从浏览器头读 但是只支持 中文 和 英语 没有读取成功 显示中文
-    let local_language=localStorage.getItem("locale");
-    // 第二次尝试从浏览器头取
-    let language0=  ('zh'==local_language || 'en'==local_language) ? local_language : navigator.language.split(/[-_]/)[0] ;
-    let language= ('zh'==language0 || 'en'==language0) ? language0 : 'zh' ;
-    // 把值添加到 localStorage 解决刷新问题
-    localStorage.locale = language;
-    this.state = {
-      locale: language,
-      current: 'header_home',
-    };
-
+    
     dev_consolelog('Initialization Login successful .');
 
   }
@@ -147,14 +137,9 @@ export default class LoginLayout extends React.Component  {
   //  切换语言 触发
   changeLanguage= e=>{
     dev_consolelog(`change language ${e}`);
-    // this.setState({
-    //   locale:e,
-    // });
     this.props.changeLanguage({
       language: e,
     });
-
-
     // 将值添加到 localStorage
     localStorage.locale = e;
   }
