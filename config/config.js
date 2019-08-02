@@ -56,14 +56,16 @@ export default {
 
         ]
   }],
-  theme: {
-    "@primary-color": "#30b767",
-  },
   // 设置转发
   proxy: {
-    '/dev': {
-      target: 'https://08ad1pao69.execute-api.us-east-1.amazonaws.com',
+    '/login_propro': {
+      target: 'http://192.168.1.107:802/',
       changeOrigin: true,
     },
   },
+
+  theme: {
+    "@primary-color": "#30b767",
+  },
+  
   }

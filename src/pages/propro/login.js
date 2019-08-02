@@ -41,6 +41,16 @@ const loginDispatchToProps = (dispatch) => {
       // 触发
       dispatch(action);
     },
+    doLogin: (login) => {
+      const action = {
+        //  触发类型
+        type: 'login/doLogin',
+        // 数据 payload 传入新的语言
+        payload: login,
+      };
+      // 触发
+      dispatch(action);
+    },
   };
 };
 
@@ -62,7 +72,10 @@ class LoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        // 执行登录
+        this.props.doLogin({
+          login: values,
+        });
       }
     });
   };
@@ -99,7 +112,7 @@ class LoginForm extends React.Component {
 
             
             <Form.Item>
-              {getFieldDecorator('username1', {
+              {getFieldDecorator('username', {
                 rules: [{ required: true, message: <FormattedHTMLMessage
                   id="propro.login_username_error" /> }],
               })(
