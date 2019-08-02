@@ -21,6 +21,7 @@ export function _onCreate() {
   });
   
   app.model({ namespace: 'language', ...(require('F:/java/antd-2/ant-design-tao/src/models/language.js').default) });
+app.model({ namespace: 'login', ...(require('F:/java/antd-2/ant-design-tao/src/models/login.js').default) });
 app.model({ namespace: 'puzzlecards', ...(require('F:/java/antd-2/ant-design-tao/src/models/puzzlecards.js').default) });
   return app;
 }

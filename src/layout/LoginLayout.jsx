@@ -1,6 +1,4 @@
 
-import { Component } from 'react';
-
 
 import { 
   Layout, Menu, Icon , 
@@ -43,6 +41,12 @@ const messages = {
 addLocaleData([...locale_en, ...locale_zh]);
 /***********  国际化配置 end  ***************/
 
+
+
+/***********  自定义日志配置   ***************/
+/***********  自定义日志配置   ***************/
+
+// 正常模式
 let consolelog=function(){
   let len=arguments.length;
     for(let i=0;i<len;i++){
@@ -50,7 +54,6 @@ let consolelog=function(){
     }
 }
 
-consolelog(messages_zh);
 // 开发模式
 let dev_consolelog=function(){
   let len=arguments.length;
@@ -58,6 +61,8 @@ let dev_consolelog=function(){
         console.log(arguments[i]);
     }
 }
+
+/***********  自定义日志配置 end   ***************/
 
 
 
@@ -258,8 +263,6 @@ export default class LoginLayout extends React.Component  {
                           </Button>
                       </Col>
                   </Col>
-
-
               </Row>
           </div>
           

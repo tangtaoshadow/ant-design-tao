@@ -69,7 +69,7 @@ dva-cli version 0.10.1
 
 
 
-国际化
+### *添加国际化*
 
 ```json
 npm install --save react-intl
@@ -78,7 +78,7 @@ npm install --save react-intl
 
 
 
-# 多国语言切换模块-1
+# 多国语言切换模块-1(state)
 
 **作者**：[`唐涛`](https://www.woaihdu.top)
 
@@ -226,16 +226,99 @@ export default language_en;
 
 **修改**：`2019-8-2 04:07:43`
 
-`src/models/language.js`
+
+
+### 国际化配置
 
 ```jsx
-// 语言配置 所有页面共用 
+/***********  国际化配置   ***************/
+/***********  国际化配置   ***************/
+//  1 引入组件
+import {IntlProvider,addLocaleData,
+  FormattedMessage, FormattedHTMLMessage} from "react-intl";
+
+//  2 引入语言包支持
+import locale_en from 'react-intl/locale-data/en';
+import locale_zh from 'react-intl/locale-data/zh';
+
+//  3 引入自定义的语言文件 json 格式
+import messages_zh from "../locale/zh_CN";
+import messages_en from "../locale/en_US";
+
+const messages = {
+    'zh': messages_zh,
+    'en': messages_en
+};
+
+//  4 设置语言支持
+addLocaleData([...locale_en, ...locale_zh]);
+/***********  国际化配置 end  ***************/
+
+```
+
+
+
+### 语言结构
+
+```jsx
+// src/locale/zh_CN.js
+let language_ch={
+    "prorpo.login":'登录',
+    "prorpo.home":'首页'
+    
+}
+
+export default language_ch;
+```
+
+```jsx
+// src/locale/en_US.js
+let language_en={
+    'prorpo.login':'Login',
+    'prorpo.home':'Home'
+}
+
+export default language_en;
+
+```
+
+
+
+### 默认语言
+
+```jsx
+  constructor(props){
+    super(props);
+    dev_consolelog('Initializing ...');
+
+    // navigator.language.split(/[-_]/)  zh-CN
+    // 默认从浏览器头读 但是只支持 中文 和 英语 没有读取成功 显示中文
+    let local_language=localStorage.getItem("locale");
+    let language0=  ('zh'==local_language || 'en'==local_language) ? local_language : navigator.language.split(/[-_]/)[0] ;
+    let language= ('zh'==language0 || 'en'==language0) ? language0 : 'zh' ;
+    // 把值添加到 localStorage 解决刷新问题
+    localStorage.locale = language;
+    this.state = {
+      locale: language,
+    };
+
+    dev_consolelog('Initialization successful .');
+
+  }
+```
+
+
+
+###### `src/models/language.js`
+
+```jsx
+// 语言配置 所有页面共用   这个配置留给 language 专用 用于后续扩展开发
 // navigator.language.split(/[-_]/)  zh-CN
 // 默认从浏览器头读 但是只支持 中文 和 英语 没有读取成功 显示中文
 // 先从本地数据库读
 let local_language=localStorage.getItem("locale");
 // 第二次尝试从浏览器头取
-let language0=  ('zh'==local_language || 'en'==local_language) ? local_language : navigator.language.split(/[-_]/)[0] ;
+let language0=  ( 'zh' == local_language || 'en' == local_language) ? local_language : navigator.language.split(/[-_]/)[0] ;
 // 第三次 设置默认值
 let language= ('zh'==language0 || 'en'==language0) ? language0 : 'zh' ;
 // 把值添加到 localStorage 解决刷新问题
@@ -258,7 +341,7 @@ export default {
   };
 ```
 
-`src/layout/LoginLayout.js`
+###### `src/layout/LoginLayout.js`
 
 ```jsx
 // state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
@@ -288,6 +371,8 @@ const languageDispatchToProps = (dispatch) => {
 
 /***********  语言初始化 end  ***************/
 ```
+
+
 
 ### 连接
 
@@ -354,11 +439,15 @@ export default class LoginLayout extends React.Component  {
   
 ```
 
-实现思路（[`TangTao`](https://www.woaihdu.top)）：
+*实现思路*（[`TangTao`](https://www.woaihdu.top)）*2019-8-2 04:32:17*
 
 `this.props.changeLanguage`  会去触发 `languageDispatchToProps`  中定义的 `changeLanguage` ，它再去通过 `dispatch(action);` 去触发 `language/changeLanguage`  ,再有它去设置 `language: new_language.language`  ，达到改变语言状态的目的。最后状态改变会回调 `languageStateToProps`  ，最后再触发 `render`，达到更换界面语言的目的。
 
 
+
+*为什么要使用 `dva` ？*（[`TangTao`](https://www.woaihdu.top)）*2019-8-2 04:32:08*
+
+为什么不通过 `state` 来改变语言，因为这里引入了不同的布局文件，不同布局文件之间通过 `localStorage` 不能很方便的设置语言，比如，一个页面选中 English ，切换另一个页面，另一个页面会重新初始化一次，把之前读取语言的流程全部重新再来一遍，整个代码要夹杂在该页面，重复性高，增加了代码量。`dva`  在这些页面直接起到了一个沟通桥梁的作用，脱离了子父组件之间数据传递的复杂流程，切换界面时也不用考虑记录状态，因为 `render()` 时不需要设置 `state`，而是直接从 `models` 读取，尤其是集成了 `UMI` 之后，`dva` 使用更加方便。`models` 只有在整个页面代码全部重新初始化时（刷新），才会重新执行，赋初值。
 
 
 

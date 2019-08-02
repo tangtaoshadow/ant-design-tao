@@ -14,6 +14,7 @@ const messages = {
 
 addLocaleData(zhData);
 
+
 export default () => {
   return (
     <IntlProvider locale="zh" messages={messages}>

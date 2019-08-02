@@ -4,62 +4,60 @@ import prorpo_logo_hori from '../../assets/propro-logo-hori.png';
 import guomics_logo from '../../assets/guomics-logo.png';
 import Link from 'umi/link';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import  { connect } from 'dva';
+import {FormattedHTMLMessage} from "react-intl";
+
 // 引入 dva 
 // import dva, { connect } from 'dva';
 
 import {  Layout, Menu, Icon , 
   Switch,Breadcrumb,Row,Tag, 
-  Col,Button,Dropdown,Select, Form,  Input,Checkbox    } from 'antd';
+  Col,Button,Dropdown,Select, Form,  Input, Checkbox    } from 'antd';
+
+/***********  Login View 初始化   ***************/
+/***********  Login View 初始化   ***************/
+
+
+// state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
+const loginStateToProps = (state) => {
+  // 先从 models 里读取 是否显示登录  当前语言
+  const login_show = state['login'].login_show;
+  const language = state['language'].language;
+  return {
+    login_show,language,
+  };
+};
+
+// 语言改变触发器
+const loginDispatchToProps = (dispatch) => {
+  return {
+    changeLogin: (login) => {
+      const action = {
+        //  触发类型
+        type: 'login/changeLogin',
+        // 数据 payload 传入新的语言
+        payload: login,
+      };
+      // 触发
+      dispatch(action);
+    },
+  };
+};
+
+/***********  Login View 初始化 end  ***************/
 
 
 
-// // dva 1. Initialize
-// const app = dva();
-
-
-// // dva 2. Model
-// app.model({
-//   namespace: 'count',
-//   state: 0,
-//   reducers: {
-//     add  (count) { return count + 1 },
-//     minus(count) { return count - 1 },
-//   },
-// });
-
-// class TestError extends React.Component {
-//   componentDidCatch(e) {
-//     alert(e.message);
-//   }
-//   componentDidMount() {
-//     // throw new Error('a');
-//   }
-//   render() {
-//     return <div>TestError</div>
-//   }
-// }
-
-// // 3. View 连接
-// const App = connect(({ count }) => ({
-//   count
-// }))(function(props) {
-//   return (
-//     <div>
-//       <TestError />
-//       <h2>{ props.count }</h2>
-//       <button key="add" onClick={() => { props.dispatch({type: 'count/add'})}}>+</button>
-//       <button key="minus" onClick={() => { props.dispatch({type: 'count/minus'})}}>-</button>
-//     </div>
-//   );
-// });
-
-// 4. Router
-// app.router(() => <App />);
-
-  // 5. Start
-  // app.start("#root");
-  
+@connect(loginStateToProps,loginDispatchToProps)
 class LoginForm extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state={
+      locale:localStorage.getItem("locale"),
+    }
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -69,15 +67,17 @@ class LoginForm extends React.Component {
     });
   };
 
-  ApplyCount= e => {
-    console.log('1111111');
-    this.setState({
-      
-    })
+  applyCount= e => {
+    this.props.changeLogin({
+      login: false,
+    });
   }
+
+
 
   render() {
     const { getFieldDecorator } = this.props.form;
+
     return (
       <div style={{
         width:'350px',
@@ -91,7 +91,8 @@ class LoginForm extends React.Component {
               fontWeight:'600',
               letterSpacing:'1px',
             }}>
-              欢迎来到 <span style={{
+              <FormattedHTMLMessage
+                  id="propro.welcome_login" /> <span style={{
                 letterSpacing:'0px',
               }}>PROPRO</span> 
             </div>
@@ -99,7 +100,8 @@ class LoginForm extends React.Component {
             
             <Form.Item>
               {getFieldDecorator('username1', {
-                rules: [{ required: true, message: 'Please input your username11111111!' }],
+                rules: [{ required: true, message: <FormattedHTMLMessage
+                  id="propro.login_username_error" /> }],
               })(
                 <div className="input-group " style={{
                   // borderBottom:'1px solid #ddd',
@@ -112,19 +114,21 @@ class LoginForm extends React.Component {
                           }} >
                           <span style={{
                             fontSize:'16px',
+                            lineHeight:'20px',
                           }} ><Icon type="user" /></span>
                     </div>
-                    <input type="text" maxLength='20' className={styles.input_login} placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
+                    <input type="text" maxLength='20' className={styles.input_login} placeholder={"zh"== this.props.language ? "用户名" : "Username"} />
                 </div>,
               )}
             </Form.Item>
 
             <Form.Item>
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Please input your password!' }],
+                rules: [{ required: true, message: <FormattedHTMLMessage
+                  id="propro.login_password_error" />}],
               })(
                 <div className="input-group" style={{
-                  marginTop:'0px',
+                  marginTop:'-5px',
                 }}>
                     <div className="input-group-prepend" style={{
                             fontSize:'20px',
@@ -133,9 +137,10 @@ class LoginForm extends React.Component {
                           }} >
                           <span style={{
                             fontSize:'16px',
+                            lineHeight:'20px',
                           }} ><Icon type="lock" /></span>
                     </div>
-                    <input type="password" maxLength='30' className={styles.input_login} placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
+                    <input type="password" maxLength='30' className={styles.input_login} placeholder={"zh"== this.props.language ? "密码" : "Password"} />
                 </div>,
               )}
             </Form.Item>
@@ -155,7 +160,8 @@ class LoginForm extends React.Component {
                 marginLeft:'10px',
               }}
               onClick={this.handleSubmit}
-              >登录</button>
+              ><FormattedHTMLMessage
+              id="prorpo.login" /></button>
 
               <button type="button" className="btn btn-outline-dark" style={{
                 borderRadius:'23px',
@@ -166,8 +172,9 @@ class LoginForm extends React.Component {
                 float:'right',
                 marginRight:'10px',
               }}
-              onClick={this.ApplyCount}
-              >申请账号</button>
+              onClick={this.applyCount}
+              ><FormattedHTMLMessage
+              id="prorpo.apply_account" /></button>
             </Form.Item>
 
 
@@ -180,12 +187,10 @@ class LoginForm extends React.Component {
               <Link to='/login' style={{
                 color:'#888',
               }}>
-                <span>
-                忘记密码
-                </span>
+                <FormattedHTMLMessage
+                id="prorpo.forget_password" />
               </Link>
 
-              <br/>
             </div>
           </Form>
       </div>
@@ -195,7 +200,9 @@ class LoginForm extends React.Component {
 }
 
 const WrappedLoginForm = Form.create({ name: 'normal_login' })(LoginForm);
-  
+
+// 注册表单
+@connect(loginStateToProps,loginDispatchToProps)
 class RegisterForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
@@ -206,7 +213,14 @@ class RegisterForm extends React.Component {
     });
   };
 
+  switchLogin= e => {
+    this.props.changeLogin({
+      login: true,
+    });
+  }
+
   render() {
+
     const { getFieldDecorator } = this.props.form;
     return (
       <div style={{
@@ -217,71 +231,169 @@ class RegisterForm extends React.Component {
           <Form onSubmit={this.handleSubmit} className="login-form">
             <div style={{
               marginBottom:'20px',
-              fontSize:'22px',
+              fontSize:'20px',
               fontWeight:'600',
+              letterSpacing:'1px',
             }}>
-              欢迎来到 <span >PROPRO</span> 
+              <FormattedHTMLMessage
+                  id="propro.welcome_register" /> <span style={{
+                letterSpacing:'0px',
+              }}>PROPRO</span> 
             </div>
 
             <Form.Item>
-              {getFieldDecorator('username', {
-                rules: [{ required: true, message: 'Please input your username!' }],
+              {getFieldDecorator('username1', {
+                rules: [{ required: true, message: <FormattedHTMLMessage
+                  id="propro.login_username_error" /> }],
               })(
-                <Input
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="Username"
-                />,
+                <div className="input-group " style={{
+                  // borderBottom:'1px solid #ddd',
+                  marginBottom:'0px',
+                }}>
+                    <div className="input-group-prepend" style={{
+                            fontSize:'20px',
+                            lineHeight:'30px',
+                            height:'30px',
+                          }} >
+                          <span style={{
+                            fontSize:'16px',
+                            lineHeight:'20px',
+                          }} ><Icon type="user" /></span>
+                    </div>
+                    <input type="text" maxLength='20' className={styles.input_login} placeholder={"zh"== this.props.language ? "用户名" : "Username"} />
+                </div>,
               )}
             </Form.Item>
-            <Form.Item >
+
+
+            <Form.Item>
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Please input your Password!' }],
+                rules: [{ required: true, message: <FormattedHTMLMessage
+                  id="propro.login_password_error" />}],
               })(
-                <Input
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  type="password"
-                  placeholder="Password"
-                />,
+                <div className="input-group" style={{
+                  marginTop:'-5px',
+                }}>
+                    <div className="input-group-prepend" style={{
+                            fontSize:'20px',
+                            lineHeight:'30px',
+                            height:'30px',
+                          }} >
+                          <span style={{
+                            fontSize:'16px',
+                            lineHeight:'20px',
+                          }} ><Icon type="lock" /></span>
+                    </div>
+                    <input type="password" maxLength='30' className={styles.input_login} placeholder={
+                    "zh"== this.props.language ? "密码" : "Password"} />
+                </div>,
               )}
             </Form.Item>
+
+
+            <Form.Item>
+              {getFieldDecorator('telephone', {
+                rules: [{ required: true, message: <FormattedHTMLMessage
+                  id="propro.register_telephone_error" />}],
+              })(
+                <div className="input-group" style={{
+                  marginTop:'-5px',
+                }}>
+                    <div className="input-group-prepend" style={{
+                            fontSize:'20px',
+                            lineHeight:'30px',
+                            height:'30px',
+                          }} >
+                          <span style={{
+                            fontSize:'16px',
+                            lineHeight:'20px',
+                          }} ><Icon type="phone" /></span>
+                    </div>
+                    <input type="text" maxLength='30' className={styles.input_login} placeholder={"zh"== this.props.language ? "联系电话" : "Telephone number"} />
+                </div>,
+              )}
+            </Form.Item>
+
+            <Form.Item>
+              {getFieldDecorator('dingtalk_id', {
+                rules: [{ required: false, }],
+              })(
+                <div className="input-group" style={{
+                  marginTop:'-5px',
+                }}>
+                    <div className="input-group-prepend" style={{
+                            fontSize:'20px',
+                            lineHeight:'30px',
+                            height:'30px',
+                          }} >
+                          <span style={{
+                            fontSize:'16px',
+                            lineHeight:'20px',
+                          }} ><Icon type="dingding" /></span>
+                    </div>
+                    <input type="text" maxLength='30' className={styles.input_login} placeholder={"zh"== this.props.language ? "钉钉 ID" : "DingTalk ID"} />
+                </div>,
+              )}
+            </Form.Item>
+
+            <Form.Item>
+              {getFieldDecorator('organization', {
+                rules: [{ required: false, }],
+              })(
+                <div className="input-group" style={{
+                  marginTop:'-5px',
+                }}>
+                    <div className="input-group-prepend" style={{
+                            fontSize:'20px',
+                            lineHeight:'30px',
+                            height:'30px',
+                          }} >
+                          <span style={{
+                            fontSize:'16px',
+                            lineHeight:'20px',
+                          }} ><Icon type="team" /></span>
+                    </div>
+                    <input type="text" maxLength='30' className={styles.input_login} placeholder={"zh"== this.props.language ? "组织" : "Organization"} />
+                </div>,
+              )}
+            </Form.Item>
+
+
+
+
             <Form.Item style={{
               paddingTop:'30px',
               marginBottom:'10px',
             }}>
-            
-              <Button type="primary" htmlType="submit" className="login-form-button" style={{
+
+              <button type="button" className="btn btn-dark" style={{
+                borderRadius:'23px',
+                height:'46px',
+                padding:'0px 30px',
+                fontSize:'16px',
+                minWidth:'120px',
                 float:'left',
                 marginLeft:'10px',
-                width:'130px',
-                height:'35px',
-                fontSize:'16px',
-              }}>
-                登录
-              </Button>
-
-              <Button type="danger" style={{
-                marginRight:'10px',
-                float:'right',
-                width:'130px',
-                height:'35px',
-                lineHeight:'35px',
-                fontSize:'16px',
-
               }}
-              >申请账号</Button>
+              onClick={this.handleSubmit}
+              ><FormattedHTMLMessage
+              id="prorpo.apply_account_confirm" /></button>
+
+              <button type="button" className="btn btn-outline-dark" style={{
+                borderRadius:'23px',
+                height:'46px',
+                padding:'0px 30px',
+                fontSize:'16px',
+                minWidth:'120px',
+                float:'right',
+                marginRight:'10px',
+              }}
+              onClick={this.switchLogin}
+              ><FormattedHTMLMessage
+              id="prorpo.apply_account_cancel" /></button>
             </Form.Item>
-            <div style={{
-              textAlign:'right',
-              paddingRight:'10px',
-            }}>
-            <a className="login-form-forgot" href=""
-              style={{
-                color:'#888',
-              }}>
-                11111
-              </a>
-              <br/>
-            </div>
+
+
           </Form>
       </div>
 
@@ -296,21 +408,23 @@ const WrappedRegisterForm = Form.create({ name: 'normal_register' })(RegisterFor
 
 
 
-
+@connect(loginStateToProps,loginDispatchToProps)
 export default class Login extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       // 标记 是否显示登录
-      login: true,
+      // login: true,
     };
   }
 
+
+
+
   render(){
+    const {login_show}=this.props;
       return (
-
         <div className={styles.main} >
-
           <Row>
             <Col span={13}
             style={{
@@ -319,11 +433,13 @@ export default class Login extends React.Component {
               // background:'#eee111',
             }}
             >
+              
               <div style={{
                 fontWeight:'500',
                 fontSize:'50px',
+                letterSpacing :'1px',
               }}>
-              Proteomics Analysis Platform
+              <FormattedHTMLMessage id="propro.line1" />
               </div>
               <div style={{
                 fontWeight:'900',
@@ -338,6 +454,7 @@ export default class Login extends React.Component {
 
                 <span style={{
                   fontSize:'10px',
+                  fontWeight:'500',
                   // fontStyle:'italic',
                 }}>
                 1.1.1-Release
@@ -451,11 +568,10 @@ export default class Login extends React.Component {
               textAlign:'center',
             }} >
               {/* 判断是否需要渲染 登录 */}
-              {true==this.state.login? <WrappedLoginForm /> :<WrappedRegisterForm /> }
+              {true == login_show ? <WrappedLoginForm /> :<WrappedRegisterForm /> }
               
             </Col>
           </Row>
-        
         </div>
       
       );
