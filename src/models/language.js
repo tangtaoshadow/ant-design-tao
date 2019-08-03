@@ -1,3 +1,6 @@
+// path : /src/pages/propro/language.js
+
+
 // 语言配置 所有页面共用   这个配置留给 language 专用 用于后续扩展开发
 // navigator.language.split(/[-_]/)  zh-CN
 // 默认从浏览器头读 但是只支持 中文 和 英语 没有读取成功 显示中文

@@ -78,6 +78,39 @@ npm install --save react-intl
 
 
 
+# 运行
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-3 14:40:56`
+
+**修改**：`2019-8-3 14:00:38`
+
+```bash
+yarn install
+npm run dev
+```
+
+
+
+
+
+# 登录页面
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-3 14:06:48`
+
+**修改**：`2019-8-3 14:00:38`
+
+
+
+![propro](http://cdn.promiselee.cn/share_static/propro-login-20190803140517.png)
+
+
+
+
+
 # 多国语言切换模块-1(state)
 
 **作者**：[`唐涛`](https://www.woaihdu.top)
@@ -490,6 +523,185 @@ export default class LoginLayout extends React.Component  {
 
 
 
+# 登录过程
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-3 14:21:38`
+
+**修改**：`2019-8-3 14:39:35`
+
+
+
+需要先熟悉 `dva`  `fetch` `http`
+
+## 登录初始化
+
+*/src/pages/propro/login.js*
+
+```jsx
+/***********  Login View 初始化   ***************/
+/***********  Login View 初始化   ***************/
+
+// state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
+const loginStateToProps = (state) => {
+  // 先从 models 里读取 是否显示登录  当前语言
+  const login_show = state['login'].login_show;
+  const language = state['language'].language;
+  return {
+    login_show,language,
+  };
+};
+
+const loginDispatchToProps = (dispatch) => {
+  return {
+    // 语言改变触发器
+    changeLogin: (login) => {
+      const action = {
+        //  触发类型
+        type: 'login/changeLogin',
+        // 数据 payload 传入新的语言
+        payload: login,
+      };
+      // 触发
+      dispatch(action);
+    },
+    // 登录触发器
+    doLogin: (login) => {
+      const action = {
+        //  触发类型
+        type: 'login/doLogin',
+        // 数据 payload 传入新的语言
+        payload: login,
+      };
+      // 触发
+      dispatch(action);
+    },
+  };
+};
+
+/***********  Login View 初始化 end  ***************/
+
+```
+
+
+
+## 点击登录
+
+```jsx
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        // 执行登录
+        this.props.doLogin({
+          login: values,
+        });
+      }
+    });
+  };
+```
+
+
+
+## `model` 层接收
+
+*path : /src/models/login.js*
+
+```jsx
+
+let login={
+    namespace: 'login',
+    state: {
+      // 注册切换 默认显示 login
+      login_show:true,
+    },
+    effects: {
+        *doLogin( {payload} , sagaEffects) {
+          const { call, put } = sagaEffects;
+          const result = yield call(loginService.login,payload);
+          yield put({ type: 'doLogin_result', payload: result });
+
+        }
+    },
+    reducers: {
+        changeLogin(state, { payload: login }){
+            return {
+                // 更新语言配置
+                login_show: login.login,
+            };
+        },
+        doLogin_result(state, { payload: result }){
+            console.log('doLogin_result=====',result);
+            // return {
+            //     // 更新语言配置
+            //     login_show: login.login,
+            // };
+            return {
+                login_show:true,
+            };
+        },
+    },
+}
+```
+
+
+
+## 调用 `server` 层
+
+```jsx
+
+export function login(data) {
+    console.log('login_form',data);
+    let params=data.login;
+    console.log('login',params);
+    // let bodys=json2formdata(login);
+    let bodys='';
+    Object.keys(params).forEach((key) => {
+        console.log(key,params[key]);
+        bodys+=key+'='+params[key]+'&';
+    });
+    
+    bodys = bodys.substr(0, bodys.length-1);
+    console.log('bodys',bodys);
+    return request('/login_propro/test',{
+        headers: {
+            // 'content-type': 'application/json',
+            // "X-Requested-With": "XMLHttpRequest",
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+          },
+          method: 'POST',
+          //   发送登录数据 注意 数据未加密
+          body: bodys,
+    });
+}
+```
+
+
+
+## `models` 处理服务端返回数据
+
+```jsx
+reducers: {
+        changeLogin(state, { payload: login }){
+            return {
+                // 更新语言配置
+                login_show: login.login,
+            };
+        },
+        // 处理返回结果
+        doLogin_result(state, { payload: result }){
+            console.log('doLogin_result=====',result);
+            // return {
+            //     // 更新语言配置
+            //     login_show: login.login,
+            // };
+            return {
+                login_show:true,
+            };
+        },
+    },
+```
 
 
 
@@ -497,12 +709,13 @@ export default class LoginLayout extends React.Component  {
 
 
 
+# 安全隐患(漏洞)
 
+**作者**：[`唐涛`](https://www.woaihdu.top)
 
+**创建**：`2019-7-30 23:52:34`
 
+**修改**：`2019-7-30 23:52:35`
 
-
-
-
-
-
+1. `token` 没有加密
+2. `http` 明文传输

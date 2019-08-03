@@ -1,3 +1,5 @@
+// path : /src/pages/propro/login.js
+
 import styles from './style/login.less';
 import  './style/login.css';
 import prorpo_logo_hori from '../../assets/propro-logo-hori.png';
@@ -17,20 +19,31 @@ import {  Layout, Menu, Icon ,
 /***********  Login View 初始化   ***************/
 /***********  Login View 初始化   ***************/
 
-
 // state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
 const loginStateToProps = (state) => {
   // 先从 models 里读取 是否显示登录  当前语言
   const login_show = state['login'].login_show;
   const language = state['language'].language;
-  return {
-    login_show,language,
-  };
+  console.log('login_show',login_show);
+  console.log('language',language);
+  let obj={};
+
+  if('undefined'!=typeof(login_show)){
+        obj.login_show=login_show;
+  }
+
+  if('undefined'!=typeof(language)){
+    obj.language=language;
+  }
+
+  console.log('return obj>',obj);
+  return obj;
 };
 
-// 语言改变触发器
+
 const loginDispatchToProps = (dispatch) => {
   return {
+    // 语言改变触发器
     changeLogin: (login) => {
       const action = {
         //  触发类型
@@ -41,6 +54,7 @@ const loginDispatchToProps = (dispatch) => {
       // 触发
       dispatch(action);
     },
+    // 登录触发器
     doLogin: (login) => {
       const action = {
         //  触发类型
