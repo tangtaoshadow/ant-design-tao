@@ -257,7 +257,7 @@ export default class LoginLayout extends React.Component  {
                               
                               <span>&nbsp;
                               <FormattedHTMLMessage
-                              id="prorpo.home" />
+                              id="propro.home" />
                               </span>
                             </Link>
                           </Button>

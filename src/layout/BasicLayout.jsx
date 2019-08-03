@@ -263,7 +263,7 @@ export default class BasicLayout extends React.Component  {
               
               <Menu.Item key="header_home">
               <Link to="/home">
-                  <FormattedHTMLMessage id="prorpo.home" />
+                  <FormattedHTMLMessage id="propro.home" />
               </Link>
               </Menu.Item>
               <Menu.Item key="header_console" >
@@ -332,7 +332,7 @@ export default class BasicLayout extends React.Component  {
                     <span>&nbsp;
                     <FormattedHTMLMessage
                     defaultMessage="登录"
-                    id="prorpo.login" />
+                    id="propro.login" />
                     </span>
                   </Link>
                 </Button>

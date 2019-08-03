@@ -2,31 +2,41 @@
 
 import styles from './style/login.less';
 import  './style/login.css';
-import prorpo_logo_hori from '../../assets/propro-logo-hori.png';
+import propro_logo_hori from '../../assets/propro-logo-hori.png';
 import guomics_logo from '../../assets/guomics-logo.png';
 import Link from 'umi/link';
+import Redirect from 'umi/redirect';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import  { connect } from 'dva';
 import {FormattedHTMLMessage} from "react-intl";
+//   引入自定义的语言文件 js 格式
+import messages_zh from "../../locale/zh_CN";
+import messages_en from "../../locale/en_US";
 
-// 引入 dva 
-// import dva, { connect } from 'dva';
+const Languages = {
+  'zh': messages_zh,
+  'en': messages_en
+};
+
+
 
 import {  Layout, Menu, Icon , 
   Switch,Breadcrumb,Row,Tag, 
-  Col,Button,Dropdown,Select, Form,  Input, Checkbox    } from 'antd';
+  Col,Button,Dropdown,Select, Form,  Input, Checkbox,message,    } from 'antd';
 
+  
 /***********  Login View 初始化   ***************/
 /***********  Login View 初始化   ***************/
 
 // state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
 const loginStateToProps = (state) => {
   // 先从 models 里读取 是否显示登录  当前语言
-  const login_show = state['login'].login_show;
   const language = state['language'].language;
-  console.log('login_show',login_show);
-  console.log('language',language);
+  const {login_status,login_show,login_time}=state['login'];
+
+  // 发送的对象
   let obj={};
+  
 
   if('undefined'!=typeof(login_show)){
         obj.login_show=login_show;
@@ -36,7 +46,18 @@ const loginStateToProps = (state) => {
     obj.language=language;
   }
 
-  console.log('return obj>',obj);
+  obj.login_status=login_status;
+  // 先原样取出
+  obj.login_time=login_time;
+
+  // 再让 login_time 置 0 
+  // 这样设计的巧妙之处在于 发生给 render 的是原值 但是这里处理就变成 0 
+  // 这样就不需要再多次处理返回结果 只有点击登录时 login_time 才会更新
+  if(login_time>((new Date().getTime())-500)){
+      // 这里 强制 置0 使得不用再判断
+      state['login'].login_time=0;
+  }
+
   return obj;
 };
 
@@ -188,7 +209,7 @@ class LoginForm extends React.Component {
               }}
               onClick={this.handleSubmit}
               ><FormattedHTMLMessage
-              id="prorpo.login" /></button>
+              id="propro.login" /></button>
 
               <button type="button" className="btn btn-outline-dark" style={{
                 borderRadius:'23px',
@@ -201,7 +222,7 @@ class LoginForm extends React.Component {
               }}
               onClick={this.applyCount}
               ><FormattedHTMLMessage
-              id="prorpo.apply_account" /></button>
+              id="propro.apply_account" /></button>
             </Form.Item>
 
 
@@ -215,7 +236,7 @@ class LoginForm extends React.Component {
                 color:'#888',
               }}>
                 <FormattedHTMLMessage
-                id="prorpo.forget_password" />
+                id="propro.forget_password" />
               </Link>
 
             </div>
@@ -404,7 +425,7 @@ class RegisterForm extends React.Component {
               }}
               onClick={this.handleSubmit}
               ><FormattedHTMLMessage
-              id="prorpo.apply_account_confirm" /></button>
+              id="propro.apply_account_confirm" /></button>
 
               <button type="button" className="btn btn-outline-dark" style={{
                 borderRadius:'23px',
@@ -417,7 +438,7 @@ class RegisterForm extends React.Component {
               }}
               onClick={this.switchLogin}
               ><FormattedHTMLMessage
-              id="prorpo.apply_account_cancel" /></button>
+              id="propro.apply_account_cancel" /></button>
             </Form.Item>
 
 
@@ -440,16 +461,60 @@ export default class Login extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      // 标记 是否显示登录
-      // login: true,
+   
     };
+    
+    // 配置 message
+    message.config({
+      top: 120,
+      duration: 2,
+      maxCount: 5,
+      getContainer:()=>document.body,
+    });
+    // 提示页面正在加载 因为react 初始化时用户或者开发时不易察觉 通过 loading 提示
+    message.loading('Loading..', 0.5);
+   
+  }
+
+  // 登录结果前端处理
+  login_handle=(login_status,language)=>{
+    let login_result = '' ;
+     // // 需要处理 登录结果
+    if('error'==login_status||-1==login_status){
+      // 提示登录失败
+      login_result=Languages[language]["propro.login_error"];
+      message.error(login_result,3);
+    }else if(0==login_status){
+      // 登录成功
+      login_result=Languages[language]["propro.login_success"];
+      // 这个关闭时间延长 使得它跳转到控制台时 它仍然存在 增强过渡效果
+      message.success(login_result,5);
+      setTimeout(()=>{
+        message.loading(Languages[language]["propro.loading"],2,()=>{
+          // 跳转
+          this.props.history.push('/home');
+        });
+      },1000);
+    }else if(-2==login_status||-3==login_status){
+      // -2 用户名不存在  -3 密码错误
+      // 统一提示用户名或密码错误
+      login_result=Languages[language]["propro.login_false"];
+      message.warn(login_result,3);
+    }
   }
 
 
 
 
+
   render(){
-    const {login_show}=this.props;
+    const {login_show,login_status,login_time,language}=this.props;
+      
+      // 根据 login_time 判断是否需要处理结果
+      if(login_time>((new Date().getTime())-500)){
+          this.login_handle(login_status,language);
+      }
+
       return (
         <div className={styles.main} >
           <Row>
@@ -467,6 +532,7 @@ export default class Login extends React.Component {
                 letterSpacing :'1px',
               }}>
               <FormattedHTMLMessage id="propro.line1" />
+              <div id='propro1'></div>
               </div>
               <div style={{
                 fontWeight:'900',
@@ -570,7 +636,7 @@ export default class Login extends React.Component {
               }}>
 
                 <a href='http://www.proteomics.pro/' target='_blank'>
-                    <img src={prorpo_logo_hori} style={{
+                    <img src={propro_logo_hori} style={{
                       maxHeight:'80px',
                       cursor:'pointer',
                     }} />

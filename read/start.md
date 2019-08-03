@@ -537,6 +537,10 @@ export default class LoginLayout extends React.Component  {
 
 ## 登录初始化
 
+**创建**：`2019-8-3 14:21:55`
+
+**修改**：`2019-8-4 00:29:33`
+
 */src/pages/propro/login.js*
 
 ```jsx
@@ -546,12 +550,36 @@ export default class LoginLayout extends React.Component  {
 // state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
 const loginStateToProps = (state) => {
   // 先从 models 里读取 是否显示登录  当前语言
-  const login_show = state['login'].login_show;
   const language = state['language'].language;
-  return {
-    login_show,language,
-  };
+  const {login_status,login_show,login_time}=state['login'];
+
+  // 发送的对象
+  let obj={};
+  
+
+  if('undefined'!=typeof(login_show)){
+        obj.login_show=login_show;
+  }
+
+  if('undefined'!=typeof(language)){
+    obj.language=language;
+  }
+
+  obj.login_status=login_status;
+  // 先原样取出
+  obj.login_time=login_time;
+
+  // 再让 login_time 置 0 
+  // 这样设计的巧妙之处在于 发生给 render 的是原值 但是这里处理就变成 0 
+  // 这样就不需要再多次处理返回结果 只有点击登录时 login_time 才会更新
+  if(login_time>((new Date().getTime())-500)){
+      // 这里 强制 置0 使得不用再判断
+      state['login'].login_time=0;
+  }
+
+  return obj;
 };
+
 
 const loginDispatchToProps = (dispatch) => {
   return {
@@ -609,61 +637,37 @@ const loginDispatchToProps = (dispatch) => {
 *path : /src/models/login.js*
 
 ```jsx
-
-let login={
-    namespace: 'login',
-    state: {
-      // 注册切换 默认显示 login
-      login_show:true,
-    },
-    effects: {
+ effects: {
         *doLogin( {payload} , sagaEffects) {
           const { call, put } = sagaEffects;
-          const result = yield call(loginService.login,payload);
+          let result='';
+          try{
+            // 捕获异常
+            result = yield call(loginService.login,payload);
+          }catch(e){
+            result='';
+          }
           yield put({ type: 'doLogin_result', payload: result });
-
         }
     },
-    reducers: {
-        changeLogin(state, { payload: login }){
-            return {
-                // 更新语言配置
-                login_show: login.login,
-            };
-        },
-        doLogin_result(state, { payload: result }){
-            console.log('doLogin_result=====',result);
-            // return {
-            //     // 更新语言配置
-            //     login_show: login.login,
-            // };
-            return {
-                login_show:true,
-            };
-        },
-    },
-}
 ```
 
 
 
 ## 调用 `server` 层
 
-```jsx
+修改**：`2019-8-4 00:33:20`
 
+```jsx
 export function login(data) {
-    console.log('login_form',data);
     let params=data.login;
-    console.log('login',params);
-    // let bodys=json2formdata(login);
     let bodys='';
     Object.keys(params).forEach((key) => {
-        console.log(key,params[key]);
         bodys+=key+'='+params[key]+'&';
     });
     
     bodys = bodys.substr(0, bodys.length-1);
-    console.log('bodys',bodys);
+    console.log('send bodys',bodys);
     return request('/login_propro/test',{
         headers: {
             // 'content-type': 'application/json',
@@ -681,27 +685,159 @@ export function login(data) {
 
 ## `models` 处理服务端返回数据
 
+**修改**：`2019-8-4 00:32:36`
+
 ```jsx
-reducers: {
-        changeLogin(state, { payload: login }){
-            return {
-                // 更新语言配置
-                login_show: login.login,
-            };
-        },
-        // 处理返回结果
-        doLogin_result(state, { payload: result }){
-            console.log('doLogin_result=====',result);
-            // return {
-            //     // 更新语言配置
-            //     login_show: login.login,
-            // };
-            return {
-                login_show:true,
-            };
-        },
-    },
+// 处理返回结果
+doLogin_result(state, { payload: result }){
+
+    // 处理逻辑
+    let error=-1;
+    let obj={};
+
+    try{
+        // 尝试提取 服务端返回数据
+        let {status,token=''}=result;
+        obj.status=status;
+        obj.token=token;
+        error=0;
+    }catch(e){
+        // 转换出错
+        error=-1;
+    }
+
+    // 1 检查 result 是否为空 服务器未响应
+    if(''==result){
+        // 发生网络错误 比如 网络不可达
+        let obj={
+            login_status:   'error',
+            login_show:     login.state.login_show,
+            login_time:     new Date().getTime(),
+        }
+        return obj;
+    }
+
+    // 2 再检查是否转换出错 服务器返回了数据
+    if(-1==error){
+        // 转换异常 严重错误 输出错误信息
+        let obj={
+            login_status: 'error',
+            login_show:   login.state.login_show,
+            login_time:   new Date().getTime(),
+        }
+        return obj;
+    }
+
+
+    // 3 登录返回结果处理
+
+    // 保存 token
+    localStorage.token= (0==obj.status) ? obj.token : '';
+    return {
+        login_status: obj.status,
+        login_token:  obj.token,
+        login_show:   login.state.login_show,
+        login_time:   new Date().getTime(),
+    };
+},
 ```
+
+
+
+## 触发 `view`
+
+**修改**：`2019-8-4 00:35:44`
+
+```jsx
+  // state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
+  const loginStateToProps = (state) => {
+  // 先从 models 里读取 是否显示登录  当前语言
+  const language = state['language'].language;
+  const {login_status,login_show,login_time}=state['login'];
+
+  // 发送的对象
+  let obj={};
+  
+
+  if('undefined'!=typeof(login_show)){
+        obj.login_show=login_show;
+  }
+
+  if('undefined'!=typeof(language)){
+    obj.language=language;
+  }
+
+  obj.login_status=login_status;
+  // 先原样取出
+  obj.login_time=login_time;
+
+  // 再让 login_time 置 0 
+  // 这样设计的巧妙之处在于 发生给 render 的是原值 但是这里处理就变成 0 
+  // 这样就不需要再多次处理返回结果 只有点击登录时 login_time 才会更新
+  if(login_time>((new Date().getTime())-500)){
+      // 这里 强制 置0 使得不用再判断
+      state['login'].login_time=0;
+  }
+
+  return obj;
+};
+```
+
+
+
+## 触发 `render`
+
+**修改**：`2019-8-4 00:35:44`
+
+```jsx
+
+  // 登录结果前端处理
+  login_handle=(login_status,language)=>{
+    let login_result = '' ;
+     // // 需要处理 登录结果
+    if('error'==login_status||-1==login_status){
+      // 提示登录失败
+      login_result=Languages[language]["propro.login_error"];
+      message.error(login_result,3);
+    }else if(0==login_status){
+      // 登录成功
+      login_result=Languages[language]["propro.login_success"];
+      // 这个关闭时间延长 使得它跳转到控制台时 它仍然存在 增强过渡效果
+      message.success(login_result,5);
+      setTimeout(()=>{
+        message.loading(Languages[language]["propro.loading"],2,()=>{
+          // 跳转
+          this.props.history.push('/home');
+        });
+      },1000);
+    }else if(-2==login_status||-3==login_status){
+      // -2 用户名不存在  -3 密码错误
+      // 统一提示用户名或密码错误
+      login_result=Languages[language]["propro.login_false"];
+      message.warn(login_result,3);
+    }
+  }
+```
+
+
+
+# 页面刷新
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-4 00:37:57`
+
+**修改**：`2019-8-4 00:42:22`
+
+*为什么？*
+
+防止页面出现过多数据，即使页面没有bug，尽管 `react` 很高效，`react` 自动帮我们处理了很多事情，但是页面使用越久，会使得很多变量，数据冗余，选择一个恰当的时机刷新页面是个不错的方式，一是回收掉许多不必要的内存，而是不会使得页面过于复杂，影响 `react`  `JavaScript` 的效率。
+
+*处理思路*
+
+再页面中附加一个时间戳保存在本地，通过读取它，每隔一段时间，促使页面重新刷新一次。
+
+
 
 
 
