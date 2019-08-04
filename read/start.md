@@ -10,6 +10,26 @@
 
 
 
+# propro-server 系统设计细节
+
+
+
+西湖大学 [PROPRO](http://www.proteomics.pro/)  server的官网设计规范
+
+设计规范作者：[TangTao](https://www.woaihdu.top/)  杭州电子科技大学 2016级 管理学院 工商管理
+
+基于ant-design，react，umi，dva，bootstrp等框架开发，
+
+创建时间：
+
+`2019-8-4 16:39:14`
+
+修改时间：
+
+`2019-8-4 16:08:47`
+
+
+
 
 
 
@@ -75,12 +95,23 @@ dva-cli version 0.10.1
 
 
 
-### *添加国际化*
+# 国际化
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-4 21:09:10`
+
+**修改**：`2019-8-4 21:13:13`
+
+国际化支持18国语言，代码里已经编写了好了两套语言（简体中文和英语），添加其他语言只需了解整个语言控制逻辑，可以添加自己的语言。
+
+*安装方式*
 
 ```json
 npm install --save react-intl
-
 ```
+
+
 
 
 
@@ -96,6 +127,98 @@ npm install --save react-intl
 yarn install
 npm run dev
 ```
+
+
+
+
+
+# 文档说明
+
+2019-8-4 15:55:46
+
+- 作者：TangTao 杭州电子科技大学 工商管理 2016级
+- 邮箱：[tangtao2099@outlook.com](mailto:tangtao2099@outlook.com)
+- [GitHub](https://github.com/tangtaoshadow)   [知乎](https://www.zhihu.com/people/tang-tao-24-36/activities)  [Gitee](https://gitee.com/tangtao2099)  [首页](https://www.woaihdu.top/)
+
+此文档会在1分钟内自动保存，主要用于适应平时代码，工作文档排版，基于word，宏开发。加快书写文档效率，规范了word书写格式（字体，间距，行间距，颜色等等），解决平时使用word的不良习惯。书写完成可导出pdf，html，md等格式，需要word相应的插件支持。一键自动生成定义好的目录，定义了许多平时常用的样式的快捷键。
+
+***转载请声明作者***
+
+
+
+# 代码样式
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-4 21:00:23`
+
+**修改**：`2019-8-4 21:07:11`
+
+前端的大部分代码遵循 `eslint` 规范，能遵守的尽量都按照他的规范来写，虽然这并不是强制要求，但是统一样式的代码是区分程序员的关键的因素，变量命名习惯结合下划线和驼峰命名法，
+
+遵循统一的代码编码风格的好处：
+
+- 使编程更简单
+- 避免许多编程的雷区
+- 继承了前人优秀的编码习惯。
+- 方便业界的工程师阅读
+
+
+
+
+
+# 代码布局
+
+作者：[TangTao](https://www.woaihdu.top/)
+
+`2019-8-4 16:11:50`
+
+
+
+```bash
+├─config
+├─public
+├─read
+└─src
+    ├─assets
+    ├─components
+    ├─layout
+    ├─locale
+    ├─models
+    ├─pages
+    │  ├─.umi
+    │  └─propro
+    │      └─style
+    ├─service
+    └─utils
+```
+
+
+
+| 目录                    | 作用                            |
+| ----------------------- | ------------------------------- |
+| /config                 | 配置文件                        |
+| /public                 | 公共资源文件夹，存放ico等资源   |
+| /read                   | 说明文件夹                      |
+| /src                    | 代码存放                        |
+| /src/assets             | 静态资源存放                    |
+| /src/components         | react组件 共用                  |
+| /src/layout             | 页面排版布局文件                |
+| /src/locale             | 国际化配置                      |
+| /src/models             | dva数据存放，修改位置           |
+| /src/pages              | 存放所有页面                    |
+| /src/pages/propro       | 存放propro-server的页面         |
+| /src/pages/propro/style | 存放propro-server的页面样式文件 |
+| /service                | 负责与服务端交互的业务逻辑      |
+| /utils                  | 自定义的工具类                  |
+|                         |                                 |
+|                         |                                 |
+
+
+
+
+
+
 
 
 
@@ -815,6 +938,30 @@ doLogin_result(state, { payload: result }){
   }
 ```
 
+登录时会保存两个关键变量，`propro_token` 和 `propro_token_time`  用户可以通过注入这两个变量，就可以读取他人的信息。为什么要把他们放在本地数据库中，因为用户可能关闭界面，可能刷新界面，所以为了使他们不消失，就保存在本地，当用户退出时或者 `token` 超时时，系统会自动对齐销毁。
+
+
+
+
+
+
+
+# 进入系统
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-4 16:40:12`
+
+**修改**：`2019-8-4 00:52:22`
+
+
+
+
+
+
+
+
+
 
 
 # 页面刷新
@@ -851,3 +998,36 @@ doLogin_result(state, { payload: result }){
 
 1. `token` 没有加密
 2. `http` 明文传输
+
+
+
+
+
+# 附件
+
+ 
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-4 16:58:24`
+
+**修改**：`2019-8-4 16:58:59`
+
+
+
+- 此页面的框架在不是十分熟悉的前提下，不要轻易改动，否则会造成代码紊乱，很多代码逻辑考虑到了今后开发过程中需要的扩展，本套系统的代码参考了很多框架，java的设计思想，代码编程的格式规范等等。
+
+ 
+
+ 
+
+ 
+
+
+
+
+
+
+
+
+
