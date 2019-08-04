@@ -32,7 +32,7 @@ import {  Layout, Menu, Icon ,
 const loginStateToProps = (state) => {
   // 先从 models 里读取 是否显示登录  当前语言
   const language = state['language'].language;
-  const {login_status,login_show,login_time}=state['login'];
+  const { login_status, login_show, login_time } = state['login'];
 
   // 发送的对象
   let obj={};

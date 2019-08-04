@@ -13,18 +13,22 @@ import {
   Dropdown,
   Select
 } from "antd";
-
+import { Fragment } from "react";
 import Link from "umi/link";
 import { connect } from "dva";
 
-// import {Slider_menu} from './sider';
+import prorpo_logo from "../assets/propro-logo-vertical.png";
+
+/************** 导入 style  ***************/
+/************** 导入 style  ***************/
+// css
+import "./Common.css";
+import "./BasicLayout.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+// less
 import "antd/dist/antd.less";
 import styles from "./BasicLayout.less";
-import "./Common.css";
-
-// import logo from'../assets/propro-logo-hori.png'
-import "./BasicLayout.css";
-import prorpo_logo from "../assets/propro-logo-vertical.png";
+/************** 导入 style  ***************/
 
 /***********  国际化配置   ***************/
 /***********  国际化配置   ***************/
@@ -70,6 +74,8 @@ let dev_consolelog = function() {
   }
 };
 
+import tao from "../utils/common.js";
+
 const { Header, Footer, Content, Sider } = Layout;
 
 const { SubMenu } = Menu;
@@ -80,13 +86,31 @@ const { Option } = Select;
 /***********  语言初始化   ***************/
 /***********  语言初始化   ***************/
 
-// state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
+// state 更新
 const basicStateToProps = state => {
   // 先从 models 里读取
-  const language = state["language"].language;
-  // 读取token
+  let language = state["language"].language;
+
+  // 获取登录状态
+  let {
+    login_status,
+    username,
+    email,
+    telephone,
+    nick,
+    organization,
+    roles
+  } = state["login"];
+
   return {
-    language
+    language,
+    login_status,
+    username,
+    email,
+    telephone,
+    nick,
+    organization,
+    roles
   };
 };
 
@@ -100,7 +124,6 @@ const basicDispatchToProps = dispatch => {
         // 数据 payload 传入新的语言
         payload: language
       };
-      // 触发
       dispatch(action);
     }
   };
@@ -108,6 +131,7 @@ const basicDispatchToProps = dispatch => {
 
 /***********  语言初始化 end  ***************/
 
+// 注入
 @connect(
   basicStateToProps,
   basicDispatchToProps
@@ -135,20 +159,10 @@ export default class BasicLayout extends React.Component {
     super(props);
     dev_consolelog("Initializing ...");
 
-    // navigator.language.split(/[-_]/)  zh-CN
-    // 默认从浏览器头读 但是只支持 中文 和 英语 没有读取成功 显示中文
-    let local_language = localStorage.getItem("locale");
-    let language0 =
-      "zh" == local_language || "en" == local_language
-        ? local_language
-        : navigator.language.split(/[-_]/)[0];
-    let language = "zh" == language0 || "en" == language0 ? language0 : "zh";
-
-    // 把值添加到 localStorage 解决刷新问题
-    localStorage.locale = language;
     this.state = {
-      locale: language,
-      current: "header_home"
+      current: "header_home",
+      // slider 默认收紧
+      collapsed: true
     };
 
     dev_consolelog("Initialization successful .");
@@ -169,11 +183,6 @@ export default class BasicLayout extends React.Component {
     });
   };
 
-  state = {
-    // current: 'mail',
-    collapsed: false
-  };
-
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed
@@ -186,8 +195,9 @@ export default class BasicLayout extends React.Component {
   };
 
   render() {
-    // 提取目标语言
-    const language = this.props.language;
+    // 提取 登录结果 目标语言
+    const { language } = this.props;
+    // let user = <User />;
     return (
       <IntlProvider locale={language} messages={messages[language]}>
         <Layout style={{ minHeight: "120vh", minWidth: "1150px" }}>
@@ -249,42 +259,62 @@ export default class BasicLayout extends React.Component {
             </Menu>
           </Sider>
           <Layout>
-            <Header style={{ background: "#fff", padding: 0, height: 50 }}>
+            <Header
+              style={{
+                background: "#fff",
+                padding: 0,
+                height: "60px",
+                lineHeight: "50px",
+                padding: "5px 10px 0px 5px",
+                fontSize: "18px",
+                borderBottom: "1px solid #ddd"
+              }}
+            >
               <div
                 style={{
                   height: "50px",
-                  lineHeight: "50px"
+                  lineHeight: "50px",
+                  margin: "0px",
+                  padding: "0px"
                 }}
               >
                 <Row type="flex" justify="space-between">
-                  <Col span={4} style={{}}>
+                  <Col span={5} style={{ marginTop: "0px" }}>
                     <Icon
                       className={styles.trigger}
                       type={this.state.collapsed ? "menu-unfold" : "menu-fold"}
                       onClick={this.toggle}
+                      style={{
+                        padding: "0px 10px 0px 0px",
+                        fontSize: "24px",
+                        lineHeight: "40px",
+                        verticalAlign: "top"
+                      }}
                     />
-                    <Link to="/">
+                    <Link to="/home">
                       <img
                         src={prorpo_logo}
                         style={{
-                          height: "25px",
-                          marginTop: "-6px",
-                          cursor: "pointer"
+                          height: "40px",
+                          cursor: "pointer",
+                          marginTop: "0px"
                         }}
                       />
                       <span
                         style={{
-                          fontSize: "16px",
-                          fontWeight: 600,
-                          cursor: "pointer"
+                          fontSize: "20px",
+                          fontWeight: "600",
+                          padding: "0px",
+                          display: "inline-block",
+                          lineHeight: "40px"
                         }}
-                        className={styles.myfont}
+                        className={`${styles.myfont}`}
                       >
                         &nbsp;PROPRO
                       </span>
                     </Link>
                   </Col>
-                  <Col span={15}>
+                  <Col span={14}>
                     <Row type="flex" justify="end">
                       <Col span={20}>
                         <Menu
@@ -350,32 +380,7 @@ export default class BasicLayout extends React.Component {
                       <Option value="en">English</Option>
                     </Select>
 
-                    <Button
-                      type="primary"
-                      style={{
-                        padding: "0px 10px",
-                        marginLeft: "8px",
-                        height: "32px",
-                        lineHeight: "32px"
-                      }}
-                    >
-                      <Link
-                        to="/login"
-                        style={{
-                          color: "#fff",
-                          letterSpacing: "1px"
-                        }}
-                      >
-                        <Icon type="user" />
-                        <span>
-                          &nbsp;
-                          <FormattedHTMLMessage
-                            defaultMessage="登录"
-                            id="propro.login"
-                          />
-                        </span>
-                      </Link>
-                    </Button>
+                    <UserButton />
                   </Col>
                 </Row>
               </div>
@@ -397,5 +402,120 @@ export default class BasicLayout extends React.Component {
         </Layout>
       </IntlProvider>
     );
+  }
+}
+
+// 注入
+@connect(
+  basicStateToProps,
+  basicDispatchToProps
+)
+class UserButton extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const menu = (
+      <Menu>
+        <Menu.Item
+          style={{
+            background: "#eee"
+          }}
+        >
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="http://www.alipay.com/"
+          >
+            Logout
+          </a>
+        </Menu.Item>
+        <Menu.Item>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="http://www.taobao.com/"
+          >
+            2nd menu item
+          </a>
+        </Menu.Item>
+        <Menu.Item>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="http://www.tmall.com/"
+          >
+            3rd menu item
+          </a>
+        </Menu.Item>
+      </Menu>
+    );
+
+    // 提取 登录结果 目标语言
+    const {
+      language,
+      login_status,
+      username,
+      email,
+      telephone,
+      nick,
+      organization,
+      roles
+    } = this.props;
+
+    let res = <Fragment key="res_null" />;
+    // 未登录
+    if (0 != login_status) {
+      res = (
+        <Button
+          type="primary"
+          style={{
+            padding: "0px 10px",
+            marginLeft: "8px",
+            height: "32px",
+            lineHeight: "32px"
+          }}
+        >
+          <Link
+            to="/login"
+            style={{
+              color: "#fff",
+              letterSpacing: "1px",
+              lineHeight: "32px"
+            }}
+          >
+            <span>
+              &nbsp;
+              <FormattedHTMLMessage defaultMessage="登录" id="propro.login" />
+            </span>
+          </Link>
+        </Button>
+      );
+    } else if (0 == login_status && "" != username) {
+      // 已经登录
+      let my_name = "";
+      if (tao.strlen(username) > 11) {
+        my_name = tao.substr(username, 11) + "...";
+      } else {
+        my_name = username;
+      }
+
+      res = (
+        <Dropdown overlay={menu} placement="bottomLeft">
+          <Button
+            style={{
+              paddingLeft: "6px",
+              paddingRight: "6px"
+            }}
+          >
+            {my_name}
+          </Button>
+        </Dropdown>
+      );
+    } else {
+      // 什么都没有 不存在
+    }
+    return res;
   }
 }

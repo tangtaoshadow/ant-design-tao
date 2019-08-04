@@ -14,21 +14,45 @@
 
 
 
-西湖大学 [PROPRO](http://www.proteomics.pro/)  server的官网设计规范
+西湖大学 [PROPRO](http://www.proteomics.pro/)  server的官网设计细节
 
-设计规范作者：[TangTao](https://www.woaihdu.top/)  杭州电子科技大学 2016级 管理学院 工商管理
+**设计 `propro-server` 前端作者**：[`TangTao`](https://www.woaihdu.top/)   `杭州电子科技大学`  2016级 管理学院 工商管理
 
-基于ant-design，react，umi，dva，bootstrp等框架开发，
+基于`ant-design`，`react`，`umi`，`dva`，`bootstrap`  `less` 等框架开发，
 
-创建时间：
+**创建时间**：
 
 `2019-8-4 16:39:14`
 
-修改时间：
+**修改时间**：
 
-`2019-8-4 16:08:47`
+`2019-8-4 23:10:15`
+
+***谨慎公开***
+
+此篇文档建议供 `propro` 开发人员参考，因为前端的代码是加密的，不法分子很难通过前端分析出执行逻辑。即使源代码公开，不是对整套前端熟悉的，很难弄明白为什么系统会设计成这样。但是对于开发人员来说，看明白了这篇文档，大大的减轻了开发负担，因为这套前端系统集成了许多的框架，业务流程复杂，编码也有统一的规范，理解起来有较大的难度。尽管这篇文档篇幅有限，但是还是留下来很多必要的逻辑，如果没有此篇文档，对 `propro` 的运行逻辑就很难理解。如果没有关于系统的安全方面的顾虑，可以将此文档公开。
 
 
+
+***开发人员***
+
+首先感谢你看到此篇文档，在你开发之前，请熟悉一下知识
+
+- `react`
+- `redux`
+- `react-intl`
+- `webpack`
+- `umi`
+- `JavaScript`
+- `ES6`
+- `dva`
+- `bootstrap`
+- `less`
+- `ant-design-pro`
+- `nodejs`
+- [阿里巴巴`java`规范](http://cdn.promiselee.cn/share_static/Alibaba-java-1.4.0.pdf)
+
+熟悉以上知识，对你理解 `propro-server` 将有很大的帮助，如果你还没有熟悉以上知识，看这篇文章也有助于你理解其中的逻辑，如果你很熟悉这些知识，你也可以尝试直接读代码，不够最好还是看一下此篇文档。
 
 
 
@@ -93,6 +117,24 @@ dva-cli version 0.10.1
 
 
 
+# 文档说明
+
+创建：`2019-8-4 15:55:46`
+
+更新：`2019-8-4 23:25:22`
+
+- 作者：[`TangTao`](https://www.woaihdu.top/)   `杭州电子科技大学`  2016级 管理学院 工商管理
+- 邮箱：[tangtao2099@outlook.com](mailto:tangtao2099@outlook.com)
+- [GitHub](https://github.com/tangtaoshadow)   [知乎](https://www.zhihu.com/people/tang-tao-24-36/activities)  [Gitee](https://gitee.com/tangtao2099)  [首页](https://www.woaihdu.top/)
+
+- 西湖大学  [PROPRO](http://www.proteomics.pro/)    官网开发
+
+***转载请声明作者***
+
+此篇文档便于理解整套 `propro-server` ，对于今后维护和开发有很大的作用，一是防止自己开发一段时间后忘记当初系统为什么要这样设计或者不知道原来的代码是什么逻辑，二是便于开发和维护。其中详细介绍了 `propro-server` 的开发过程，此套前端框架是由 [作者](https://www.woaihdu.top/) 本人从零开始搭建，结合了网上各个框架的优势，集合框架众多，模块也比较复杂，虽然是基于 `ant-design-pro` ，但是很多设计方式和 `ant-design-pro` 有较大的出入，因为这套系统主要针对于 `propro-server` 开发，在代码的针对性强，通用性不高，不太适合再将此框架用于其他（后台管理，电子商城，毕业设计）开发，但是可以借鉴此套框架的设计方式重新开发一套。
+
+
+
 
 
 # 国际化
@@ -132,18 +174,6 @@ npm run dev
 
 
 
-# 文档说明
-
-2019-8-4 15:55:46
-
-- 作者：TangTao 杭州电子科技大学 工商管理 2016级
-- 邮箱：[tangtao2099@outlook.com](mailto:tangtao2099@outlook.com)
-- [GitHub](https://github.com/tangtaoshadow)   [知乎](https://www.zhihu.com/people/tang-tao-24-36/activities)  [Gitee](https://gitee.com/tangtao2099)  [首页](https://www.woaihdu.top/)
-
-此文档会在1分钟内自动保存，主要用于适应平时代码，工作文档排版，基于word，宏开发。加快书写文档效率，规范了word书写格式（字体，间距，行间距，颜色等等），解决平时使用word的不良习惯。书写完成可导出pdf，html，md等格式，需要word相应的插件支持。一键自动生成定义好的目录，定义了许多平时常用的样式的快捷键。
-
-***转载请声明作者***
-
 
 
 # 代码样式
@@ -152,18 +182,21 @@ npm run dev
 
 **创建**：`2019-8-4 21:00:23`
 
-**修改**：`2019-8-4 21:07:11`
+**修改**：`2019-8-5 01:54:55`
 
-前端的大部分代码遵循 `eslint` 规范，能遵守的尽量都按照他的规范来写，虽然这并不是强制要求，但是统一样式的代码是区分程序员的关键的因素，变量命名习惯结合下划线和驼峰命名法，
+前端的大部分代码遵循业界大部分代码规范，吸收了 `c`，`JavaScript`，`php`，`java`，`go`  等语言编程风格，能遵守的尽量都按照规范来写，虽然这并不是强制要求，但是统一样式的代码是区分工程师的关键因素，变量命名习惯结合下划线，驼峰，匈牙利等命名方式，
 
 遵循统一的代码编码风格的好处：
 
 - 使编程更简单
 - 避免许多编程的雷区
 - 继承了前人优秀的编码习惯。
-- 方便业界的工程师阅读
+- 方便业界开发工程师阅读
 
+缺点：
 
+- 对于不了解这种编程风格的人来说，看懂代码有一定的困难
+- 很多代码阅读起来需要一定的功底，有些代码的确不是方便阅读
 
 
 
@@ -217,6 +250,20 @@ npm run dev
 
 
 
+
+# 界面排版
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-5 02:16:51`
+
+**修改**：`2019-8-5 02:20:35`
+
+```jsx
+<Layout style={{ minHeight: "120vh", minWidth: "1150px" }}>
+```
+
+此处严格限制了最低排版标准，切勿改动（变大变小），因为改动一时看不出来页面排版有没有问题，但是这里在整套框架内部考虑了各种可能出现的情况，比如缩进区间，表格的最大长度等等，只有当用户真正看到的时候才会发现页面排版出现问题，所以此处切勿调整，否则界面存在显示异常，手机端也做了考虑，不够建议使用 `pc` 模式，就可以显示出更好的效果。整个页面的排版都是基于它为标准，切勿扩大或者缩小组件高度，宽度。否则不同设备打开界面千奇百怪，改一处而动全体。
 
 
 
@@ -386,7 +433,7 @@ export default language_en;
 
 **创建**：`2019-8-2 03:50:43`
 
-**修改**：`2019-8-2 04:07:43`
+**修改**：`2019-8-4 23:08:17`
 
 
 
@@ -474,33 +521,41 @@ export default language_en;
 ###### `src/models/language.js`
 
 ```jsx
+// path : /src/pages/propro/language.js
+
 // 语言配置 所有页面共用   这个配置留给 language 专用 用于后续扩展开发
 // navigator.language.split(/[-_]/)  zh-CN
 // 默认从浏览器头读 但是只支持 中文 和 英语 没有读取成功 显示中文
 // 先从本地数据库读
-let local_language=localStorage.getItem("locale");
+let local_language = localStorage.getItem("locale");
 // 第二次尝试从浏览器头取
-let language0=  ( 'zh' == local_language || 'en' == local_language) ? local_language : navigator.language.split(/[-_]/)[0] ;
+let language0 =
+  "zh" == local_language || "en" == local_language
+    ? local_language
+    : navigator.language.split(/[-_]/)[0];
 // 第三次 设置默认值
-let language= ('zh'==language0 || 'en'==language0) ? language0 : 'zh' ;
+let language = "zh" == language0 || "en" == language0 ? language0 : "zh";
 // 把值添加到 localStorage 解决刷新问题
 localStorage.locale = language;
 
 export default {
-    namespace: 'language',
-    state: {
-      // 设置 语言
-      language:localStorage.locale,
-    },
-    reducers: {
-      changeLanguage(state, { payload: new_language }){
-            return {
-              // 更新语言配置
-                language: new_language.language,
-            };
-      }
-    },
-  };
+  namespace: "language",
+  state: {
+    // 设置 语言
+    language: localStorage.locale
+  },
+  reducers: {
+    changeLanguage(state, { payload: new_language }) {
+      // 写入 localStorage
+      localStorage.locale = new_language.language;
+      return {
+        // 更新语言配置
+        language: new_language.language
+      };
+    }
+  }
+};
+
 ```
 
 ###### `src/layout/LoginLayout.js`
@@ -536,7 +591,7 @@ const languageDispatchToProps = (dispatch) => {
 
 
 
-### 连接
+### 注入
 
 ```jsx
 // 登录
@@ -589,15 +644,13 @@ export default class LoginLayout extends React.Component  {
 `2019-8-2 04:00:52`
 
 ```jsx
-//  切换语言 触发
-  changeLanguage= e=>{
+  //  切换语言 触发
+  changeLanguage = e => {
     dev_consolelog(`change language ${e}`);
     this.props.changeLanguage({
-      language: e,
+      language: e
     });
-    // 将值添加到 localStorage
-    localStorage.locale = e;
-  }
+  };
   
 ```
 
@@ -804,61 +857,86 @@ export function login(data) {
 
 ## `models` 处理服务端返回数据
 
-**修改**：`2019-8-4 00:32:36`
+**修改**：`2019-8-4 22:36:52`
 
 ```jsx
 // 处理返回结果
-doLogin_result(state, { payload: result }){
+doLogin_result(state, { payload: result }) {
+      // 处理逻辑
+      let error = -1;
+      // 登录不出错返回对象
+      let obj = {};
+      console.log("res", result);
 
-    // 处理逻辑
-    let error=-1;
-    let obj={};
-
-    try{
-        // 尝试提取 服务端返回数据
-        let {status,token=''}=result;
-        obj.status=status;
-        obj.token=token;
-        error=0;
-    }catch(e){
-        // 转换出错
-        error=-1;
-    }
-
-    // 1 检查 result 是否为空 服务器未响应
-    if(''==result){
+      // 1 检查 result 是否为空 服务器未响应
+      if ("" == result) {
         // 发生网络错误 比如 网络不可达
-        let obj={
-            login_status:   'error',
-            login_show:     login.state.login_show,
-            login_time:     new Date().getTime(),
-        }
-        return obj;
-    }
+        let obj_err = {
+          login_status: "error",
+          login_show: login.state.login_show,
+          login_time: new Date().getTime()
+        };
+        return obj_err;
+      }
 
-    // 2 再检查是否转换出错 服务器返回了数据
-    if(-1==error){
+      try {
+        // 尝试提取 服务端返回数据 error_1 与 error 区分
+        let { status = "error_1", token = "" } = result;
+        error = "error_1" == status ? -1 : 0;
+        obj.status = status;
+        obj.token = token;
+      } catch (e) {
+        // 转换出错
+        error = -1;
+      }
+
+      // 2 再检查是否转换出错 服务器返回了数据
+      if (-1 == error) {
         // 转换异常 严重错误 输出错误信息
-        let obj={
-            login_status: 'error',
-            login_show:   login.state.login_show,
-            login_time:   new Date().getTime(),
-        }
-        return obj;
+        let obj_err = {
+          login_status: "error",
+          login_show: login.state.login_show,
+          login_time: new Date().getTime()
+        };
+        return obj_err;
+      }
+
+      // 3 登录返回结果处理
+      if (0 == obj.status) {
+        // 登录成功 额外工作 保存 token 到本地
+        localStorage.propro_token = obj.token;
+        localStorage.propro_token_time = new Date().getTime();
+        let {
+          username = "",
+          email = "",
+          telephone = "",
+          nick = "",
+          organization = "",
+          roles = ""
+        } = result;
+        // 返回登录成功的结果
+        return {
+          login_status: obj.status,
+          login_token: obj.token,
+          login_show: login.state.login_show,
+          login_time: new Date().getTime(),
+          username: username,
+          email: email,
+          telephone: telephone,
+          nick: nick,
+          organization: organization,
+          roles: roles
+        };
+      } else {
+        // 返回登录失败的结果
+        return {
+          login_status: obj.status,
+          login_token: obj.token,
+          login_show: login.state.login_show,
+          login_time: new Date().getTime()
+        };
+      }
     }
-
-
-    // 3 登录返回结果处理
-
-    // 保存 token
-    localStorage.token= (0==obj.status) ? obj.token : '';
-    return {
-        login_status: obj.status,
-        login_token:  obj.token,
-        login_show:   login.state.login_show,
-        login_time:   new Date().getTime(),
-    };
-},
 ```
 
 
@@ -942,6 +1020,90 @@ doLogin_result(state, { payload: result }){
 
 
 
+# 保存用户信息
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：2019-8-4 22:51:41`
+
+**修改**：`2019-8-4 22:55:45`
+
+```jsx
+// 3 登录返回结果处理
+      if (0 == obj.status) {
+        let {
+          username = "",
+          email = "",
+          telephone = "",
+          nick = "",
+          organization = "",
+          roles = ""
+        } = result;
+        // 登录成功 额外工作 保存 token 到本地
+        localStorage.propro_token = obj.token;
+        localStorage.propro_token_time = new Date().getTime();
+        localStorage.username = username;
+        localStorage.email = email;
+        localStorage.telephone = telephone;
+        localStorage.nick = nick;
+        localStorage.organization = organization;
+        localStorage.roles = roles;
+        // 返回登录成功的结果
+        return {
+          login_status: obj.status,
+          login_token: obj.token,
+          login_show: login.state.login_show,
+          login_time: new Date().getTime(),
+          username: username,
+          email: email,
+          telephone: telephone,
+          nick: nick,
+          organization: organization,
+          roles: roles
+        };
+```
+
+为什么要把用户信息保存在 `localStorage` ，因为 `token` 保存在这里，别人拿到了 token ，也就意味着拿到了全部，所以没有必要在编写一段去获取用户信息的代码，因为这样会更危险，如果有一堆 `token` ，我连密码都不需要了，直接跳过接口获取用户信息。
+
+
+
+# 销毁用户信息
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-4 22:52:11`
+
+**修改**：`2019-8-4 22:55:45`
+
+
+
+```jsx
+// path : /src/models/login.js
+
+// token 要保存在 localStorage
+// 尝试从本地 读取 token 考虑到可能向多台服务器发起 token 所以这里附带 propro 使得代码结构清晰
+// 强转 字符串
+let token = "" + localStorage.getItem("propro_token");
+let { length } = token;
+// 长度不足 置空
+if (15 > length) {
+  token = "";
+} else {
+  // 从本地读取 token 最近的保存时间
+  let time = "" + localStorage.getItem("propro_token_time");
+  // 如果保存时间超过 30min 自动销毁 重新登录
+  if (parseInt(time) + 1000 * 60 * 30 > new Date().getTime()) {
+    // 正常  注意 这里一定要写成上面这种条件判断 因为要考虑到 time 异常
+    // pass
+  } else {
+    // 销毁 所有数据
+    window.localStorage.clear();
+    token = "";
+  }
+}
+
+```
+
 
 
 
@@ -955,6 +1117,26 @@ doLogin_result(state, { payload: result }){
 **修改**：`2019-8-4 00:52:22`
 
 
+
+ **`/src/layout/BasicLayout.jsx`**
+
+获取登录状态
+
+```jsx
+// state 更新
+const basicStateToProps = state => {
+  // 先从 models 里读取
+  const language = state["language"].language;
+
+  // 获取登录状态
+  const { login_status } = state["login"];
+
+  // 读取token
+  return {
+    language,login_status
+  };
+};
+```
 
 
 
@@ -988,16 +1170,21 @@ doLogin_result(state, { payload: result }){
 
 
 
-# 安全隐患(漏洞)
+# 安全隐患(漏洞--非公开)
 
 **作者**：[`唐涛`](https://www.woaihdu.top)
 
 **创建**：`2019-7-30 23:52:34`
 
-**修改**：`2019-7-30 23:52:35`
+**修改**：`2019-8-4 22:56:35`
 
-1. `token` 没有加密
-2. `http` 明文传输
+个人在开发过程中总结了系统存在的安全缺陷，
+
+1. `token` 加密程度并不是不可破，至于怎么破这里不说
+2. 明文传输
+3. 用户可以通过注入 `token` ，从而获取到他们信息，前提是能够获取到有效的 `token` 
+4. 可以通过 `CROS` 获取用户信息
+5. 用户的信息保存在本地
 
 
 
@@ -1011,11 +1198,15 @@ doLogin_result(state, { payload: result }){
 
 **创建**：`2019-8-4 16:58:24`
 
-**修改**：`2019-8-4 16:58:59`
+**修改**：`2019-8-4 21:21:22`
 
 
 
 - 此页面的框架在不是十分熟悉的前提下，不要轻易改动，否则会造成代码紊乱，很多代码逻辑考虑到了今后开发过程中需要的扩展，本套系统的代码参考了很多框架，java的设计思想，代码编程的格式规范等等。
+- 扩展开发尽量遵守编程规范，因为编程风格继承了业界优秀的经验，空格，换行, TabSize等都有严格的规范，这样做也是为了使得整套代码变得易于维护和开发，减少工作量，一套逻辑紊乱的代码即使能解决当前的问题，在项目终止后或者后续开发中就没有存在的意义，风格不一的代码也不易于团队开发。
+- 此套框架针对 `propro-server` 开发，不太适合做其他用途。
+
+
 
  
 
