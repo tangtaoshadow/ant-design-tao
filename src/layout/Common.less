@@ -1,0 +1,25 @@
+// /src/layout/Common.less
+
+// 自定义链接的颜色  默认颜色 icon 参考这个颜色
+@common_my_link_color: #343d3e;
+// 亮色字体颜色
+@common_light_color: #eee;
+
+// .my_link 只负责链接颜色
+.my_link {
+  color: @common_my_link_color;
+  cursor: pointer;
+}
+
+.light_color {
+  color: @common_light_color !important;
+}
+
+.my_link:hover {
+  color: @primary-color;
+}
+
+// 只设置鼠标样式
+// .my_link1:hover {
+
+// }

@@ -39,6 +39,10 @@ export default {
           path: "/login",
           component: "propro/login"
         },
+        {
+          path: "/user/setting",
+          component: "propro/user/setting"
+        },
         // {
         //   path: '/locale',
         //   component: 'propro/locale'
@@ -61,12 +65,14 @@ export default {
   // 设置转发
   proxy: {
     "/login_propro": {
-      target: "http://localhost:802/",
+      target: "http://192.168.36.1:802/",
       changeOrigin: true
     }
   },
 
+  // 配置主题
   theme: {
-    "@primary-color": "#30b767"
+    "@primary-color": "#30b767",
+    "@layout-body-background": "#f5f9fc"
   }
 };

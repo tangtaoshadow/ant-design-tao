@@ -11,7 +11,10 @@ import {
   Col,
   Button,
   Dropdown,
-  Select
+  Select,
+  Popconfirm,
+  message,
+  Tabs
 } from "antd";
 import { Fragment } from "react";
 import Link from "umi/link";
@@ -28,7 +31,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // less
 import "antd/dist/antd.less";
 import styles from "./BasicLayout.less";
-/************** 导入 style  ***************/
+
+// svg
+import admin_svg from "../assets/basiclayout/admin.svg";
+import user_svg from "../assets/basiclayout/user.svg";
+/************** 导入 style end ***************/
 
 /***********  国际化配置   ***************/
 /***********  国际化配置   ***************/
@@ -48,7 +55,7 @@ import locale_zh from "react-intl/locale-data/zh";
 import messages_zh from "../locale/zh_CN";
 import messages_en from "../locale/en_US";
 
-const messages = {
+const Languages = {
   zh: messages_zh,
   en: messages_en
 };
@@ -65,7 +72,6 @@ let consolelog = function() {
   }
 };
 
-consolelog(messages_zh);
 // 开发模式
 let dev_consolelog = function() {
   let len = arguments.length;
@@ -83,8 +89,8 @@ const { SubMenu } = Menu;
 //  select 复选框
 const { Option } = Select;
 
-/***********  语言初始化   ***************/
-/***********  语言初始化   ***************/
+/***********  Basic 初始化   ***************/
+/***********  Basic 初始化   ***************/
 
 // state 更新
 const basicStateToProps = state => {
@@ -125,11 +131,18 @@ const basicDispatchToProps = dispatch => {
         payload: language
       };
       dispatch(action);
+    },
+    doLogout: e => {
+      const action = {
+        //  触发类型
+        type: "login/doLogout"
+      };
+      dispatch(action);
     }
   };
 };
 
-/***********  语言初始化 end  ***************/
+/***********  Basic 初始化 end  ***************/
 
 // 注入
 @connect(
@@ -199,7 +212,7 @@ export default class BasicLayout extends React.Component {
     const { language } = this.props;
     // let user = <User />;
     return (
-      <IntlProvider locale={language} messages={messages[language]}>
+      <IntlProvider locale={language} messages={Languages[language]}>
         <Layout style={{ minHeight: "120vh", minWidth: "1150px" }}>
           <Sider
             theme="light"
@@ -308,7 +321,7 @@ export default class BasicLayout extends React.Component {
                           display: "inline-block",
                           lineHeight: "40px"
                         }}
-                        className={`${styles.myfont}`}
+                        className={styles.myfont}
                       >
                         &nbsp;PROPRO
                       </span>
@@ -410,60 +423,195 @@ export default class BasicLayout extends React.Component {
   basicStateToProps,
   basicDispatchToProps
 )
+// 这个是 控制台 导航条最右边的用户按钮 针对不同状态显示不同结果
 class UserButton extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this);
   }
 
-  render() {
-    const menu = (
-      <Menu>
-        <Menu.Item
-          style={{
-            background: "#eee"
-          }}
-        >
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.alipay.com/"
-          >
-            Logout
-          </a>
-        </Menu.Item>
-        <Menu.Item>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.taobao.com/"
-          >
-            2nd menu item
-          </a>
-        </Menu.Item>
-        <Menu.Item>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.tmall.com/"
-          >
-            3rd menu item
-          </a>
-        </Menu.Item>
-      </Menu>
-    );
+  // 整个退出流程 考虑情况比较多 需要理顺代码才能明白退出过程中系统做了什么
+  my_logout = e => {
+    const { language } = this.props;
+    let res = Languages[language]["propro.logout_run"];
 
-    // 提取 登录结果 目标语言
+    message.loading(res + "...", 1.3, () => {
+      // 提示退出成功
+      let res = Languages[language]["propro.logout_success"];
+      message.success(res, 3);
+    });
+
+    // 主动触发退出  清理系统垃圾 为即将使用做准备
+    this.props.doLogout();
+
+    setTimeout(() => {
+      // 提示重新加载
+      let res = Languages[language]["propro.reloading"];
+      message.loading(res + "...", 2, () => {
+        // 执行跳转
+        // 强制刷新到首页 这样会清空很多不必要的数据
+        window.location.href = "./home";
+      });
+    }, 2000);
+  };
+
+  render() {
+    // 1 提取
     const {
       language,
       login_status,
       username,
-      email,
-      telephone,
-      nick,
-      organization,
-      roles
+      email = "null",
+      telephone = "null",
+      nick = "null",
+      organization = "null",
+      roles = ""
     } = this.props;
 
+    let my = my_roles => {
+      let res_admin = <Fragment key="2019_8_5_152559" />;
+      if ("admin" == my_roles) {
+        // 管理员 添加新的操作
+        res_admin = (
+          <div>
+            <img
+              src={admin_svg}
+              alt=""
+              style={{
+                marginRight: "10px",
+                height: "15px",
+                marginBottom: "5px"
+              }}
+            />
+
+            <Link to="/login" className={styles.my_link}>
+              <FormattedHTMLMessage id="propro.user_management" />
+            </Link>
+          </div>
+        );
+      }
+
+      return (
+        <div>
+          {/* user_info_body_arrow */}
+          <div
+            style={{
+              float: "right",
+              borderLeft: "10px solid transparent",
+              borderRight: "10px solid transparent",
+              borderBottom: "10px solid ",
+              marginTop: "-10px",
+              borderRadius: "5px",
+              marginRight: "20px"
+            }}
+            className={styles.user_info_body_arrow}
+          />
+
+          <div
+            style={{
+              background: "#fff",
+              minHeight: "200px",
+              minWidth: "280px",
+              maxWidth: "650px",
+              borderWidth: "0px",
+              padding: "0px ",
+              overflow: "hidden",
+              marginTop: "10px",
+              boxShadow: "0px 0px  10px 5px #eee",
+              fontSize: "14px"
+            }}
+          >
+            {/* 第一部分 */}
+            <div
+              style={{
+                minHeight: "100px",
+                padding: "20px 20px 10px",
+                borderTop: "0px solid #fff",
+                borderTopLeftRadius: "5px",
+                borderTopRightRadius: "5px"
+              }}
+              className={styles.user_info_body}
+            >
+              <div
+                style={{
+                  fontWeight: "600",
+                  fontSize: "16px",
+                  marginBottom: "10px"
+                }}
+              >
+                <Link to="/login">
+                  <span className={styles.light_color}>{username}</span>
+                </Link>
+              </div>
+              <div>
+                <FormattedHTMLMessage id="propro.nick" />
+                &nbsp;:&nbsp;&nbsp;
+                {nick}
+              </div>
+
+              <div>
+                <FormattedHTMLMessage id="propro.email" />
+                &nbsp;:&nbsp;&nbsp;
+                {email}
+              </div>
+              <div>
+                <FormattedHTMLMessage id="propro.telephone" />
+                &nbsp;:&nbsp;&nbsp;
+                {telephone}
+              </div>
+              <div>
+                <FormattedHTMLMessage id="propro.organization" />
+                &nbsp;:&nbsp;&nbsp;
+                {organization}
+              </div>
+            </div>
+
+            {/* 第二部分 */}
+            <div
+              style={{
+                padding: "10px 20px"
+              }}
+            >
+              <div
+                style={{
+                  height: "20px",
+                  lineHeight: "20px",
+                  marginBottom: "5px"
+                }}
+              >
+                <Link to="/user/setting" className={styles.my_link}>
+                  <img
+                    src={user_svg}
+                    alt=""
+                    style={{
+                      marginRight: "10px",
+                      height: "15px"
+                    }}
+                  />
+                  <FormattedHTMLMessage id="propro.personal_center" />
+                </Link>
+              </div>
+              {res_admin}
+            </div>
+
+            {/* 第三部分 */}
+            <div
+              style={{
+                textAlign: "center",
+                padding: "10px 0px",
+                background: "#eee"
+              }}
+              className={styles.my_logout}
+              onClick={this.my_logout}
+            >
+              <FormattedHTMLMessage id="propro.logout" />
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // 输出的结果
     let res = <Fragment key="res_null" />;
     // 未登录
     if (0 != login_status) {
@@ -502,7 +650,7 @@ class UserButton extends React.Component {
       }
 
       res = (
-        <Dropdown overlay={menu} placement="bottomLeft">
+        <Dropdown overlay={my(roles)} placement="bottomLeft">
           <Button
             style={{
               paddingLeft: "6px",

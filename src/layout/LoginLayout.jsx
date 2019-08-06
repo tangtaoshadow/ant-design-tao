@@ -44,7 +44,7 @@ import locale_zh from "react-intl/locale-data/zh";
 import messages_zh from "../locale/zh_CN";
 import messages_en from "../locale/en_US";
 
-const messages = {
+const Languages = {
   zh: messages_zh,
   en: messages_en
 };
@@ -177,7 +177,7 @@ export default class LoginLayout extends React.Component {
     // 提取目标语言 从 model 中获取
     const language = this.props.language;
     return (
-      <IntlProvider locale={language} messages={messages[language]}>
+      <IntlProvider locale={language} messages={Languages[language]}>
         <Layout style={{ minHeight: "120vh", minWidth: "1150px" }}>
           <Layout>
             <Content

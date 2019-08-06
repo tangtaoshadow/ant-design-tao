@@ -48,6 +48,11 @@ const routes = [
         exact: true,
       },
       {
+        path: '/user/setting',
+        component: require('../propro/user/setting').default,
+        exact: true,
+      },
+      {
         path: '/test',
         component: require('../propro/test').default,
         exact: true,

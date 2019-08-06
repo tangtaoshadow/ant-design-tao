@@ -26,7 +26,7 @@
 
 **修改时间**：
 
-`2019-8-4 23:10:15`
+`2019-8-6 16:15:19`
 
 ***谨慎公开***
 
@@ -51,6 +51,7 @@
 - `ant-design-pro`
 - `nodejs`
 - [阿里巴巴`java`规范](http://cdn.promiselee.cn/share_static/Alibaba-java-1.4.0.pdf)
+- [JavaScript权威指南](http://cdn.promiselee.cn/share_static/JavaScript%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97(%E7%AC%AC6%E7%89%88)(%E4%B8%AD%E6%96%87%E7%89%88).pdf)
 
 熟悉以上知识，对你理解 `propro-server` 将有很大的帮助，如果你还没有熟悉以上知识，看这篇文章也有助于你理解其中的逻辑，如果你很熟悉这些知识，你也可以尝试直接读代码，不够最好还是看一下此篇文档。
 
