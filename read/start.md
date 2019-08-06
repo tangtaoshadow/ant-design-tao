@@ -268,6 +268,10 @@ npm run dev
 
 
 
+界面排版参考了 [ant-design](https://ant.design/components/grid/) ，遵循了[BootStrap 3 的规则](https://getbootstrap.com/docs/3.3/css/#responsive-utilities-classes) ，虽然这种排版有缺陷，但是针对的是 `pc` 端 ，影响不大。
+
+
+
 
 
 
@@ -663,14 +667,6 @@ export default class LoginLayout extends React.Component  {
 
 
 
-
-
-
-
-
-
-
-
 # 安装bootstrap
 
 **作者**：[`唐涛`](https://www.woaihdu.top)
@@ -861,8 +857,8 @@ export function login(data) {
 **修改**：`2019-8-4 22:36:52`
 
 ```jsx
-// 处理返回结果
-doLogin_result(state, { payload: result }) {
+ // 处理返回结果
+    doLogin_result(state, { payload: result }) {
       // 处理逻辑
       let error = -1;
       // 登录不出错返回对象
@@ -904,9 +900,6 @@ doLogin_result(state, { payload: result }) {
 
       // 3 登录返回结果处理
       if (0 == obj.status) {
-        // 登录成功 额外工作 保存 token 到本地
-        localStorage.propro_token = obj.token;
-        localStorage.propro_token_time = new Date().getTime();
         let {
           username = "",
           email = "",
@@ -915,6 +908,28 @@ doLogin_result(state, { payload: result }) {
           organization = "",
           roles = ""
         } = result;
+
+        // 判断是否为 ''
+        email = "" != email && null != email ? email : "null";
+        telephone = "" != telephone && null != telephone ? telephone : "null";
+        nick = "" != nick && null != nick ? nick : "null";
+        organization =
+          "" != organization && null != organization ? organization : "null";
+        roles = "" != roles && null != roles ? roles : "null";
+
+        // 登录成功 额外工作 保存 token 到本地
+        localStorage.propro_token = obj.token;
+        localStorage.propro_token_time = new Date().getTime();
+        localStorage.username = username;
+        localStorage.email = email;
+        localStorage.telephone = telephone;
+        localStorage.nick = nick;
+        localStorage.organization = organization;
+        localStorage.roles = roles;
+
+        // 注册 登录成功  调用成功初始化
+        login_success_initialization();
+
         // 返回登录成功的结果
         return {
           login_status: obj.status,
@@ -937,8 +952,51 @@ doLogin_result(state, { payload: result }) {
           login_time: new Date().getTime()
         };
       }
-    }
+    },
 ```
+
+
+
+## 登录成功初始化
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-6 16:43:00`
+
+**修改**：`2019-8-6 16:43:38`
+
+```jsx
+
+// login_success_initialization
+let login_success_initialization = e => {
+  /********************** token 定时器  **********************/
+  /********************** token 定时器  **********************/
+
+  // 1 检查是否开启 token 定时器
+  if (
+    "undefined" != typeof window.TOKEN_CLOCK &&
+    null != typeof window.TOKEN_CLOCK
+  ) {
+    // 存在定时器 取消
+    try {
+      clearInterval(window.TOKEN_CLOCK);
+    } catch (e) {
+      // 发生错误 不需要处理
+    }
+  }
+
+  // 2 注册定时器
+  window.TOKEN_CLOCK = setInterval(function() {
+    update_token();
+  }, 1200);
+
+  /********************** token 定时器 end **********************/
+
+  // 页面监控定时器  监控用户是否在操作界面
+};
+```
+
+
 
 
 
@@ -1074,34 +1132,36 @@ doLogin_result(state, { payload: result }) {
 
 **创建**：`2019-8-4 22:52:11`
 
-**修改**：`2019-8-4 22:55:45`
+**修改**：`2019-8-6 16:46:23`
 
-
+在初始化时和在用户主动退出时都会去触发,销毁关键函数 `clear_user_info`
 
 ```jsx
 // path : /src/models/login.js
 
-// token 要保存在 localStorage
-// 尝试从本地 读取 token 考虑到可能向多台服务器发起 token 所以这里附带 propro 使得代码结构清晰
-// 强转 字符串
-let token = "" + localStorage.getItem("propro_token");
-let { length } = token;
-// 长度不足 置空
-if (15 > length) {
+// token 真正过期时间
+const live_token = 4 * 3600;
+
+// 清空用户数据
+let clear_user_info = e => {
+  // 销毁 关键数据
+  // 保存系统必要的数据
+  let { locale } = window.localStorage;
+  window.localStorage.clear();
+
+  // 重新写入
+  window.localStorage.locale = locale;
   token = "";
-} else {
-  // 从本地读取 token 最近的保存时间
-  let time = "" + localStorage.getItem("propro_token_time");
-  // 如果保存时间超过 30min 自动销毁 重新登录
-  if (parseInt(time) + 1000 * 60 * 30 > new Date().getTime()) {
-    // 正常  注意 这里一定要写成上面这种条件判断 因为要考虑到 time 异常
-    // pass
-  } else {
-    // 销毁 所有数据
-    window.localStorage.clear();
-    token = "";
+
+  // 清空定时器
+  // 存在定时器 取消
+
+  try {
+    clearInterval(window.TOKEN_CLOCK);
+  } catch (e) {
+    // 发生错误 不需要处理
   }
-}
+};
 
 ```
 
@@ -1177,15 +1237,16 @@ const basicStateToProps = state => {
 
 **创建**：`2019-7-30 23:52:34`
 
-**修改**：`2019-8-4 22:56:35`
+**修改**：`2019-8-6 16:47:28`
 
 个人在开发过程中总结了系统存在的安全缺陷，
 
 1. `token` 加密程度并不是不可破，至于怎么破这里不说
-2. 明文传输
-3. 用户可以通过注入 `token` ，从而获取到他们信息，前提是能够获取到有效的 `token` 
-4. 可以通过 `CROS` 获取用户信息
-5. 用户的信息保存在本地
+2. `token` 虽然更新了，但但是之前的 `token` 只要不过期，都是可以用的 
+3. 明文传输
+4. 用户可以通过注入 `token` ，从而获取到他们信息，前提是能够获取到有效的 `token` 
+5. 可以通过 `CROS` 获取用户信息
+6. 用户的信息保存在本地
 
 
 

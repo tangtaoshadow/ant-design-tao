@@ -402,12 +402,16 @@ export default class BasicLayout extends React.Component {
               style={{
                 margin: "20px 10px",
                 padding: 24,
-                background: "#fff",
                 minHeight: 280,
                 borderRadius: "5px"
               }}
             >
-              <div style={{ padding: 24, background: "#fff", minHeight: 360 }}>
+              <div
+                style={{
+                  padding: 24,
+                  minHeight: 360
+                }}
+              >
                 {this.props.children}
               </div>
             </Content>

@@ -53,6 +53,11 @@ const routes = [
         exact: true,
       },
       {
+        path: '/error/login',
+        component: require('../propro/error/login').default,
+        exact: true,
+      },
+      {
         path: '/test',
         component: require('../propro/test').default,
         exact: true,

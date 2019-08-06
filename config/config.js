@@ -43,6 +43,10 @@ export default {
           path: "/user/setting",
           component: "propro/user/setting"
         },
+        {
+          path: "/error/login",
+          component: "propro/error/login"
+        },
         // {
         //   path: '/locale',
         //   component: 'propro/locale'
@@ -73,6 +77,7 @@ export default {
   // 配置主题
   theme: {
     "@primary-color": "#30b767",
+    // "@primary-color": "#36999f",
     "@layout-body-background": "#f5f9fc"
   }
 };

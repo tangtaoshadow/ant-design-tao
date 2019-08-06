@@ -29,7 +29,7 @@ let language_ch = {
   "propro.prompt_password": "密码",
   "propro.login_username_error": "请输入用户名",
   "propro.login_password_error": "请输入密码",
-  "propro.forget_password": "忘记密码",
+  "propro.forgot_password": "忘记密码",
   "propro.apply_account": "申请账号",
   "propro.welcome_login": "欢迎来到 ",
   "propro.welcome_register": "欢迎申请 ",
@@ -52,6 +52,16 @@ let language_ch = {
   // 首页
   "propro.logout_run": "正在退出",
   "propro.logout_success": "退出成功",
+
+  // 用户设定
+  "propro.user_setting": "设置",
+  "propro.user_account": "账户",
+  "propro.user_password": "密码",
+  "propro.user_username": "账号",
+  "propro.user_saveinfo": "保存",
+  "propro.user_current_password": "当前密码",
+  "propro.user_new_password": "新密码",
+  "propro.user_verify_password": "重复新密码",
 
   "propro.end": "end"
 };

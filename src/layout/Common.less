@@ -5,18 +5,25 @@
 // 亮色字体颜色
 @common_light_color: #eee;
 
+// 暗色字体颜色
+@common_dark_color: #495057;
+
 // .my_link 只负责链接颜色
 .my_link {
   color: @common_my_link_color;
   cursor: pointer;
 }
 
+.my_link:hover {
+  color: @primary-color;
+}
+
 .light_color {
   color: @common_light_color !important;
 }
 
-.my_link:hover {
-  color: @primary-color;
+.dark_color {
+  color: @common_dark_color;
 }
 
 // 只设置鼠标样式

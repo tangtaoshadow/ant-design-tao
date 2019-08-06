@@ -19,17 +19,29 @@ const Languages = {
 };
 
 
-
-import {  Layout, Menu, Icon , 
-  Switch,Breadcrumb,Row,Tag, 
-  Col,Button,Dropdown,Select, Form,  Input, Checkbox,message,    } from 'antd';
+import {
+  Layout,Menu,
+  Icon, 
+  Switch,
+  Breadcrumb,
+  Row,
+  Tag, 
+  Col,
+  Button,
+  Dropdown,
+  Select,
+  Form,
+  Input,
+  Checkbox,
+  message
+} from 'antd';
 
   
 /***********  Login View 初始化   ***************/
 /***********  Login View 初始化   ***************/
 
 // state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
-const loginStateToProps = (state) => {
+const loginStateToProps =(state) => {
   // 先从 models 里读取 是否显示登录  当前语言
   const language = state['language'].language;
   const { login_status, login_show, login_time } = state['login'];
@@ -236,7 +248,7 @@ class LoginForm extends React.Component {
                 color:'#888',
               }}>
                 <FormattedHTMLMessage
-                id="propro.forget_password" />
+                id="propro.forgot_password" />
               </Link>
 
             </div>

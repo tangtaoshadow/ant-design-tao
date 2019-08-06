@@ -27,7 +27,7 @@ let language_en = {
   "propro.prompt_password": "password",
   "propro.login_username_error": "Please enter your username !",
   "propro.login_password_error": "Please enter your password !",
-  "propro.forget_password": "Forget password ?",
+  "propro.forgot_password": "Forgot password ?",
   "propro.apply_account": "Apply Account",
   "propro.welcome_login":
     '<span style="letter-spacing:0px;">Welcome to </span>',
@@ -54,6 +54,15 @@ let language_en = {
   "propro.logout_run": "Exiting",
   "propro.logout_success": "Exiting success",
 
+  // 用户设定
+  "propro.user_setting": "Settings",
+  "propro.user_account": "Account",
+  "propro.user_password": "Password",
+  "propro.user_username": "Username",
+  "propro.user_saveinfo": "Save Changes",
+  "propro.user_current_password": "Current password",
+  "propro.user_new_password": "New password",
+  "propro.user_verify_password": "Verify password",
   "propro.end": "end"
 };
 
