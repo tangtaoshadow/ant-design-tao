@@ -69,7 +69,7 @@ export default {
   // 设置转发
   proxy: {
     "/login_propro": {
-      target: "http://192.168.36.1:802/",
+      target: "http://192.168.36.1:803/",
       changeOrigin: true
     }
   },
