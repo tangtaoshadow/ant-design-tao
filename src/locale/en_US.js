@@ -63,6 +63,18 @@ let language_en = {
   "propro.user_current_password": "Current password",
   "propro.user_new_password": "New password",
   "propro.user_verify_password": "Verify password",
+  "propro.user_modal_title": "Prompt message",
+  "propro.user_modal_confirm": "Confirm",
+  "propro.user_modal_cancel": "Cancel",
+  "propro.user_update_account_success": "Update success",
+  "propro.user_update_account_failed": "Update failed",
+  "propro.user_modal_password_warning":
+    "( ๑ŏ ﹏ ŏ๑ )ﾉI’m sorry~, (1)Please enter the correct original password; (2)The new password must be at least 6 in length. (3)New password should be the same",
+  "propro.user_modal_know": "I know",
+  "propro.user_modal_warning": "Warning",
+  "propro.user_current_password_false":
+    "The original password you entered is not correct.",
+
   "propro.end": "end"
 };
 

@@ -146,7 +146,7 @@ dva-cli version 0.10.1
 
 **修改**：`2019-8-4 21:13:13`
 
-国际化支持18国语言，代码里已经编写了好了两套语言（简体中文和英语），添加其他语言只需了解整个语言控制逻辑，可以添加自己的语言。
+国际化支持18国语言，代码里已经编写了好了两套语言（简体中文和英语），添加其他语言只需了解整个语言控制逻辑，可以添加自己的语言。这里不使用 `ant-design` 的国际化方式，因为这套框架更灵活，调用方式各种各样，具体参考源代码。
 
 *安装方式*
 
@@ -198,6 +198,146 @@ npm run dev
 
 - 对于不了解这种编程风格的人来说，看懂代码有一定的困难
 - 很多代码阅读起来需要一定的功底，有些代码的确不是方便阅读
+
+## 变量命名
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-7 15:23:00`
+
+**修改**：`2019-8-7 15:23:05`
+
+这里只简单描述变量命名规范，参考了很多命名风格，结合了各自的优点，
+
+例子 ： **一般情况下**函数由**操作, 对象,具体信息**组成，`handleModalCancel` 这个变量表示 `handle`，`modal`，`cancle`，结合起来就表示*处理取消对话框*，`update_my_account`  由 `update`  `my`  `account` 三个词组成，表示*更新我的账号信息*，
+
+## 代码排版
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-7 15:23:00`
+
+**修改**：`2019-8-7 15:33:45`
+
+空格，换行，`Tab` 有遵循一定的规范，这里建议取消 `Tab`，下面是一些排版风格：
+
+```jsx
+
+  update_my_account = e => {
+    let obj = {};
+    (obj.username = this.state.username),
+      (obj.email = this.state.email),
+      (obj.telephone = this.state.telephone),
+      (obj.organization = this.state.organization),
+      (obj.nick = this.state.nick);
+    this.setState({
+      modal_confirmLoading: true
+    });
+    // 延时 close
+    setTimeout(() => {
+      // 不需要再次检查显示状态
+      // 因为为true 需要关闭 为 false 也是关闭
+      this.setState({
+        modal_visible: false,
+        modal_confirmLoading: false
+      });
+    }, 1300);
+  };
+
+
+let modal_account_content = () => {
+      return (
+        <div>
+          <b>
+            <FormattedHTMLMessage id="propro.user_username" />
+            :&nbsp;
+          </b>
+          {"" != modal_text.username ? (
+            modal_text.username
+          ) : (
+            <span className={styles.danger_color}>NULL</span>
+          )}
+          <br />
+          <b>
+            <FormattedHTMLMessage id="propro.nick" />
+            :&nbsp;
+          </b>
+          {"" != modal_text.nick ? (
+            modal_text.nick
+          ) : (
+            <span className={styles.danger_color}>NULL</span>
+          )}
+          <br />
+          <b>
+            <FormattedHTMLMessage id="propro.email" />
+            :&nbsp;
+          </b>
+          {"" != modal_text.email ? (
+            modal_text.email
+          ) : (
+            <span className={styles.danger_color}>NULL</span>
+          )}
+          <br />
+          <b>
+            <FormattedHTMLMessage id="propro.telephone" />
+            :&nbsp;
+          </b>
+          {"" != modal_text.telephone ? (
+            modal_text.telephone
+          ) : (
+            <span className={styles.danger_color}>NULL</span>
+          )}
+          <br />
+          <b>
+            <FormattedHTMLMessage id="propro.organization" />
+            :&nbsp;
+          </b>
+          {"" != modal_text.organization ? (
+            modal_text.organization
+          ) : (
+            <span className={styles.danger_color}>NULL</span>
+          )}
+          <br />
+        </div>
+      );  
+
+
+const userSettingStateToProps = state => {
+  // 发送的对象
+  let obj = {};
+
+  // 先从 models 里读取 是否显示登录  当前语言
+  const language = state["language"].language;
+  if ("undefined" != typeof language) {
+    obj.language = language;
+  }
+
+  let { login_status = "", username = "", roles = "" } = state["login"];
+
+  // 自动剔除 null
+  let email = "null" == state["login"].email ? "" : state["login"].email;
+  let nick = "null" == state["login"].nick ? "" : state["login"].nick;
+  let telephone =
+    "null" == state["login"].telephone ? "" : state["login"].telephone;
+  let organization =
+    "null" == state["login"].organization ? "" : state["login"].organization;
+
+  obj.login_status = login_status;
+  obj.username = username;
+  obj.email = email;
+  obj.telephone = telephone;
+  obj.nick = nick;
+  obj.organization = organization;
+  obj.roles = roles;
+
+  return obj;
+};
+
+```
+
+
+
+
 
 
 
@@ -1225,6 +1365,423 @@ const basicStateToProps = state => {
 
 
 
+# 用户设置
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-4 00:37:57`
+
+**修改**：`2019-8-8 00:52:23`
+
+
+
+## 路由配置
+
+```js
+ {
+          path: "/user/setting",
+          component: "propro/user/setting"
+        },
+```
+
+
+
+## 初始化
+
+###  `View` 初始化
+
+```js
+
+/***********  UserSetting View 初始化   ***************/
+/***********  UserSetting View 初始化   ***************/
+
+// state 发生改变 回调该函数 该函数返回新状态 直接导致页面刷新
+const userSettingStateToProps = state => {
+  // 发送的对象
+  let obj = {};
+
+  // 先从 models 里读取 是否显示登录  当前语言
+  const language = state["language"].language;
+  if ("undefined" != typeof language) {
+    obj.language = language;
+  }
+
+  let {
+    login_status = "",
+    username = "",
+    roles = "",
+    update_info_time = 0,
+    update_info_status = -1,
+    update_passwd_time = 0,
+    update_passwd_status = -1
+  } = state["login"];
+
+  // 自动剔除 null
+  let email = "null" == state["login"].email ? "" : state["login"].email;
+  let nick = "null" == state["login"].nick ? "" : state["login"].nick;
+  let telephone =
+    "null" == state["login"].telephone ? "" : state["login"].telephone;
+  let organization =
+    "null" == state["login"].organization ? "" : state["login"].organization;
+
+  obj.login_status = login_status;
+  obj.username = username;
+  obj.email = email;
+  obj.telephone = telephone;
+  obj.nick = nick;
+  obj.organization = organization;
+  obj.roles = roles;
+  obj.update_info_time = update_info_time;
+  obj.update_info_status = update_info_status;
+  obj.update_passwd_time = update_passwd_time;
+  obj.update_passwd_status = update_passwd_status;
+
+
+  return obj;
+};
+
+const userSettingDispatchToProps = dispatch => {
+  return {
+    // 更新触发器
+    updateMyAccount: userInfo => {
+      const action = {
+        //  触发类型
+        type: "login/updateMyAccount",
+        // 数据 payload 传入新的语言
+        payload: userInfo
+      };
+      // 触发
+      dispatch(action);
+    },
+    updateAccountPassword: userPasswd => {
+      const action = {
+        //  触发类型
+        type: "login/updateAccountPassword",
+        // 数据 payload 传入新的语言
+        payload: userPasswd
+      };
+      // 触发
+      dispatch(action);
+    },
+    set_state_newvalue: (data) => {
+      const action = {
+        //  触发类型
+        type: "login/set_state_newvalue",
+        // 数据 payload 传入新的语言
+        payload: data
+      };
+      // 触发
+      dispatch(action);
+    }
+  };
+};
+
+/***********  UserSetting View 初始化 end  ***************/
+
+```
+
+### 检查是否登录
+
+```js
+    //   检测是否已经登录 没有登录 弹出先登录 因为页面有可能过期 刷新时弹出
+    if (0 != this.props.login_status) {
+      // 未登录
+      this.error_login();
+      return -1;
+    }
+
+  // 显示需要 登录 界面
+  error_login = e => {
+    this.props.history.push("/error/login");
+  };
+```
+
+### 渲染界面
+
+
+
+## 更新用户信息（更新密码类似）
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-7 23:58:05`
+
+**修改**：`2019-8-8 01:03:51`
+
+
+
+### 触发
+
+```js
+<Button
+                    type="primary"
+                    style={{
+                      padding: "0px 15px",
+                      height: "32px",
+                      lineHeight: "32px"
+                    }}
+                    name="account"
+                    onClick={this.handle_submit}
+                  >
+```
+
+
+
+### 处理填写的用户信息
+
+```jsx
+ // 处理提交 form
+  handle_submit = e => {
+    const { language } = this.props;
+    const { name } = e.target;
+    let obj = this.state;
+    if ("account" == name) {
+      // 更新 account
+
+      // 如果存在 空 弹出 警告 需要用户确认
+      if ("" == obj.username) {
+        // impossible 这是错误 不存在的 不理睬
+        Modal.error({
+          title: "This is an error ",
+          // 小鬼 你想干啥 ??
+          content:
+            "What are you doing ? Please contact Tang Tao(tangtao2099@outlook.com)"
+        });
+        return -5;
+      }
+
+      let res = new Array();
+
+      //  增强可读性
+      res.username = obj.username;
+      res.nick = obj.nick;
+      res.email = obj.email;
+      res.organization = obj.organization;
+      res.telephone = obj.telephone;
+
+      // 弹出提示 通过提示调用另个一个更新函数
+      this.setState({
+        modal_visible: true,
+        modal_text: res
+      });
+      return 0;
+    } else if ("password" == name) {
+      // 先读取
+      (obj.current_password = this.state.current_password),
+        (obj.new_password = this.state.new_password),
+        (obj.verify_password = this.state.verify_password);
+
+      // 校验 新密码
+      if (
+        obj.new_password == obj.verify_password &&
+        5 < obj.verify_password.toString().length &&
+        "" != obj.current_password
+      ) {
+        // 三个 condition 新旧密码相同 新密码长度大于 5 输入原密码
+        // 新密码初次校验通过
+        // 调用更新密码
+        this.update_account_password();
+      } else {
+        // 密码不符合条件
+        // 弹出错误
+        Modal.warning({
+          title: Languages[language]["propro.user_modal_warning"],
+          content: Languages[language]["propro.user_modal_password_warning"],
+          maskClosable: false,
+          okText: Languages[language]["propro.user_modal_know"]
+        });
+        return -2;
+      }
+    } else {
+      // 不存在的情况  除非注入
+      return -1;
+    }
+  };
+```
+
+
+
+### 执行更新
+
+```jsx
+  update_account_password = e => {
+    let obj = {};
+    obj.current_password = this.state.current_password;
+    obj.new_password = this.state.new_password;
+    this.props.updateAccountPassword({ account_password: obj });
+  };
+```
+
+
+
+### 更新结果处理
+
+```jsx
+// 提取更新 状态
+    // 这里通过 判断它大于一个比较大的数 而不是通过等于0 因为可能存在 负数或者 undefined
+    if (1000000< this.props.update_info_time) {
+      // 更新 处理更新结果
+      if (0 != this.props.update_info_status) {
+        // 失败
+        setTimeout(() => {
+          message.error(
+            Languages[language]["propro.user_update_account_failed"],
+            2
+          );
+        }, 800);
+      } else {
+        // 成功
+        setTimeout(() => {
+          message.success(
+            Languages[language]["propro.user_update_account_success"],
+            1
+          );
+        }, 800);
+      }
+      this.props.set_state_newvalue({ target: 'update_info_time', value: 0 });
+
+    }
+
+```
+
+实际处理比这个复杂的多，执行细节需要看源代码。
+
+
+
+# `service` 层
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-8 00:35:45`
+
+**修改**：`2019-8-6 16:47:28`
+
+## 获取 `token` 
+
+```jsx
+let get_token = () => {
+  // token 真正过期时间
+  const live_token = 4 * 3600 * 1000;
+  // 获取 token
+  let time = "" + localStorage.getItem("propro_token_time");
+
+  let token = "" + window.localStorage.getItem("propro_token");
+  if (15 < token.length) {
+    if (parseInt(time) + live_token > new Date().getTime()) {
+      return token;
+    }
+  }
+
+  return -1;
+};
+```
+
+这里注意：需要从 `localStorage` 获取 `token` ，但是它可能过期了，也可能为空，所以需要判断，但是为了防止取到空值，转换为字符串，再转换为 `int` ，只有 `token` 存在且它的存活时间没有过期，这就允许返回 `token` 。
+
+## 发起请求
+
+以更新密码为例：
+
+```jsx
+
+export function update_account_password(data) {
+  let params = data.account_password;
+  let bodys = "";
+  Object.keys(params).forEach(key => {
+    bodys += key + "=" + params[key] + "&";
+  });
+
+  bodys = bodys.substr(0, bodys.length - 1);
+  console.log("send bodys", bodys);
+  // 读取最新的 token
+  let token = get_token();
+
+  if (-1 == token) {
+    // 不存在 token
+    return "error";
+  }
+  return request("/user_propro/updatePassword", {
+    headers: {
+      // 'content-type': 'application/json',
+      // "X-Requested-With": "XMLHttpRequest",
+      token: token,
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    },
+    method: "POST",
+    //   发送登录数据 注意 数据未加密
+    body: bodys
+  });
+}
+
+```
+
+这是一个 post 请求，设置了 `token`  `Content-Type` ，把数据转换成 post 格式，发送出去。这就是 `server` 要做的工作，秉承各自负责各自的数据，各司其职。
+
+
+
+# `utils` 层
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-8 01:51:29`
+
+**修改**：`2019-8-8 02:10:33`
+
+以 `common.js` 为例
+
+```jsx
+let tao = {};
+/***
+ * 计算字符串存储长度
+ */
+tao.strlen = function(str) {
+  let len = 0;
+  for (let i = 0; i < str.length; i++) {
+    let c = str.charCodeAt(i);
+    // 单字节加1
+    if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+      len++;
+    } else {
+      len += 2;
+    }
+  }
+  return len;
+};
+
+// 截取字符串指定的不超出的存储长度
+tao.substr = function(str, num) {
+  let str1 = "";
+  let len = 0;
+  let j = 0;
+  for (let i = 0; i < str.length; i++) {
+    let c = str.charCodeAt(i);
+    if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+      // 单字节加1
+      j = 1;
+    } else {
+      // 双字节
+      j = 2;
+    }
+
+    //   当且仅当 加上这个字符的长度小于指定的长度 才会添加
+    if (len + j <= num) {
+      str1 += str[i];
+      len += j;
+    } else {
+      break;
+    }
+  }
+  return str1;
+};
+
+export default tao;
+
+```
+
+这里主要负责处理自定义或者包装的方法，工具，这个文件夹主要负责针对 `propro-server` 开发自定义的工具。
+
+
+
 
 
 
@@ -1267,6 +1824,7 @@ const basicStateToProps = state => {
 - 此页面的框架在不是十分熟悉的前提下，不要轻易改动，否则会造成代码紊乱，很多代码逻辑考虑到了今后开发过程中需要的扩展，本套系统的代码参考了很多框架，java的设计思想，代码编程的格式规范等等。
 - 扩展开发尽量遵守编程规范，因为编程风格继承了业界优秀的经验，空格，换行, TabSize等都有严格的规范，这样做也是为了使得整套代码变得易于维护和开发，减少工作量，一套逻辑紊乱的代码即使能解决当前的问题，在项目终止后或者后续开发中就没有存在的意义，风格不一的代码也不易于团队开发。
 - 此套框架针对 `propro-server` 开发，不太适合做其他用途。
+- 此套框架的鲁棒性很强，可以针对各自错误，包括 `JavaScript` 注入，所以很多不常见
 
 
 

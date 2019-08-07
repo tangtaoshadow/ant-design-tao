@@ -62,6 +62,16 @@ let language_ch = {
   "propro.user_current_password": "当前密码",
   "propro.user_new_password": "新密码",
   "propro.user_verify_password": "重复新密码",
+  "propro.user_modal_title": "操作提示",
+  "propro.user_modal_confirm": "确定",
+  "propro.user_modal_cancel": "取消",
+  "propro.user_update_account_success": "更新成功",
+  "propro.user_update_account_failed": "更新失败",
+  "propro.user_modal_password_warning":
+    "( ๑ŏ ﹏ ŏ๑ )ﾉI’m sorry~, (1)请输入正确的原密码 (2)新密码长度至少为6 (3)两次新密码要相同",
+  "propro.user_modal_know": "知道了",
+  "propro.user_modal_warning": "温馨提醒",
+  "propro.user_current_password_false": "你输入的当前密码不正确",
 
   "propro.end": "end"
 };

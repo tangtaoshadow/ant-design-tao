@@ -203,7 +203,6 @@ export default class BasicLayout extends React.Component {
   };
 
   onCollapse = collapsed => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
 
@@ -431,7 +430,6 @@ export default class BasicLayout extends React.Component {
 class UserButton extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this);
   }
 
   // 整个退出流程 考虑情况比较多 需要理顺代码才能明白退出过程中系统做了什么
@@ -445,16 +443,16 @@ class UserButton extends React.Component {
       message.success(res, 3);
     });
 
-    // 主动触发退出  清理系统垃圾 为即将使用做准备
-    this.props.doLogout();
-
     setTimeout(() => {
+      // 执行退出
+      // 主动触发退出  清理系统垃圾 为即将使用做准备
+      this.props.doLogout();
       // 提示重新加载
       let res = Languages[language]["propro.reloading"];
       message.loading(res + "...", 2, () => {
         // 执行跳转
         // 强制刷新到首页 这样会清空很多不必要的数据
-        window.location.href = "./home";
+        window.location.href = "/home";
       });
     }, 2000);
   };

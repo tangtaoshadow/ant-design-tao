@@ -65,6 +65,7 @@ const loginStateToProps =(state) => {
   // 再让 login_time 置 0 
   // 这样设计的巧妙之处在于 发生给 render 的是原值 但是这里处理就变成 0 
   // 这样就不需要再多次处理返回结果 只有点击登录时 login_time 才会更新
+  // 但是缺点是 不是这个对象定义的数据 在这里发起来改变
   if(login_time>((new Date().getTime())-500)){
       // 这里 强制 置0 使得不用再判断
       state['login'].login_time=0;

@@ -71,6 +71,10 @@ export default {
     "/login_propro": {
       target: "http://192.168.36.1:803/",
       changeOrigin: true
+    },
+    "/user_propro": {
+      target: "http://192.168.36.1:803/",
+      changeOrigin: true
     }
   },
 
