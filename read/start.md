@@ -92,9 +92,9 @@ dva-cli version 0.10.1
     dva version 2.6.0-beta.6
 ```
 
-*为什么要使用 `dva` ？*（[`TangTao`](https://www.woaihdu.top)）*2019-8-2 04:32:08*
+*为什么要使用 `dva` ？*（[`TangTao`](https://www.woaihdu.top)）*`2019-8-8 17:23:11`*
 
-比如：为什么不通过 `state` 来改变语言，因为这里引入了不同的布局文件，不同布局文件之间通过 `localStorage` 不能很方便的设置语言，比如，一个页面选中 English ，切换另一个页面，另一个页面会重新初始化一次，把之前读取语言的流程全部重新再来一遍，整个代码要夹杂在该页面，重复性高，增加了代码量。`dva`  在这些页面直接起到了一个沟通桥梁的作用，脱离了子父组件之间数据传递的复杂流程，切换界面时也不用考虑记录状态，因为 `render()` 时不需要设置 `state`，而是直接从 `models` 读取，尤其是集成了 `UMI` 之后，`dva` 使用更加方便。`models` 只有在整个页面代码全部重新初始化时（刷新），才会重新执行，赋初值。
+比如：为什么不通过 `state` 来改变语言，因为这里引入了不同的布局文件，不同布局文件之间通过 `localStorage` 不能很方便的设置语言，比如，一个页面选中 English ，切换另一个页面，另一个页面会重新初始化一次，把之前读取语言的流程全部重新再来一遍，整个代码要夹杂在该页面，重复性高，增加了代码量。`dva`  在这些页面直接起到了一个沟通桥梁的作用，脱离了子父组件之间数据传递的复杂流程，切换界面时也不用考虑记录状态，因为 `render()` 时不需要设置 `state`，而是直接从 `models` 读取，尤其是集成了 `UMI` 之后，`dva` 使用更加方便。`models` 只有在整个页面代码全部重新初始化时（刷新），才会重新执行，赋初值。`dva` 和观察者模式类似（`Subject`，`Observer`，`ConcreteObserver`），但也有一些区别。
 
 
 
@@ -172,6 +172,18 @@ npm run dev
 ```
 
 
+
+# 安装react-highlight-words
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-9 13:33:24`
+
+**修改**：`2019-8-3 14:00:38`
+
+```bash
+ yarn add react-highlight-words
+```
 
 
 
@@ -1782,7 +1794,111 @@ export default tao;
 
 
 
+# `token` 更新
 
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-8 11:03:40`
+
+**修改**：`2019-8-8 15:49:29`
+
+为了避免逻辑代码混乱，所以这里定义一个专门处理 `token` 的函数，它会在 token 的存活期内至少发起3次请求，如果3次多失败，那么就断定用户注销了。
+
+## 注册
+
+```jsx
+  window.TOKEN_CLOCK = setInterval(function() {
+    update_token();
+  }, 1200);
+```
+
+### 执行更新
+
+```jsx
+/*********************  更新 token  *****************************/
+/*********************  更新 token  *****************************/
+let update_token = e => {
+  // 检查是否允许更新标记
+  // 0 成功
+  // -1 默默退出系统
+  // -2 不更新
+  let res = -1;
+
+  // 检查过去 15 min 内用户有没有操作界面
+
+  // 执行更新
+  const token = "" + window.localStorage.getItem("propro_token");
+  const time = "" + window.localStorage.getItem("propro_token_time");
+  const { username } = window.localStorage;
+  if (15 < token.length) {
+    if (parseInt(time) + live_token > new Date().getTime()) {
+      // 正常  注意 这里一定要写成上面这种条件判断 因为要考虑到 time 异常
+      // 判断是否已经登录
+      if ("" != username) {
+        // 到这里 总共经过了 token 长度验证 , token 存活期验证 , 用户名验证
+        // 前端允许执行登录初始化
+        res = 0;
+      }
+      // pass
+    }
+  }
+
+  // 更新条件判断
+  if (-1 == res) {
+    // 退出系统 用户可能察觉不到
+    clear_user_info();
+    return -1;
+  } else if (-1 > res) {
+    // 不更新
+    return -2;
+  } else if (0 == res) {
+    // 执行更新
+  } else {
+    // impossible
+    // 这里 else 实际上是一个非运算 除了上面的情况之外所有的情况
+    return "error";
+  }
+
+  // 更新
+
+  let result = loginService.update_token();
+
+  //  解析返回结果
+  result.then(function(value) {
+    let obj = {};
+    let error = -1;
+    // 尝试解析
+    try {
+      // 尝试提取 服务端返回数据 error_1 与 error 区分
+      let { status = "error_1", token = "" } = value;
+      // status 提取失败
+      error = "error_1" == status ? -1 : 0;
+      obj.status = status;
+      obj.token = "" + token;
+    } catch (e) {
+      //  不需要处理
+      return -1;
+    }
+
+    if (0 == error && 0 == obj.status && 15 < obj.token.length) {
+      // 正常情况 可以更新 token
+      window.localStorage.propro_token = obj.token;
+      window.localStorage.propro_token_time = new Date().getTime();
+      // 成功更新 token
+    } else {
+      // token 更新异常
+      return -1;
+    }
+  });
+
+  return 0;
+};
+
+/*********************  更新 token end  *****************************/
+
+```
+
+注意：这里校验`token`方式比较简单，没有去比较真正`token`的正确性，而只是通过长度判断`token`是否存在
 
 
 
@@ -1803,7 +1919,7 @@ export default tao;
 3. 明文传输
 4. 用户可以通过注入 `token` ，从而获取到他们信息，前提是能够获取到有效的 `token` 
 5. 可以通过 `CROS` 获取用户信息
-6. 用户的信息保存在本地
+6. 用户的信息保存在本地，用户可以手动修改从而进入管理员界面
 
 
 

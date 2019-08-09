@@ -29,11 +29,11 @@ export default {
       routes: [
         {
           path: "/",
-          component: "propro/home"
+          component: "propro/dashboard/home"
         },
         {
           path: "/home",
-          component: "propro/home"
+          component: "propro/dashboard/home"
         },
         {
           path: "/login",
@@ -80,8 +80,8 @@ export default {
 
   // 配置主题
   theme: {
-    "@primary-color": "#30b767",
-    // "@primary-color": "#36999f",
+    // "@primary-color": "#30b767",
+    "@primary-color": "#47bac1",
     "@layout-body-background": "#f5f9fc"
   }
 };

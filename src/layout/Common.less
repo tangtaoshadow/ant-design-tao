@@ -8,10 +8,28 @@
 // 暗色字体颜色
 @common_dark_color: #495057;
 
+// 第二种颜色
+@common_second_color: #8069f2;
 // .my_link 只负责链接颜色
 .my_link {
   color: @common_my_link_color;
   cursor: pointer;
+}
+
+.bg_primary_color {
+  background: @primary-color;
+}
+
+.font_primary_color {
+  color: @primary-color;
+}
+
+.bg_second_color {
+  background: @common_second_color;
+}
+
+.font_second_color {
+  color: @common_second_color;
 }
 
 .my_link:hover {

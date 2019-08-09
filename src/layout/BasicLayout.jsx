@@ -291,7 +291,7 @@ export default class BasicLayout extends React.Component {
                 }}
               >
                 <Row type="flex" justify="space-between">
-                  <Col span={5} style={{ marginTop: "0px" }}>
+                  <Col lg={5} xl={5} style={{ marginTop: "0px" }}>
                     <Icon
                       className={styles.trigger}
                       type={this.state.collapsed ? "menu-unfold" : "menu-fold"}
@@ -326,7 +326,7 @@ export default class BasicLayout extends React.Component {
                       </span>
                     </Link>
                   </Col>
-                  <Col span={14}>
+                  <Col lg={14} xl={15}>
                     <Row type="flex" justify="end">
                       <Col span={20}>
                         <Menu
@@ -339,32 +339,81 @@ export default class BasicLayout extends React.Component {
                               <FormattedHTMLMessage id="propro.home" />
                             </Link>
                           </Menu.Item>
-                          <Menu.Item key="header_console">控制台</Menu.Item>
                           <SubMenu
                             title={
                               <span className="submenu-title-wrapper">
-                                <Icon type="setting" />
-                                2222222
+                                任务
                               </span>
                             }
                           >
-                            <Menu.ItemGroup title="Item 1">
-                              <Menu.Item key="setting:1">Option 1</Menu.Item>
-                              <Menu.Item key="setting:2">Option 2</Menu.Item>
-                            </Menu.ItemGroup>
-                            <Menu.ItemGroup title="Item 2">
-                              <Menu.Item key="setting:3">Option 3</Menu.Item>
-                              <Menu.Item key="setting:4">Option 4</Menu.Item>
-                            </Menu.ItemGroup>
+                            <Menu.Item key="2019-8-9 00:51:05">
+                              任务列表
+                            </Menu.Item>
+                            <Menu.Item key="2019-8-9 00:51:07">
+                              创建项目
+                            </Menu.Item>
+                            <Menu.Item key="2019-8-9 00:51:11">
+                              导入标准库
+                            </Menu.Item>
                           </SubMenu>
-                          <Menu.Item key="alipay">
-                            <a
-                              href="https://ant.design"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              111
-                            </a>
+
+                          <SubMenu
+                            title={
+                              <span className="submenu-title-wrapper">
+                                {"标准库&iRT库"}
+                              </span>
+                            }
+                          >
+                            <Menu.Item key="2019-8-9 00:53:00">
+                              标准库列表
+                            </Menu.Item>
+                            <Menu.Item key="2019-8-9 00:53:05">
+                              IRT校准库列表
+                            </Menu.Item>
+                            <Menu.Item key="2019-8-9 00:53:36">
+                              公共标准库
+                            </Menu.Item>
+                            <Menu.Item key="2019-8-9 00:54:42">
+                              公共IRT库
+                            </Menu.Item>
+                            <Menu.Item key="2019-8-9 00:54:47">
+                              肽段列表
+                            </Menu.Item>
+                          </SubMenu>
+
+                          <Menu.Item key="2019-8-9 00:55:58">
+                            项目管理
+                          </Menu.Item>
+                          <Menu.Item key="2019-8-9 00:56:02">
+                            实验管理
+                          </Menu.Item>
+                          <SubMenu
+                            title={
+                              <span className="submenu-title-wrapper">
+                                {"数据分析"}
+                              </span>
+                            }
+                          >
+                            <Menu.Item key="2019-8-9 00:56:44">
+                              数据分析列表
+                            </Menu.Item>
+                            <Menu.Item key="2019-8-9 00:56:50">
+                              交叉比对分析
+                            </Menu.Item>
+                          </SubMenu>
+
+                          <SubMenu
+                            title={
+                              <span className="submenu-title-wrapper">
+                                {"工具箱"}
+                              </span>
+                            }
+                          >
+                            <Menu.Item>肽段诊所</Menu.Item>
+                            <Menu.Item>分子质量计算器</Menu.Item>
+                          </SubMenu>
+                          <Menu.Item key="2019-8-9 01:03:35">
+                            OpenAPI 文档说明
                           </Menu.Item>
                         </Menu>
                       </Col>
@@ -372,7 +421,8 @@ export default class BasicLayout extends React.Component {
                   </Col>
 
                   <Col
-                    span={5}
+                    lg={5}
+                    xl={4}
                     style={{
                       // background:'#e34512',
                       textAlign: "right",
@@ -615,8 +665,31 @@ class UserButton extends React.Component {
 
     // 输出的结果
     let res = <Fragment key="res_null" />;
-    // 未登录
-    if (0 != login_status) {
+
+    if (0 == login_status && "" != username) {
+      // 已经登录
+      let my_name = "";
+      if (tao.strlen(username) > 11) {
+        my_name = tao.substr(username, 11) + "...";
+      } else {
+        my_name = username;
+      }
+
+      res = (
+        <Dropdown overlay={my(roles)} placement="bottomLeft">
+          <Button
+            style={{
+              paddingLeft: "6px",
+              paddingRight: "6px"
+            }}
+          >
+            {my_name}
+          </Button>
+        </Dropdown>
+      );
+    } else {
+      // 这里要取对立事件 不能取 0!= login_status 因为可能为 null 可能 undefined
+      // 未登录
       res = (
         <Button
           type="primary"
@@ -642,29 +715,6 @@ class UserButton extends React.Component {
           </Link>
         </Button>
       );
-    } else if (0 == login_status && "" != username) {
-      // 已经登录
-      let my_name = "";
-      if (tao.strlen(username) > 11) {
-        my_name = tao.substr(username, 11) + "...";
-      } else {
-        my_name = username;
-      }
-
-      res = (
-        <Dropdown overlay={my(roles)} placement="bottomLeft">
-          <Button
-            style={{
-              paddingLeft: "6px",
-              paddingRight: "6px"
-            }}
-          >
-            {my_name}
-          </Button>
-        </Dropdown>
-      );
-    } else {
-      // 什么都没有 不存在
     }
     return res;
   }

@@ -34,12 +34,12 @@ const routes = [
     routes: [
       {
         path: '/',
-        component: require('../propro/home').default,
+        component: require('../propro/dashboard/home').default,
         exact: true,
       },
       {
         path: '/home',
-        component: require('../propro/home').default,
+        component: require('../propro/dashboard/home').default,
         exact: true,
       },
       {

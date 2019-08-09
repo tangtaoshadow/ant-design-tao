@@ -25,7 +25,6 @@ export default {
   reducers: {
     changeLanguage(state, { payload: new_language }) {
       // 写入 localStorage
-      console.log("111111111111");
       localStorage.locale = new_language.language;
       return {
         // 更新语言配置
