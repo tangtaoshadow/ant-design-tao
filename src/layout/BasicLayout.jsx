@@ -226,7 +226,7 @@ export default class BasicLayout extends React.Component {
               mode="inline"
             >
               <Menu.Item key="home1">
-                <Link to="/home">
+                <Link to="/console">
                   <Icon type="pie-chart" />
                   <span>首页</span>
                 </Link>
@@ -335,7 +335,7 @@ export default class BasicLayout extends React.Component {
                           mode="horizontal"
                         >
                           <Menu.Item key="header_home">
-                            <Link to="/home">
+                            <Link to="/console">
                               <FormattedHTMLMessage id="propro.home" />
                             </Link>
                           </Menu.Item>

@@ -17,7 +17,6 @@ import { connect } from "dva";
 import Link from "umi/link";
 import { FormattedHTMLMessage } from "react-intl";
 
-
 import {
   Layout,
   Menu,
@@ -42,7 +41,6 @@ const { TabPane } = Tabs;
 
 /****************  导入组件 end ***************************/
 
-
 /****************  导入国际化语言 ***************************/
 /****************  导入国际化语言 ***************************/
 //   引入自定义的语言文件 js 格式
@@ -56,17 +54,12 @@ const Languages = {
 
 /****************  导入国际化语言 end ***************************/
 
-
 /****************  导入 styles ***************************/
 /****************  导入 styles ***************************/
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../style/user/setting.less";
 
-
 /****************  导入 styles end ***************************/
-
-
-
 
 /***********  UserSetting View 初始化   ***************/
 /***********  UserSetting View 初始化   ***************/
@@ -125,7 +118,7 @@ const userSettingDispatchToProps = dispatch => {
         // 数据 payload 传入新的语言
         payload: userInfo
       };
-      console.log('更新触发器 dispatch');
+      console.log("更新触发器 dispatch");
       // 触发
       dispatch(action);
     },
@@ -139,7 +132,7 @@ const userSettingDispatchToProps = dispatch => {
       // 触发
       dispatch(action);
     },
-    set_state_newvalue: (data) => {
+    set_state_newvalue: data => {
       const action = {
         //  触发类型
         type: "login/set_state_newvalue",
@@ -153,8 +146,6 @@ const userSettingDispatchToProps = dispatch => {
 };
 
 /***********  UserSetting View 初始化 end  ***************/
-
-
 
 // ******************  开始执行 *******************************
 // ******************  开始执行 *******************************
@@ -223,7 +214,6 @@ class UserSetting extends React.Component {
     obj.new_password = this.state.new_password;
     this.props.update_account_password({ account_password: obj });
   };
-
 
   handle_modal_cancel = e => {
     this.setState({
@@ -302,11 +292,9 @@ class UserSetting extends React.Component {
   // let res = '';
 
   render() {
-
     const { language } = this.props;
 
     const { modal_text } = this.state;
-
 
     //   检测是否已经登录 没有登录 弹出先登录 因为页面有可能过期 刷新时弹出
     if (0 != this.props.login_status) {
@@ -317,7 +305,7 @@ class UserSetting extends React.Component {
 
     // 提取更新 状态
     // 这里通过 判断它大于一个比较大的数 而不是通过等于0 因为可能存在 负数或者 undefined
-    if (1000000< this.props.update_info_time) {
+    if (1000000 < this.props.update_info_time) {
       // 更新 处理更新结果
       if (0 != this.props.update_info_status) {
         // 失败
@@ -336,16 +324,15 @@ class UserSetting extends React.Component {
           );
         }, 800);
       }
-      this.props.set_state_newvalue({ target: 'update_info_time', value: 0 });
-
+      this.props.set_state_newvalue({ target: "update_info_time", value: 0 });
     }
 
     // 检测 更新 密码状态
-    if (1000000<  this.props.update_passwd_time) {
+    if (1000000 < this.props.update_passwd_time) {
       // 更新 处理更新结果
       if (0 == this.props.update_passwd_status) {
-         // 成功
-         setTimeout(() => {
+        // 成功
+        setTimeout(() => {
           message.success(
             Languages[language]["propro.user_update_account_success"],
             3
@@ -354,11 +341,9 @@ class UserSetting extends React.Component {
           this.setState({
             current_password: "",
             new_password: "",
-            verify_password: "",
+            verify_password: ""
           });
-
         }, 800);
-
       } else if (-1 == this.props.update_passwd_status) {
         // 原密码输入错误
         Modal.error({
@@ -368,19 +353,16 @@ class UserSetting extends React.Component {
           okText: Languages[language]["propro.user_modal_know"]
         });
       } else {
-         // 失败
-         setTimeout(() => {
+        // 失败
+        setTimeout(() => {
           message.error(
             Languages[language]["propro.user_update_account_failed"],
             3
           );
         }, 800);
       }
-      this.props.set_state_newvalue({ target: 'update_passwd_time', value: 0 });
-
+      this.props.set_state_newvalue({ target: "update_passwd_time", value: 0 });
     }
-
-
 
     // 返回格式化的信息
     let modal_account_content = () => {
@@ -445,7 +427,9 @@ class UserSetting extends React.Component {
         <div
           style={{
             fontSize: "20px",
-            marginBottom: "20px"
+            marginBottom: "20px",
+            fontWeight: "600",
+            letterSpacing: "1px"
           }}
         >
           <FormattedHTMLMessage id="propro.user_setting" />

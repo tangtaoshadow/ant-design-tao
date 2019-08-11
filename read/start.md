@@ -422,6 +422,32 @@ const userSettingStateToProps = state => {
 
 界面排版参考了 [ant-design](https://ant.design/components/grid/) ，遵循了[BootStrap 3 的规则](https://getbootstrap.com/docs/3.3/css/#responsive-utilities-classes) ，虽然这种排版有缺陷，但是针对的是 `pc` 端 ，影响不大。
 
+![](http://cdn.promiselee.cn/share_static/propro-layout-20190812000623.png)
+
+
+
+## 头部
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**更新**：`2019-8-3 14:06:48`
+
+头部最左边控制侧边栏展开缩进，中间是propro的导航，propro的主要功能通过中间导航条快速切换，次导航条根据不同设备的宽度，自动设置显示的链接数目，如果设备宽度过窄，就会出现 `…` ，剩余的链接通过它可以继续展开，最右边负责切换语言和用户控制。
+
+
+
+## 侧边栏
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**更新**：`2019-8-3 14:06:48`
+
+侧边栏负责一些常用功能的快速切换，比如用户，propro
+
+
+
+
+
 
 
 
@@ -1728,6 +1754,31 @@ export function update_account_password(data) {
 ```
 
 这是一个 post 请求，设置了 `token`  `Content-Type` ，把数据转换成 post 格式，发送出去。这就是 `server` 要做的工作，秉承各自负责各自的数据，各司其职。
+
+## 返回数据格式
+
+**作者**：[`唐涛`](https://www.woaihdu.top)
+
+**创建**：`2019-8-12 02:01:40`
+
+**修改**：`2019-8-8 02:10:33`
+
+`json` 格式，变量遵循 `java` 命名规则。
+
+必须参数 `status`
+
+```json
+// 成功
+status=0
+// 一般错误
+status=-1
+// token 异常
+status =-2
+```
+
+
+
+
 
 
 
