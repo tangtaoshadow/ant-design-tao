@@ -35,6 +35,7 @@ export default {
           path: "/home",
           component: "propro/dashboard/home"
         },
+
         {
           path: "/login",
           component: "propro/login"
