@@ -1,10 +1,10 @@
- Author：[杭州电子科技大学](http://www.hdu.edu.cn/)  2016级管理学院 工商管理 唐涛 16011324@hdu.edu.cn
+ Author：[杭州电子科技大学](http://www.hdu.edu.cn/)  2016级管理学院 工商管理 唐涛 [16011324@hdu.edu.cn](mailto:16011324@hdu.edu.cn)
 
  CreateTime：2019-7-25 22:00:25
 
  UpdateTime：
 
- Copyright:  唐涛 [home](https://www.woaihdu.top/) 2019 ©  西湖大学 [propro](http://www.proteomics.pro/)
+ Copyright:  唐涛 [home](https://www.promiselee.cn/tao) 2019 ©  西湖大学 [propro](http://www.proteomics.pro/)
 
  Email：[tangtao2099@outlook.com](mailto:propro@westlake.edu.cn)
 
@@ -16,7 +16,7 @@
 
 西湖大学 [PROPRO](http://www.proteomics.pro/)  server的官网设计细节
 
-**设计 `propro-server` 前端作者**：[`TangTao`](https://www.woaihdu.top/)   `杭州电子科技大学`  2016级 管理学院 工商管理
+**设计 `propro-server` 前端作者**：[`TangTao`](https://www.promiselee.cn/tao)   `杭州电子科技大学`  2016级 管理学院 工商管理
 
 基于`ant-design`，`react`，`umi`，`dva`，`bootstrap`  `less` 等框架开发，
 
@@ -30,7 +30,7 @@
 
 ***谨慎公开***
 
-此篇文档建议供 `propro` 开发人员参考，因为前端的代码是加密的，不法分子很难通过前端分析出执行逻辑。即使源代码公开，不是对整套前端熟悉的，很难弄明白为什么系统会设计成这样。但是对于开发人员来说，看明白了这篇文档，大大的减轻了开发负担，因为这套前端系统集成了许多的框架，业务流程复杂，编码也有统一的规范，理解起来有较大的难度。尽管这篇文档篇幅有限，但是还是留下来很多必要的逻辑，如果没有此篇文档，对 `propro` 的运行逻辑就很难理解。如果没有关于系统的安全方面的顾虑，可以将此文档公开。
+此篇文档建议供 `propro` 开发人员参考，因为前端的代码是加密的，不法分子很难通过前端分析出执行逻辑。即使源代码公开，不是对整套前端熟悉的，很难弄明白为什么系统会设计成这样。但是对于开发人员来说，看明白了这篇文档，大大的减轻了开发负担，因为这套前端系统集成了许多的框架，业务流程复杂，编码也有统一的规范，理解起来有较大的难度。尽管这篇文档篇幅有限，但是还是留下来很多必要的逻辑，如果没有此篇文档，对 `propro` 的运行逻辑就很难理解。
 
 
 
@@ -92,7 +92,7 @@ dva-cli version 0.10.1
     dva version 2.6.0-beta.6
 ```
 
-*为什么要使用 `dva` ？*（[`TangTao`](https://www.woaihdu.top)）*`2019-8-8 17:23:11`*
+*为什么要使用 `dva` ？*（[`TangTao`](https://www.promiselee.cn/tao)）*`2019-8-8 17:23:11`*
 
 比如：为什么不通过 `state` 来改变语言，因为这里引入了不同的布局文件，不同布局文件之间通过 `localStorage` 不能很方便的设置语言，比如，一个页面选中 English ，切换另一个页面，另一个页面会重新初始化一次，把之前读取语言的流程全部重新再来一遍，整个代码要夹杂在该页面，重复性高，增加了代码量。`dva`  在这些页面直接起到了一个沟通桥梁的作用，脱离了子父组件之间数据传递的复杂流程，切换界面时也不用考虑记录状态，因为 `render()` 时不需要设置 `state`，而是直接从 `models` 读取，尤其是集成了 `UMI` 之后，`dva` 使用更加方便。`models` 只有在整个页面代码全部重新初始化时（刷新），才会重新执行，赋初值。`dva` 和观察者模式类似（`Subject`，`Observer`，`ConcreteObserver`），但也有一些区别。
 
@@ -124,15 +124,15 @@ dva-cli version 0.10.1
 
 更新：`2019-8-4 23:25:22`
 
-- 作者：[`TangTao`](https://www.woaihdu.top/)   `杭州电子科技大学`  2016级 管理学院 工商管理
+- 作者：[`TangTao`](https://www.promiselee.cn/tao/)   `杭州电子科技大学`  2016级 管理学院 工商管理
 - 邮箱：[tangtao2099@outlook.com](mailto:tangtao2099@outlook.com)
-- [GitHub](https://github.com/tangtaoshadow)   [知乎](https://www.zhihu.com/people/tang-tao-24-36/activities)  [Gitee](https://gitee.com/tangtao2099)  [首页](https://www.woaihdu.top/)
+- [GitHub](https://github.com/tangtaoshadow)   [知乎](https://www.zhihu.com/people/tang-tao-24-36/activities)  [Gitee](https://gitee.com/tangtao2099)  [首页](https://www.promiselee.cn/tao/)
 
 - 西湖大学  [PROPRO](http://www.proteomics.pro/)    官网开发
 
 ***转载请声明作者***
 
-此篇文档便于理解整套 `propro-server` ，对于今后维护和开发有很大的作用，一是防止自己开发一段时间后忘记当初系统为什么要这样设计或者不知道原来的代码是什么逻辑，二是便于开发和维护。其中详细介绍了 `propro-server` 的开发过程，此套前端框架是由 [作者](https://www.woaihdu.top/) 本人从零开始搭建，结合了网上各个框架的优势，集合框架众多，模块也比较复杂，虽然是基于 `ant-design-pro` ，但是很多设计方式和 `ant-design-pro` 有较大的出入，因为这套系统主要针对于 `propro-server` 开发，在代码的针对性强，通用性不高，不太适合再将此框架用于其他（后台管理，电子商城，毕业设计）开发，但是可以借鉴此套框架的设计方式重新开发一套。
+此篇文档便于理解整套 `propro-server` ，对于今后维护和开发有很大的作用，一是防止自己开发一段时间后忘记当初系统为什么要这样设计或者不知道原来的代码是什么逻辑，二是便于开发和维护。其中详细介绍了 `propro-server` 的开发过程，此套前端框架是由 [作者](https://www.promiselee.cn/tao/) 本人从零开始搭建，结合了网上各个框架的优势，集合框架众多，模块也比较复杂，虽然是基于 `ant-design-pro` ，但是很多设计方式和 `ant-design-pro` 有较大的出入，因为这套系统主要针对于 `propro-server` 开发，在代码的针对性强，通用性不高，不太适合再将此框架用于其他（后台管理，电子商城，毕业设计）开发，但是可以借鉴此套框架的设计方式重新开发一套。
 
 
 
@@ -140,7 +140,7 @@ dva-cli version 0.10.1
 
 # 国际化
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-4 21:09:10`
 
@@ -160,7 +160,7 @@ npm install --save react-intl
 
 # 运行
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-3 14:40:56`
 
@@ -175,7 +175,7 @@ npm run dev
 
 # 安装react-highlight-words
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-9 13:33:24`
 
@@ -191,7 +191,7 @@ npm run dev
 
 # 代码样式
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-4 21:00:23`
 
@@ -213,7 +213,7 @@ npm run dev
 
 ## 变量命名
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-7 15:23:00`
 
@@ -225,7 +225,7 @@ npm run dev
 
 ## 代码排版
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-7 15:23:00`
 
@@ -355,7 +355,7 @@ const userSettingStateToProps = state => {
 
 # 代码布局
 
-作者：[TangTao](https://www.woaihdu.top/)
+作者：[TangTao](https://www.promiselee.cn/tao/)
 
 `2019-8-4 16:11:50`
 
@@ -406,7 +406,7 @@ const userSettingStateToProps = state => {
 
 # 界面排版
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-5 02:16:51`
 
@@ -428,7 +428,7 @@ const userSettingStateToProps = state => {
 
 ## 头部
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **更新**：`2019-8-3 14:06:48`
 
@@ -438,7 +438,7 @@ const userSettingStateToProps = state => {
 
 ## 侧边栏
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **更新**：`2019-8-3 14:06:48`
 
@@ -456,7 +456,7 @@ const userSettingStateToProps = state => {
 
 # 登录页面
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-3 14:06:48`
 
@@ -472,7 +472,7 @@ const userSettingStateToProps = state => {
 
 # 多国语言切换模块-1(state)
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-7-30 23:52:34`
 
@@ -612,7 +612,7 @@ export default language_en;
 
 # 多国语言切换模块-2(DVA)
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-2 03:50:43`
 
@@ -837,7 +837,7 @@ export default class LoginLayout extends React.Component  {
   
 ```
 
-*实现思路*（[`TangTao`](https://www.woaihdu.top)）*2019-8-2 04:32:17*
+*实现思路*（[`TangTao`](https://www.promiselee.cn/tao)）*2019-8-2 04:32:17*
 
 `this.props.changeLanguage`  会去触发 `languageDispatchToProps`  中定义的 `changeLanguage` ，它再去通过 `dispatch(action);` 去触发 `language/changeLanguage`  ,再有它去设置 `language: new_language.language`  ，达到改变语言状态的目的。最后状态改变会回调 `languageStateToProps`  ，最后再触发 `render`，达到更换界面语言的目的。
 
@@ -847,7 +847,7 @@ export default class LoginLayout extends React.Component  {
 
 # 安装bootstrap
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-2 04:08:53`
 
@@ -866,7 +866,7 @@ export default class LoginLayout extends React.Component  {
 
 # 登录过程
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-3 14:21:38`
 
@@ -1137,7 +1137,7 @@ export function login(data) {
 
 ## 登录成功初始化
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-6 16:43:00`
 
@@ -1259,7 +1259,7 @@ let login_success_initialization = e => {
 
 # 保存用户信息
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：2019-8-4 22:51:41`
 
@@ -1306,7 +1306,7 @@ let login_success_initialization = e => {
 
 # 销毁用户信息
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-4 22:52:11`
 
@@ -1349,7 +1349,7 @@ let clear_user_info = e => {
 
 # 进入系统
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-4 16:40:12`
 
@@ -1387,7 +1387,7 @@ const basicStateToProps = state => {
 
 # 页面刷新
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-4 00:37:57`
 
@@ -1403,9 +1403,149 @@ const basicStateToProps = state => {
 
 
 
+# 控制台资源列表执行逻辑
+
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
+
+**创建**：`2019-8-15 01:11:33`
+
+**修改**：`2019-8-15 01:18:13`
+
+前端大部分资源获取方式与这段执行逻辑雷同，理解了这段执行逻辑，其他的也就触类旁通。
+
+## 构造函数
+
+```js
+constructor(props) {
+    super(props);
+    this.state = {
+      query_resource_list_times: 0,
+      resource_list_data: [],
+      // 默认没有数据 状态为 -1
+      resource_list_status: -1,
+      language: this.props.language
+    };
+
+    // 默认没有数据  主动触发
+    this.query_resource_list();
+  }
+```
+
+## 进入查询执行逻辑
+
+```js
+
+  query_resource_list = () => {
+    // 防止过度更新数据 也有可能存在死循环  设置一个 阈值
+    // 阈值主要在调试开发过程中有用 发布时保留不会有坏处
+    // 不了解整个流程情况下不能删除该阈值 否则会有其他错误
+    if (50 > this.state.query_resource_list_times) {
+      // 尝试提取数据
+      // 注意 这里不先从 model 中 获取  不存在就直接重新从网络获取
+      // 因为 model 相当于缓存 并不是最新数据 所以主动重新发起查询
+      if (0 != this.state.resource_list_status) {
+        // 发起查询
+        this.props.get_console_resource_list();
+      }
+    }
+  };
+```
+
+## 向服务端获取
+
+```js
+
+// 获取控制台资源列表
+export function get_console_resource_list(data = "") {
+  // 读取最新的 token
+  let token = tao.get_token();
+
+  if (-1 == token) {
+    // 不存在 token
+    return "error";
+  }
+
+  return request("/propro_server/console/resourceList", {
+    headers: {
+      // 'content-type': 'application/json',
+      // "X-Requested-With": "XMLHttpRequest",
+      token: token,
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    },
+    method: "POST"
+  });
+}
+
+```
+
+## 服务端返回
+
+```js
+{
+    "taskRunningCount": 0, 
+    "projectCount": 8, 
+    "publicIrtCount": 4, 
+    "libCount": 9, 
+    "overviewCount": 15, 
+    "publicLibCount": 7, 
+    "iRtLibCount": 15, 
+    "expSwathCount": 185, 
+    "expPRMCount": 0, 
+    "status": 0
+}
+```
+
+## 处理数据
+
+```jsx
+ // 检查状态
+    if (0 == this.props.resource_list_status) {
+      // 数据获取成功
+      setTimeout(() => {
+        // 调用 添加更新数据函数
+        this.change_resource_list_data(this.props);
+        // 添加服务端数据
+        this.setState({
+          // 标记 成功
+          resource_list_status: 0
+        });
+      }, 200);
+    } else {
+      // 数据获取失败
+      setTimeout(() => {
+        this.setState({
+          resource_list_status: -1
+        });
+      }, 220);
+      Modal.error({
+        title: "False",
+        content: Languages[this.props.language]["propro.network_error"],
+        okText: Languages[this.props.language]["propro.user_modal_know"]
+      });
+      return -1;
+    }
+```
+
+## 触发 `react` 渲染
+
+```jsx
+<Table
+          columns={columns}
+          dataSource={this.state.resource_list_data}
+          loading={false}
+          style={{
+            background: "#ffffff"
+          }}
+        />
+```
+
+
+
+
+
 # 用户设置
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-4 00:37:57`
 
@@ -1540,7 +1680,7 @@ const userSettingDispatchToProps = dispatch => {
 
 ## 更新用户信息（更新密码类似）
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-7 23:58:05`
 
@@ -1688,7 +1828,7 @@ const userSettingDispatchToProps = dispatch => {
 
 # `service` 层
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-8 00:35:45`
 
@@ -1757,7 +1897,7 @@ export function update_account_password(data) {
 
 ## 返回数据格式
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-12 02:01:40`
 
@@ -1784,7 +1924,7 @@ status =-2
 
 # `utils` 层
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-8 01:51:29`
 
@@ -1847,7 +1987,7 @@ export default tao;
 
 # `token` 更新
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-8 11:03:40`
 
@@ -1953,11 +2093,39 @@ let update_token = e => {
 
 
 
+# 细节
+
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
+
+**创建**：`2019-8-14 20:59:45`
+
+**修改**：`2019-8-6 16:47:28`
+
+## `models`层更新key
+
+```js
+// 设置指定的state key = value
+    set_state_newvalue(state, { payload: result }) {
+      let obj = {};
+      for (let i in state) {
+        obj[i] = state[i];
+      }
+      try {
+        obj[result.target] = result.value;
+      } catch (e) {
+        // pass
+      }
+      return obj;
+    },
+```
+
+这里不能直接采取更新 `state` ，应该重新返回一个对象，否则不会触发 `view` 层更新。
+
 
 
 # 安全隐患(漏洞--非公开)
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-7-30 23:52:34`
 
@@ -1980,7 +2148,7 @@ let update_token = e => {
 
  
 
-**作者**：[`唐涛`](https://www.woaihdu.top)
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-8-4 16:58:24`
 

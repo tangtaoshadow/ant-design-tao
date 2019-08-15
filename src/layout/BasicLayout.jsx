@@ -336,7 +336,7 @@ export default class BasicLayout extends React.Component {
                         >
                           <Menu.Item key="header_home">
                             <Link to="/console">
-                              <FormattedHTMLMessage id="propro.home" />
+                              <FormattedHTMLMessage id="propro.console" />
                             </Link>
                           </Menu.Item>
                           <SubMenu

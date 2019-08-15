@@ -17,6 +17,7 @@ let language_en = {
   "propro.login": "Login",
   "propro.language": "en",
   "propro.home": "Home",
+  "propro.console": "Console",
   "propro.author1": "TangTao",
   "propro.loading": "Loading",
   "propro.logout": "Logout",
@@ -74,6 +75,39 @@ let language_en = {
   "propro.user_modal_warning": "Warning",
   "propro.user_current_password_false":
     "The original password you entered is not correct.",
+
+  // 控制台
+  "propro.console_resource_title": "Resource overview",
+  "propro.console_task_running_count": "Task",
+  "propro.console_lib_count": "Library",
+  "propro.console_irt_lib_count": "iRT Library",
+  "propro.console_public_lib_count": "Public Library",
+  "propro.console_public_irt_count": "Public iRT Library",
+  "propro.console_exp_swath_count": "DIA/SWATH",
+  "propro.console_exp_prm_count": "PRM",
+  "propro.console_project_count": "Project",
+  "propro.console_overview_count": "Analyse Overview",
+
+  // 系统错误
+  "propro.network_error":
+    "..(｡•ˇ‸ˇ•｡)… Sorry, PROPRO failed to get data from the network, please check your network connection .",
+
+  // 公共标准库
+  "propro.public_lib_title": "Public Library List",
+  "propro.public_lib_search": "Search",
+  "propro.public_lib_reset": "Reset",
+  "propro.public_lib_index": "Serial Number",
+  "propro.public_lib_id": "Library ID",
+  "propro.public_lib_name": "Library Name",
+  "propro.public_lib_protein_count": "Proteins Count",
+  "propro.public_lib_total_count": "Peptides Count",
+  "propro.public_lib_create_time": "Create Date",
+  "propro.public_lib_is_public": "Is Public",
+  "propro.public_lib_creator": "Creator",
+  "propro.public_lib_operation": "Operation",
+  "propro.public_lib_detail": "Details",
+  "propro.public_lib_protein_list": "Protein List",
+  "propro.public_lib_peptides_list": "Peptides List",
 
   "propro.end": "end"
 };

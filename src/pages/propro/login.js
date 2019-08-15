@@ -419,9 +419,6 @@ class RegisterForm extends React.Component {
               )}
             </Form.Item>
 
-
-
-
             <Form.Item style={{
               paddingTop:'30px',
               marginBottom:'10px',

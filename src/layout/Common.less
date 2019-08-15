@@ -1,23 +1,50 @@
 // /src/layout/Common.less
 
+/***
+ * @Author              TangTao https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com   
+ * @Copyright           西湖大学 propro TangTao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @CreateTime          2019-8-16 01:00:38
+ * @UpdateTime          2019-8-16 01:00:41
+ * @Archive             公共 style 配置
+ */
+
 // 自定义链接的颜色  默认颜色 icon 参考这个颜色
 @common_my_link_color: #343d3e;
+
 // 亮色字体颜色
 @common_light_color: #eee;
 
 // 暗色字体颜色
 @common_dark_color: #495057;
 
-// 第二种颜色
+// 绿色 最好搭配白色字体色 用来标记成功
+@common_green_color: #5fc27e;
+
+// 黄色 最好搭配浅色色
+@common_yellow_color: #fcc100;
+
+// 红色 搭配浅色系 用来标记错误
+@common_red_color: #f44455;
+
+// 第二种颜色 次要颜色 主要用在和主题色搭配上
 @common_second_color: #8069f2;
+
 // .my_link 只负责链接颜色
 .my_link {
   color: @common_my_link_color;
   cursor: pointer;
 }
 
+// 默认背景色
 .bg_primary_color {
   background: @primary-color;
+}
+
+// 错误背景色
+.bg_red_color {
+  background: @common_red_color;
 }
 
 .font_primary_color {
@@ -28,12 +55,37 @@
   background: @common_second_color;
 }
 
+// 绿色背景色
+.bg_green_color {
+  background: @common_green_color;
+}
+
+// 黄色背景色
+.bg_yellow_color {
+  background: @common_yellow_color;
+}
+
+// 白色 字体颜色
+.font_white_color {
+  color: #ffffff;
+}
+
+// 绿色字体色
+.font_green_color {
+  color: @common_green_color;
+}
+
 .font_second_color {
   color: @common_second_color;
 }
 
 .my_link:hover {
   color: @primary-color;
+}
+
+// 错误字体色
+.font_red_color {
+  color: @common_red_color;
 }
 
 .light_color {
@@ -48,8 +100,3 @@
 .danger_color {
   color: #dc3545;
 }
-
-// 只设置鼠标样式
-// .my_link1:hover {
-
-// }

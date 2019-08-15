@@ -34,7 +34,12 @@ const routes = [
     routes: [
       {
         path: '/',
-        component: require('../propro/dashboard/home').default,
+        component: require('../propro/dashboard/console').default,
+        exact: true,
+      },
+      {
+        path: '/console',
+        component: require('../propro/dashboard/console').default,
         exact: true,
       },
       {
@@ -55,6 +60,16 @@ const routes = [
       {
         path: '/error/login',
         component: require('../propro/error/login').default,
+        exact: true,
+      },
+      {
+        path: '/library/public_library',
+        component: require('../propro/library/public_library').default,
+        exact: true,
+      },
+      {
+        path: '/library/public_library/detail/*',
+        component: require('../propro/library/detail').default,
         exact: true,
       },
       {

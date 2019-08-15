@@ -29,7 +29,11 @@ export default {
       routes: [
         {
           path: "/",
-          component: "propro/dashboard/home"
+          component: "propro/dashboard/console"
+        },
+        {
+          path: "/console",
+          component: "propro/dashboard/console"
         },
         {
           path: "/home",
@@ -47,6 +51,14 @@ export default {
         {
           path: "/error/login",
           component: "propro/error/login"
+        },
+        {
+          path: "/library/public_library",
+          component: "propro/library/public_library"
+        },
+        {
+          path: "/library/public_library/detail/*",
+          component: "propro/library/detail"
         },
         // {
         //   path: '/locale',
@@ -69,12 +81,10 @@ export default {
   ],
   // 设置转发
   proxy: {
-    "/login_propro": {
-      target: "http://192.168.36.1:803/",
-      changeOrigin: true
-    },
-    "/user_propro": {
-      target: "http://192.168.36.1:803/",
+    "/propro_server": {
+      target: "http://localhost:803/",
+      // 去掉头部
+      pathRewrite: { "^/propro_server": "" },
       changeOrigin: true
     }
   },

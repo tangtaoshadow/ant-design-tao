@@ -18,6 +18,7 @@ let language_ch = {
   "propro.language": "zh",
   "propro.login": "登录",
   "propro.home": "首页",
+  "propro.console": "控制台",
   "propro.author1": "TangTao",
   "propro.loading": "正在加载",
   "propro.reloading": "正在重新加载",
@@ -72,6 +73,39 @@ let language_ch = {
   "propro.user_modal_know": "知道了",
   "propro.user_modal_warning": "温馨提醒",
   "propro.user_current_password_false": "你输入的当前密码不正确",
+
+  // 控制台
+  "propro.console_resource_title": "资源概览",
+  "propro.console_task_running_count": "任务",
+  "propro.console_lib_count": "标准库",
+  "propro.console_irt_lib_count": "iRT校准库",
+  "propro.console_public_lib_count": "公共标准库",
+  "propro.console_public_irt_count": "公共iRT库",
+  "propro.console_exp_swath_count": "DIA/SWATH",
+  "propro.console_exp_prm_count": "PRM",
+  "propro.console_project_count": "项目管理",
+  "propro.console_overview_count": "分析概览",
+
+  // 系统错误
+  "propro.network_error":
+    "..(｡•ˇ‸ˇ•｡)… 非常抱歉,PROPRO未能成功获取数据,请检查网络",
+
+  // 公共标准库
+  "propro.public_lib_title": "公共标准库列表",
+  "propro.public_lib_search": "搜索",
+  "propro.public_lib_reset": "重置",
+  "propro.public_lib_index": "序列号",
+  "propro.public_lib_id": "标准库id",
+  "propro.public_lib_name": "标准库名称",
+  "propro.public_lib_protein_count": "	蛋白质数目",
+  "propro.public_lib_total_count": "肽段数目",
+  "propro.public_lib_create_time": "创建时间",
+  "propro.public_lib_is_public": "是否公开",
+  "propro.public_lib_creator": "创建者",
+  "propro.public_lib_operation": "操作",
+  "propro.public_lib_detail": "详情",
+  "propro.public_lib_protein_list": "蛋白质列表",
+  "propro.public_lib_peptides_list": "肽段列表",
 
   "propro.end": "end"
 };
