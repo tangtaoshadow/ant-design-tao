@@ -109,6 +109,29 @@ let language_en = {
   "propro.public_lib_protein_list": "Protein List",
   "propro.public_lib_peptides_list": "Peptides List",
 
+  // 公共标准库详情
+  "propro.public_lib_detail_title": "Public Library Detail",
+  "propro.public_lib_detail_id": "Library ID",
+  "propro.public_lib_detail_name": "Library Name",
+  "propro.public_lib_detail_lib_type": "Library Type",
+  "propro.public_lib_detail_generator": "Generator",
+  "propro.public_lib_detail_protein_count": "Proteins Count",
+  "propro.public_lib_detail_unique_protein_count": "Unique Proteins Count",
+  "propro.public_lib_detail_deweight_protein_count":
+    "Library  De-Weight Protein Count",
+  "propro.public_lib_detail_peptide_count": "Peptides Count",
+  "propro.public_lib_detail_unique_peptide_count": "Unique Peptides Count",
+  "propro.public_lib_detail_deweight_peptide_count":
+    "Library De-weight Target Peptide Count",
+  "propro.public_lib_detail_fastade_weight_protein_count":
+    "Fasta De-Weight Protein Count",
+  "propro.public_lib_detail_fastade_weight_peptide_count":
+    "Fasta De-weight Target Peptide Count",
+  "propro.public_lib_detail_description": "Detailed description",
+  "propro.public_lib_detail_creator": "Creator",
+  "propro.public_lib_detail_create_time": "Creation Date",
+  "propro.public_lib_detail_last_modify_time": "Last Modified Date",
+
   "propro.end": "end"
 };
 

@@ -27,6 +27,7 @@ export default {
       path: "/",
       component: "../layout/BasicLayout",
       routes: [
+        // 首页默认切换到控制台 首页还没有制作
         {
           path: "/",
           component: "propro/dashboard/console"
@@ -58,7 +59,7 @@ export default {
         },
         {
           path: "/library/public_library/detail/*",
-          component: "propro/library/detail"
+          component: "propro/library/public_library_id_detail"
         },
         // {
         //   path: '/locale',

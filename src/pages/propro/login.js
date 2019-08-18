@@ -77,26 +77,19 @@ const loginStateToProps =(state) => {
 
 const loginDispatchToProps = (dispatch) => {
   return {
-    // 语言改变触发器
     changeLogin: (login) => {
       const action = {
-        //  触发类型
         type: 'login/changeLogin',
-        // 数据 payload 传入新的语言
         payload: login,
       };
-      // 触发
       dispatch(action);
     },
     // 登录触发器
     doLogin: (login) => {
       const action = {
-        //  触发类型
         type: 'login/doLogin',
-        // 数据 payload 传入新的语言
         payload: login,
       };
-      // 触发
       dispatch(action);
     },
   };

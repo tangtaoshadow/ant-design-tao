@@ -113,33 +113,23 @@ const userSettingDispatchToProps = dispatch => {
     // 更新触发器
     update_account_info: userInfo => {
       const action = {
-        //  触发类型
         type: "login/update_account_info",
-        // 数据 payload 传入新的语言
         payload: userInfo
       };
-      console.log("更新触发器 dispatch");
-      // 触发
       dispatch(action);
     },
     update_account_password: userPasswd => {
       const action = {
-        //  触发类型
         type: "login/update_account_password",
-        // 数据 payload 传入新的语言
         payload: userPasswd
       };
-      // 触发
       dispatch(action);
     },
     set_state_newvalue: data => {
       const action = {
-        //  触发类型
         type: "login/set_state_newvalue",
-        // 数据 payload 传入新的语言
         payload: data
       };
-      // 触发
       dispatch(action);
     }
   };

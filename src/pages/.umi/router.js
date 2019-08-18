@@ -69,7 +69,8 @@ const routes = [
       },
       {
         path: '/library/public_library/detail/*',
-        component: require('../propro/library/detail').default,
+        component: require('../propro/library/public_library_id_detail')
+          .default,
         exact: true,
       },
       {

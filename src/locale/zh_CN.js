@@ -97,7 +97,7 @@ let language_ch = {
   "propro.public_lib_index": "序列号",
   "propro.public_lib_id": "标准库id",
   "propro.public_lib_name": "标准库名称",
-  "propro.public_lib_protein_count": "	蛋白质数目",
+  "propro.public_lib_protein_count": "蛋白质数目",
   "propro.public_lib_total_count": "肽段数目",
   "propro.public_lib_create_time": "创建时间",
   "propro.public_lib_is_public": "是否公开",
@@ -106,6 +106,26 @@ let language_ch = {
   "propro.public_lib_detail": "详情",
   "propro.public_lib_protein_list": "蛋白质列表",
   "propro.public_lib_peptides_list": "肽段列表",
+
+  // 公共标准库详情
+  "propro.public_lib_detail_title": "公共标准库详情页",
+  "propro.public_lib_detail_id": "标准库ID",
+  "propro.public_lib_detail_name": "标准库名称",
+  "propro.public_lib_detail_lib_type": "库类型",
+  "propro.public_lib_detail_generator": "Generator",
+  "propro.public_lib_detail_protein_count": "蛋白质数目",
+  "propro.public_lib_detail_unique_protein_count": "Unique 蛋白质数目",
+  "propro.public_lib_detail_deweight_protein_count": "Library 去除蛋白数目",
+  "propro.public_lib_detail_peptide_count": "肽段数目",
+  "propro.public_lib_detail_unique_peptide_count": "Unique 肽段数目",
+  "propro.public_lib_detail_deweight_peptide_count": "Library 去除真肽段数目",
+  "propro.public_lib_detail_fastade_weight_protein_count": "Fasta 去除蛋白数目",
+  "propro.public_lib_detail_fastade_weight_peptide_count":
+    "Fasta去除真肽段数目",
+  "propro.public_lib_detail_description": "详情描述",
+  "propro.public_lib_detail_creator": "创建者",
+  "propro.public_lib_detail_create_time": "创建时间",
+  "propro.public_lib_detail_last_modify_time": "最后修改时间",
 
   "propro.end": "end"
 };
