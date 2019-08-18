@@ -109,6 +109,7 @@ let language_ch = {
 
   // 公共标准库详情
   "propro.public_lib_detail_title": "公共标准库详情页",
+  "propro.public_lib": "公共标准库",
   "propro.public_lib_detail_id": "标准库ID",
   "propro.public_lib_detail_name": "标准库名称",
   "propro.public_lib_detail_lib_type": "库类型",
@@ -126,6 +127,15 @@ let language_ch = {
   "propro.public_lib_detail_creator": "创建者",
   "propro.public_lib_detail_create_time": "创建时间",
   "propro.public_lib_detail_last_modify_time": "最后修改时间",
+  "propro.public_lib_detail_peptide_analyse": "肽段分析",
+  "propro.public_lib_detail_re_statistic_analyse": "重新统计蛋白质与肽段的数目",
+  "propro.public_lib_detail_generating_pseudopeptides": "生成伪肽段",
+  "propro.public_lib_detail_delete_pseudopeptides": "删除伪肽段",
+  "propro.public_lib_detail_modify": "修改",
+  "propro.public_lib_detail_delete": "删除",
+
+  // 更新公共标准库
+  "propro.public_lib_update_title": "更新公共标准库",
 
   "propro.end": "end"
 };

@@ -1409,7 +1409,7 @@ const basicStateToProps = state => {
 
 **创建**：`2019-8-15 01:11:33`
 
-**修改**：`2019-8-15 01:18:13`
+**修改**：`2019-8-18 23:10:47`
 
 前端大部分资源获取方式与这段执行逻辑雷同，理解了这段执行逻辑，其他的也就触类旁通。
 
@@ -1528,15 +1528,73 @@ export function get_console_resource_list(data = "") {
 
 ## 触发 `react` 渲染
 
+如果没有加载成功，将会在渲染的前一步返回加载界面，注意，顺序不能弄反，要在处理完更新状态数据等逻辑完成之后才判断是否显示加载中，否则会一直在显示加载中，而没有去处理返回的数据，
+
 ```jsx
-<Table
-          columns={columns}
-          dataSource={this.state.resource_list_data}
-          loading={false}
+if (0 != this.state.public_library_list_status) {
+      return (
+        <Fragment>
+          <Row>
+            <Col
+              span={24}
+              style={{
+                textAlign: "center",
+                marginTop: "30px"
+              }}
+            >
+              <img src={preloader_svg} />
+            </Col>
+          </Row>
+        </Fragment>
+      );
+    }
+```
+
+渲染列表
+
+```jsx
+return (
+      <div>
+        <div
           style={{
-            background: "#ffffff"
+            fontSize: "20px",
+            marginBottom: "20px",
+            fontWeight: "600",
+            letterSpacing: "1px"
           }}
-        />
+        >
+          <Tooltip
+            placement="topLeft"
+            title={<FormattedHTMLMessage id="propro.console" />}
+          >
+            <Link to="/console">
+              <img
+                src={return_svg}
+                style={{
+                  height: "30px",
+                  cursor: "pointer"
+                }}
+              />
+            </Link>
+          </Tooltip>
+          <FormattedHTMLMessage id="propro.public_lib_title" />
+        </div>
+        <div
+          style={{
+            background: "#FFFFFF",
+            padding: "5px",
+            border: "1px solid #e5e9f2",
+            overflow: "auto"
+          }}
+        >
+          <Table
+            size={"middle"}
+            columns={columns}
+            dataSource={this.state.public_library_list_data}
+          />
+        </div>
+      </div>
+    );
 ```
 
 

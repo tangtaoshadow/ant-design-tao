@@ -58,8 +58,14 @@ export default {
           component: "propro/library/public_library"
         },
         {
+          // 显示公共标准库 指定id的 详情 * id
           path: "/library/public_library/detail/*",
           component: "propro/library/public_library_id_detail"
+        },
+        {
+          // 更新公共标准库 指定id * id_name
+          path: "/library/public_library/update/*",
+          component: "propro/library/public_library_update"
         },
         // {
         //   path: '/locale',

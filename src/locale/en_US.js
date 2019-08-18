@@ -111,6 +111,7 @@ let language_en = {
 
   // 公共标准库详情
   "propro.public_lib_detail_title": "Public Library Detail",
+  "propro.public_lib": "Public Library",
   "propro.public_lib_detail_id": "Library ID",
   "propro.public_lib_detail_name": "Library Name",
   "propro.public_lib_detail_lib_type": "Library Type",
@@ -131,6 +132,16 @@ let language_en = {
   "propro.public_lib_detail_creator": "Creator",
   "propro.public_lib_detail_create_time": "Creation Date",
   "propro.public_lib_detail_last_modify_time": "Last Modified Date",
+  "propro.public_lib_detail_peptide_analyse": "Peptide Analyse",
+  "propro.public_lib_detail_re_statistic_analyse":
+    "Recount For Protein and Peptide",
+  "propro.public_lib_detail_generating_pseudopeptides": "Generate Decoy",
+  "propro.public_lib_detail_delete_pseudopeptides": "Delete Decoy",
+  "propro.public_lib_detail_modify": "Modify",
+  "propro.public_lib_detail_delete": "Delete",
+
+  // 更新公共标准库
+  "propro.public_lib_update_title": "Update Public Library",
 
   "propro.end": "end"
 };

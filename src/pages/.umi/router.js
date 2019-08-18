@@ -74,6 +74,11 @@ const routes = [
         exact: true,
       },
       {
+        path: '/library/public_library/update/*',
+        component: require('../propro/library/public_library_update').default,
+        exact: true,
+      },
+      {
         path: '/test',
         component: require('../propro/test').default,
         exact: true,
