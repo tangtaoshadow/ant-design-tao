@@ -569,7 +569,6 @@ class UserSetting extends React.Component {
                     value={this.state.organization}
                     name="organization"
                     onChange={this.set_info}
-                    key="2019-8-6 20:33:34"
                     maxLength={30}
                   />
                 </div>
@@ -617,8 +616,8 @@ class UserSetting extends React.Component {
                   >
                     <FormattedHTMLMessage id="propro.user_current_password" />
                   </div>
-                  <Input
-                    type={"password"}
+                  <Input.Password
+                    // type={"password"}
                     value={this.state.current_password}
                     name="current_password"
                     onChange={this.set_info}
@@ -649,8 +648,8 @@ class UserSetting extends React.Component {
                   >
                     <FormattedHTMLMessage id="propro.user_new_password" />
                   </div>
-                  <Input
-                    type={"password"}
+                  <Input.Password
+                    // type={"password"}
                     value={this.state.new_password}
                     name="new_password"
                     onChange={this.set_info}
@@ -672,8 +671,8 @@ class UserSetting extends React.Component {
                   >
                     <FormattedHTMLMessage id="propro.user_verify_password" />
                   </div>
-                  <Input
-                    type={"password"}
+                  <Input.Password
+                    // type={"password"}
                     value={this.state.verify_password}
                     name="verify_password"
                     onChange={this.set_info}

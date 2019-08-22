@@ -185,6 +185,24 @@ npm run dev
  yarn add react-highlight-words
 ```
 
+# 安装jquery
+
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
+
+**创建**：`2019-8-21 18:44:52`
+
+**修改**：`2019-8-21 19:25:23`
+
+```bash
+yarn add jquery
+```
+
+使用
+
+```js
+import $ from 'jquery';
+```
+
 
 
 

@@ -76,15 +76,15 @@ let language_ch = {
 
   // 控制台
   "propro.console_resource_title": "资源概览",
-  "propro.console_task_running_count": "任务",
-  "propro.console_lib_count": "标准库",
-  "propro.console_irt_lib_count": "iRT校准库",
-  "propro.console_public_lib_count": "公共标准库",
-  "propro.console_public_irt_count": "公共iRT库",
-  "propro.console_exp_swath_count": "DIA/SWATH",
-  "propro.console_exp_prm_count": "PRM",
-  "propro.console_project_count": "项目管理",
-  "propro.console_overview_count": "分析概览",
+  "propro.console_task_running": "任务",
+  "propro.console_lib": "标准库",
+  "propro.console_irt_lib": "iRT校准库",
+  "propro.console_public_lib": "公共标准库",
+  "propro.console_public_irt": "公共iRT库",
+  "propro.console_exp_swath": "DIA/SWATH",
+  "propro.console_exp_prm": "PRM",
+  "propro.console_project": "项目管理",
+  "propro.console_overview": "分析概览",
 
   // 系统错误
   "propro.network_error":
@@ -136,6 +136,12 @@ let language_ch = {
 
   // 更新公共标准库
   "propro.public_lib_update_title": "更新公共标准库",
+  "propro.public_lib_update_only_target_peptides": "仅录入真实肽段",
+  "propro.public_lib_update_upload_csv_library": "请上传CSV/TraML格式的Library",
+  "propro.public_lib_update_upload_file_description":
+    "单击或拖动文件到此区域进行上传",
+  "propro.public_lib_update_only_upload_peptide_list": "上传肽段列表",
+  "propro.public_lib_update_submit": "更新",
 
   "propro.end": "end"
 };

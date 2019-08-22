@@ -1,39 +1,106 @@
-import { Card } from 'antd';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import { Card, Upload, Button, Icon, message } from "antd";
+import reqwest from "reqwest";
+import { FormattedMessage, FormattedHTMLMessage } from "react-intl";
 
+class Test1 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fileList: []
+    };
+  }
 
-export default () => {
-  const style = {
-    width: '400px',
-    margin: '30px',
-    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-    border: '1px solid #e8e8e8',
+  state = {
+    uploading: false
   };
-  
-  
-  return (
 
-    <div >
+  handleUpload = () => {
+    const { fileList } = this.state;
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append("csv_library_file_list", file);
+    });
 
-      <Card style={style} actions={[<a>操作一</a>, <a>操作二</a>]}>
-        <Card.Meta
-          avatar={<img 
-            alt=""
-            style={{ width: '64px', height: '64px', borderRadius: '32px' }}
-            src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"
-          />}
-          title="Alipay"
-          description="1111111111111111111111在中台产品的研发过程中，会出现不同的设计规范和实现方式，但其中往往存在很多类似的页面和组件，这些类似的组件会被抽离成一套标准规范。"
-        />
-      </Card>
-      <p>
-            <FormattedHTMLMessage id="app.text" />
-        </p>
-        <a className="App-link" href="https://www.woaihdu.top" target="_blank" rel="noopener noreferrer">
-            <FormattedMessage id="app.learn-react-link" />
-        </a>
-    </div>
+    this.setState({
+      uploading: true
+    });
 
-   
-  );
+    // You can use any AJAX library you like
+    reqwest({
+      url: "/propro_server/library/update",
+      token: window.localStorage.getItem("propro_token"),
+
+      method: "post",
+      processData: false,
+      data: formData,
+      success: () => {
+        this.setState({
+          fileList: [],
+          uploading: false
+        });
+        console.log("upload successfully.");
+      },
+      error: () => {
+        this.setState({
+          uploading: false
+        });
+        console.log("upload failed.");
+      }
+    });
+  };
+
+  // before_upload = file => {
+  //   this.setState(state => ({
+  //     fileList: [...state.fileList, file]
+  //   }));
+  //   return false;
+  // };
+
+  render() {
+    const { uploading, fileList } = this.state;
+    const props = {
+      onRemove: file => {
+        this.setState(state => {
+          const index = state.fileList.indexOf(file);
+          const newFileList = state.fileList.slice();
+          newFileList.splice(index, 1);
+          return {
+            fileList: newFileList
+          };
+        });
+      },
+      beforeUpload: file => {
+        this.setState(state => ({
+          fileList: [...state.fileList, file]
+        }));
+        return false;
+      },
+      fileList
+    };
+
+    return (
+      <div>
+        <Upload
+          {...props}
+          // beforeUpload={this.before_upload()}
+          //
+        >
+          <Button>
+            <Icon type="upload" /> Select File
+          </Button>
+        </Upload>
+        <Button
+          type="primary"
+          onClick={this.handleUpload}
+          disabled={fileList.length === 0}
+          loading={uploading}
+          style={{ marginTop: 16 }}
+        >
+          {uploading ? "Uploading" : "Start Upload"}
+        </Button>
+      </div>
+    );
+  }
 }
+
+export default Test1;

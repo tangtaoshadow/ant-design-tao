@@ -78,15 +78,15 @@ let language_en = {
 
   // 控制台
   "propro.console_resource_title": "Resource overview",
-  "propro.console_task_running_count": "Task",
-  "propro.console_lib_count": "Library",
-  "propro.console_irt_lib_count": "iRT Library",
-  "propro.console_public_lib_count": "Public Library",
-  "propro.console_public_irt_count": "Public iRT Library",
-  "propro.console_exp_swath_count": "DIA/SWATH",
-  "propro.console_exp_prm_count": "PRM",
-  "propro.console_project_count": "Project",
-  "propro.console_overview_count": "Analyse Overview",
+  "propro.console_task_running": "Task",
+  "propro.console_lib": "Library",
+  "propro.console_irt_lib": "iRT Library",
+  "propro.console_public_lib": "Public Library",
+  "propro.console_public_irt": "Public iRT Library",
+  "propro.console_exp_swath": "DIA/SWATH",
+  "propro.console_exp_prm": "PRM",
+  "propro.console_project": "Project",
+  "propro.console_overview": "Analyse Overview",
 
   // 系统错误
   "propro.network_error":
@@ -142,6 +142,13 @@ let language_en = {
 
   // 更新公共标准库
   "propro.public_lib_update_title": "Update Public Library",
+  "propro.public_lib_update_only_target_peptides": "Only Target Peptides",
+  "propro.public_lib_update_upload_csv_library":
+    "Please upload a Library in CSV/TraML format",
+  "propro.public_lib_update_upload_file_description":
+    "Click or drag file to this area to upload",
+  "propro.public_lib_update_only_upload_peptide_list": "Upload Peptide List",
+  "propro.public_lib_update_submit": "Update",
 
   "propro.end": "end"
 };
