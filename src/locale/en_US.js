@@ -150,6 +150,57 @@ let language_en = {
   "propro.public_lib_update_only_upload_peptide_list": "Upload Peptide List",
   "propro.public_lib_update_submit": "Update",
 
+  // 标准库
+  "propro.standard_lib_title": "Library List",
+  "propro.standard_lib_search": "Search",
+  "propro.standard_lib_reset": "Reset",
+  "propro.standard_lib_index": "Serial Number",
+  "propro.standard_lib_id": "Library ID",
+  "propro.standard_lib_name": "Library Name",
+  "propro.standard_lib_protein_count": "Proteins Count",
+  "propro.standard_lib_total_count": "Peptides Count",
+  "propro.standard_lib_create_time": "Create Date",
+  "propro.standard_lib_is_public": "Is Public",
+  "propro.standard_lib_creator": "Creator",
+  "propro.standard_lib_operation": "Operation",
+  "propro.standard_lib_detail": "Details",
+  "propro.standard_lib_protein_list": "Protein List",
+  "propro.standard_lib_peptides_list": "Peptides List",
+
+  // 标准库详情
+  "propro.standard_lib_detail_title": "Public Library Detail",
+  "propro.standard_lib": "Public Library",
+  "propro.standard_lib_detail_id": "Library ID",
+  "propro.standard_lib_detail_name": "Library Name",
+  "propro.standard_lib_detail_lib_type": "Library Type",
+  "propro.standard_lib_detail_generator": "Generator",
+  "propro.standard_lib_detail_protein_count": "Proteins Count",
+  "propro.standard_lib_detail_unique_protein_count": "Unique Proteins Count",
+  "propro.standard_lib_detail_deweight_protein_count":
+    "Library  De-Weight Protein Count",
+  "propro.standard_lib_detail_peptide_count": "Peptides Count",
+  "propro.standard_lib_detail_unique_peptide_count": "Unique Peptides Count",
+  "propro.standard_lib_detail_deweight_peptide_count":
+    "Library De-weight Target Peptide Count",
+  "propro.standard_lib_detail_fastade_weight_protein_count":
+    "Fasta De-Weight Protein Count",
+  "propro.standard_lib_detail_fastade_weight_peptide_count":
+    "Fasta De-weight Target Peptide Count",
+  "propro.standard_lib_detail_description": "Detailed description",
+  "propro.standard_lib_detail_creator": "Creator",
+  "propro.standard_lib_detail_create_time": "Creation Date",
+  "propro.standard_lib_detail_last_modify_time": "Last Modified Date",
+  "propro.standard_lib_detail_peptide_analyse": "Peptide Analyse",
+  "propro.standard_lib_detail_re_statistic_analyse":
+    "Recount For Protein and Peptide",
+  "propro.standard_lib_detail_generating_pseudopeptides": "Generate Decoy",
+  "propro.standard_lib_detail_delete_pseudopeptides": "Delete Decoy",
+  "propro.standard_lib_detail_modify": "Modify",
+  "propro.standard_lib_detail_delete": "Delete",
+  "propro.standard_lib_detail_running": "Running",
+  "propro.standard_lib_detail_success": "Success",
+  "propro.standard_lib_detail_failed": "Failed",
+
   "propro.end": "end"
 };
 

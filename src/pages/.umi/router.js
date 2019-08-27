@@ -68,6 +68,17 @@ const routes = [
         exact: true,
       },
       {
+        path: '/library/standard_library',
+        component: require('../propro/library/standard_library').default,
+        exact: true,
+      },
+      {
+        path: '/library/standard_library/detail/*',
+        component: require('../propro/library/standard_library_id_detail')
+          .default,
+        exact: true,
+      },
+      {
         path: '/library/public_library/detail/*',
         component: require('../propro/library/public_library_id_detail')
           .default,

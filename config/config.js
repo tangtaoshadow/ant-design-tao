@@ -58,6 +58,15 @@ export default {
           component: "propro/library/public_library"
         },
         {
+          path: "/library/standard_library",
+          component: "propro/library/standard_library"
+        },
+        {
+          // 显示标准库 指定id的 详情 * id
+          path: "/library/standard_library/detail/*",
+          component: "propro/library/standard_library_id_detail"
+        },
+        {
           // 显示公共标准库 指定id的 详情 * id
           path: "/library/public_library/detail/*",
           component: "propro/library/public_library_id_detail"
@@ -89,7 +98,7 @@ export default {
   // 设置转发
   proxy: {
     "/propro_server": {
-      target: "http://localhost:803/",
+      target: "http://localhost:805/",
       // 去掉头部
       pathRewrite: { "^/propro_server": "" },
       changeOrigin: true

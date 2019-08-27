@@ -143,6 +143,55 @@ let language_ch = {
   "propro.public_lib_update_only_upload_peptide_list": "上传肽段列表",
   "propro.public_lib_update_submit": "更新",
 
+  // 标准库
+  "propro.standard_lib_title": "标准库列表",
+  "propro.standard_lib_search": "搜索",
+  "propro.standard_lib_reset": "重置",
+  "propro.standard_lib_index": "序列号",
+  "propro.standard_lib_id": "标准库id",
+  "propro.standard_lib_name": "标准库名称",
+  "propro.standard_lib_protein_count": "蛋白质数目",
+  "propro.standard_lib_total_count": "肽段数目",
+  "propro.standard_lib_create_time": "创建时间",
+  "propro.standard_lib_is_public": "是否公开",
+  "propro.standard_lib_creator": "创建者",
+  "propro.standard_lib_operation": "操作",
+  "propro.standard_lib_detail": "详情",
+  "propro.standard_lib_protein_list": "蛋白质列表",
+  "propro.standard_lib_peptides_list": "肽段列表",
+
+  // 标准库详情
+  "propro.standard_lib_detail_title": "标准库详情页",
+  "propro.standard_lib": "标准库",
+  "propro.standard_lib_detail_id": "标准库ID",
+  "propro.standard_lib_detail_name": "标准库名称",
+  "propro.standard_lib_detail_lib_type": "库类型",
+  "propro.standard_lib_detail_generator": "Generator",
+  "propro.standard_lib_detail_protein_count": "蛋白质数目",
+  "propro.standard_lib_detail_unique_protein_count": "Unique 蛋白质数目",
+  "propro.standard_lib_detail_deweight_protein_count": "Library 去除蛋白数目",
+  "propro.standard_lib_detail_peptide_count": "肽段数目",
+  "propro.standard_lib_detail_unique_peptide_count": "Unique 肽段数目",
+  "propro.standard_lib_detail_deweight_peptide_count": "Library 去除真肽段数目",
+  "propro.standard_lib_detail_fastade_weight_protein_count":
+    "Fasta 去除蛋白数目",
+  "propro.standard_lib_detail_fastade_weight_peptide_count":
+    "Fasta去除真肽段数目",
+  "propro.standard_lib_detail_description": "详情描述",
+  "propro.standard_lib_detail_creator": "创建者",
+  "propro.standard_lib_detail_create_time": "创建时间",
+  "propro.standard_lib_detail_last_modify_time": "最后修改时间",
+  "propro.standard_lib_detail_peptide_analyse": "肽段分析",
+  "propro.standard_lib_detail_re_statistic_analyse":
+    "重新统计蛋白质与肽段的数目",
+  "propro.standard_lib_detail_generating_pseudopeptides": "生成伪肽段",
+  "propro.standard_lib_detail_delete_pseudopeptides": "删除伪肽段",
+  "propro.standard_lib_detail_modify": "修改",
+  "propro.standard_lib_detail_delete": "删除",
+  "propro.standard_lib_detail_running": "运行",
+  "propro.standard_lib_detail_success": "成功",
+  "propro.standard_lib_detail_failed": "失败",
+
   "propro.end": "end"
 };
 
