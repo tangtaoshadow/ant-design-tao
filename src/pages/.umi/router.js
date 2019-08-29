@@ -90,6 +90,16 @@ const routes = [
         exact: true,
       },
       {
+        path: '/library/standard_library/update/*',
+        component: require('../propro/library/standard_library_update').default,
+        exact: true,
+      },
+      {
+        path: '/library/standard_library_create',
+        component: require('../propro/library/standard_library_create').default,
+        exact: true,
+      },
+      {
         path: '/test',
         component: require('../propro/test').default,
         exact: true,

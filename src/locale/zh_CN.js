@@ -192,6 +192,20 @@ let language_ch = {
   "propro.standard_lib_detail_success": "成功",
   "propro.standard_lib_detail_failed": "失败",
 
+  // 创建标准库
+
+  "propro.standard_library_create_title": "创建标准库",
+  "propro.standard_library_detail_name": "标准库名称",
+  "propro.standard_library_detail_lib_type": "库类型",
+  "propro.standard_library_detail_description": "详情描述",
+  "propro.standard_library_create_upload_csv_library":
+    "请上传CSV/TraML格式的Library",
+  "propro.standard_library_create_upload_file_description":
+    "单击或拖动文件到此区域进行上传",
+  "propro.standard_library_create_only_upload_peptide_list": "上传肽段列表",
+  "propro.standard_library_create_only_name": "标准库名称必须唯一",
+  "propro.standard_library_create_submit": "创建",
+
   "propro.end": "end"
 };
 

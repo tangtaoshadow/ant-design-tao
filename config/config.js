@@ -76,6 +76,15 @@ export default {
           path: "/library/public_library/update/*",
           component: "propro/library/public_library_update"
         },
+        {
+          // 更新标准库 指定id * id_name
+          path: "/library/standard_library/update/*",
+          component: "propro/library/standard_library_update"
+        },
+        {
+          path: "/library/standard_library_create",
+          component: "propro/library/standard_library_create"
+        },
         // {
         //   path: '/locale',
         //   component: 'propro/locale'

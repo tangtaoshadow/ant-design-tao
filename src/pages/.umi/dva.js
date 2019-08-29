@@ -27,7 +27,9 @@ app.model({ namespace: 'public_library_id_detail', ...(require('F:/java/antd-2/a
 app.model({ namespace: 'public_library_update', ...(require('F:/java/antd-2/ant-design-tao/src/models/public_library_update.js').default) });
 app.model({ namespace: 'public_library', ...(require('F:/java/antd-2/ant-design-tao/src/models/public_library.js').default) });
 app.model({ namespace: 'puzzlecards', ...(require('F:/java/antd-2/ant-design-tao/src/models/puzzlecards.js').default) });
+app.model({ namespace: 'standard_library_create', ...(require('F:/java/antd-2/ant-design-tao/src/models/standard_library_create.js').default) });
 app.model({ namespace: 'standard_library_id_detail', ...(require('F:/java/antd-2/ant-design-tao/src/models/standard_library_id_detail.js').default) });
+app.model({ namespace: 'standard_library_update', ...(require('F:/java/antd-2/ant-design-tao/src/models/standard_library_update.js').default) });
 app.model({ namespace: 'standard_library', ...(require('F:/java/antd-2/ant-design-tao/src/models/standard_library.js').default) });
   return app;
 }

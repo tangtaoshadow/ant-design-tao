@@ -201,6 +201,23 @@ let language_en = {
   "propro.standard_lib_detail_success": "Success",
   "propro.standard_lib_detail_failed": "Failed",
 
+  // 创建标准库
+
+  "propro.standard_library_create_title": "Create Library",
+  "propro.standard_library_detail_name": "Library Name",
+  "propro.standard_library_detail_lib_type": "Library Type",
+  "propro.standard_library_detail_description": "Detailed description",
+  "propro.standard_library_create_upload_csv_library":
+    "Please upload a Library in CSV/TraML format",
+  "propro.standard_library_create_upload_file_description":
+    "Click or drag file to this area to upload",
+  "propro.standard_library_create_only_upload_peptide_list":
+    "Upload Peptide List",
+  "propro.standard_library_create_only_name":
+    "The name of the standard library must be unique",
+
+  "propro.standard_library_create_submit": "Create",
+
   "propro.end": "end"
 };
 
