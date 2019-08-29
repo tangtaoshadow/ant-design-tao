@@ -150,6 +150,19 @@ let language_en = {
   "propro.public_lib_update_only_upload_peptide_list": "Upload Peptide List",
   "propro.public_lib_update_submit": "Update",
 
+  // 更新 标准库
+  "propro.standard_library_update_title": "Update Library",
+  "propro.standard_library_update_only_target_peptides": "Only Target Peptides",
+  "propro.standard_library_update_upload_csv_library":
+    "Please upload a Library in CSV/TraML format",
+  "propro.standard_library_update_upload_file_description":
+    "Click or drag file to this area to upload",
+  "propro.standard_library_update_only_upload_peptide_list":
+    "Upload Peptide List",
+  "propro.standard_library_update_submit": "Update",
+  "propro.standard_library_update_success": "Success",
+  "propro.standard_library_update_failed": "Failed",
+
   // 标准库
   "propro.standard_lib_title": "Library List",
   "propro.standard_lib_search": "Search",

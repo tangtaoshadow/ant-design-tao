@@ -7,6 +7,18 @@
 //     }
 
 // }
+
+/***
+ * @Author              TangTao https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @CreateTime          2019-7-12 19:18:52
+ * @UpdateTime          2019-8-29 22:08:08
+ * @Archive             国际化 中文 Chinese
+ *
+ */
+
 /****************  中文  *******************************/
 /****************  中文  *******************************/
 /****************  中文  *******************************/
@@ -142,6 +154,18 @@ let language_ch = {
     "单击或拖动文件到此区域进行上传",
   "propro.public_lib_update_only_upload_peptide_list": "上传肽段列表",
   "propro.public_lib_update_submit": "更新",
+
+  // 更新标准库
+  "propro.standard_library_update_title": "更新标准库",
+  "propro.standard_library_update_only_target_peptides": "仅录入真实肽段",
+  "propro.standard_library_update_upload_csv_library":
+    "请上传CSV/TraML格式的Library",
+  "propro.standard_library_update_upload_file_description":
+    "单击或拖动文件到此区域进行上传",
+  "propro.standard_library_update_only_upload_peptide_list": "上传肽段列表",
+  "propro.standard_library_update_submit": "更新",
+  "propro.standard_library_update_success": "成功",
+  "propro.standard_library_update_failed": "失败",
 
   // 标准库
   "propro.standard_lib_title": "标准库列表",
