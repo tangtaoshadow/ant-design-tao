@@ -1,0 +1,29 @@
+@font-face
+{
+    font-family: customFont01;
+    src: url('../assets/NotoSansHans-Regular.otf');
+        
+}
+
+body{
+    font-family:customFont01,"PingFang SC","Lantinghei SC","Microsoft YaHei","HanHei SC","Helvetica Neue","Open Sans",Arial,"Hiragino Sans GB","微软雅黑",STHeiti,"WenQuanYi Micro Hei",SimSun,sans-serif;
+}
+/* 去掉所有下划线 */
+a{ text-decoration:none !important;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
