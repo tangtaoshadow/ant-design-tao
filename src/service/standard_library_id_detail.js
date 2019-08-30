@@ -143,3 +143,32 @@ export function delete_pseudopeptides(payload) {
     method: "POST"
   });
 }
+
+// 删除指定id的标准库
+export function delete_standard_library_by_id(payload) {
+  let { id = "" } = payload;
+  // 检验id
+  if (5 > id.length) {
+    return "error";
+  }
+  // 读取最新的 token
+  let token = tao.get_token();
+
+  if (-1 == token) {
+    // 不存在 token
+    return "error";
+  }
+
+  // 发起查询
+  let bodys = "";
+  bodys += "id" + "=" + id + "&";
+
+  return request("/propro_server/library/delete", {
+    headers: {
+      token: token,
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    },
+    body: bodys,
+    method: "POST"
+  });
+}

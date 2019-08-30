@@ -27,7 +27,9 @@ let model = {
     standard_library_list_time: 0,
     current_page: -1,
     total_page: -1,
-    library_list: []
+    library_list: [],
+    standard_library_set_public_status: -1,
+    standard_library_set_public_time: 0
   },
 
   effects: {
@@ -46,6 +48,24 @@ let model = {
       }
       yield put({
         type: "get_standard_library_list_result",
+        payload: result
+      });
+      return 0;
+    },
+    *set_library_public_by_id({ payload }, sagaEffects) {
+      const { call, put } = sagaEffects;
+      let result = "";
+      try {
+        // 捕获异常
+        result = yield call(
+          standard_library_service.set_library_public_by_id,
+          payload
+        );
+      } catch (e) {
+        result = "";
+      }
+      yield put({
+        type: "set_library_public_by_id_result",
         payload: result
       });
       return 0;
@@ -72,15 +92,53 @@ let model = {
       // 尝试提取返回结果
       let res_status = -1;
       let obj = {};
+      for (let i in state) {
+        obj[i] = state[i];
+      }
+
       if ("error" != result) {
         try {
           // 尝试提取 服务端返回数据 error_1 与 error 区分
           let { status = "error_1" } = result;
-
           (obj.current_page = result.currentPage),
             (obj.total_page = result.totalPage),
             (obj.library_list = result.libraryList);
+          // 如果提取到 status 那么就 把 status 返回
+          res_status = "error_1" == status ? -1 : status;
+        } catch (e) {
+          // 转换出错
+        }
+      } else {
+        // 这里本地出错
+      }
+      obj.standard_library_list_time = new Date().getTime();
 
+      // 1 检查 返回数据状态
+      if (-1 == res_status) {
+        // 发生严重错误
+        (obj.standard_library_list_status = res_status),
+          (obj.current_page = -1),
+          (obj.total_page = -1),
+          (obj.library_list = []);
+        return obj;
+      }
+
+      // 2 成功获取数据
+      obj.standard_library_list_status = res_status;
+
+      return obj;
+    },
+    set_library_public_by_id_result(state, { payload: result }) {
+      let res_status = -1;
+      let obj = {};
+      for (let i in state) {
+        obj[i] = state[i];
+      }
+
+      if ("error" != result) {
+        try {
+          // 尝试提取 服务端返回数据 error_1 与 error 区分
+          let { status = "error_1" } = result;
           // 如果提取到 status 那么就 把 status 返回
           res_status = "error_1" == status ? -1 : status;
         } catch (e) {
@@ -90,25 +148,17 @@ let model = {
         // 这里本地出错
       }
 
-      // 1 检查 返回数据状态
+      obj.standard_library_set_public_time = new Date().getTime();
 
+      // 1 检查 返回数据状态
       if (-1 == res_status) {
         // 发生严重错误
-        let obj_err = {
-          standard_library_list_status: -2,
-          // 最新获取数据的时间戳
-          standard_library_list_time: new Date().getTime(),
-          current_page: -1,
-          total_page: -1,
-          library_list: []
-        };
-
-        return obj_err;
+        obj.standard_library_set_public_status = res_status;
+        return obj;
       }
 
       // 2 成功获取数据
-      obj.standard_library_list_status = res_status;
-      obj.standard_library_list_time = new Date().getTime();
+      obj.standard_library_set_public_status = res_status;
 
       return obj;
     }

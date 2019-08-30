@@ -250,14 +250,14 @@ class Public_library extends React.Component {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          <FormattedHTMLMessage id="propro.public_lib_search" />
+          <FormattedHTMLMessage id="propro.public_library_search" />
         </Button>
         <Button
           onClick={() => this.handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          <FormattedHTMLMessage id="propro.public_lib_reset" />
+          <FormattedHTMLMessage id="propro.public_library_reset" />
         </Button>
       </div>
     ),
@@ -306,7 +306,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_lib_index" />
+            <FormattedHTMLMessage id="propro.public_library_index" />
           </span>
         ),
         dataIndex: "index",
@@ -324,7 +324,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_lib_name" />
+            <FormattedHTMLMessage id="propro.public_library_name" />
           </span>
         ),
         // dataIndex: "name",
@@ -349,7 +349,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_lib_id" />
+            <FormattedHTMLMessage id="propro.public_library_id" />
           </span>
         ),
         dataIndex: "id",
@@ -367,7 +367,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_lib_is_public" />
+            <FormattedHTMLMessage id="propro.public_library_is_public" />
           </span>
         ),
         dataIndex: "is_public",
@@ -396,7 +396,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_lib_protein_count" />
+            <FormattedHTMLMessage id="propro.public_library_protein_count" />
           </span>
         ),
         dataIndex: "protein_count",
@@ -412,7 +412,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_lib_protein_count" />
+            <FormattedHTMLMessage id="propro.public_library_protein_count" />
           </span>
         ),
         dataIndex: "total_count",
@@ -428,7 +428,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_lib_create_time" />
+            <FormattedHTMLMessage id="propro.public_library_create_time" />
           </span>
         ),
         dataIndex: "create_date",
@@ -449,7 +449,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_lib_creator" />
+            <FormattedHTMLMessage id="propro.public_library_creator" />
           </span>
         ),
         dataIndex: "creator",
@@ -465,7 +465,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_lib_operation" />
+            <FormattedHTMLMessage id="propro.public_library_operation" />
           </span>
         ),
         key: "action",
@@ -475,7 +475,9 @@ class Public_library extends React.Component {
             <Fragment key="2019-8-16 00:32:54">
               {/* 详情链接 */}
               <Tooltip
-                title={<FormattedHTMLMessage id="propro.public_lib_detail" />}
+                title={
+                  <FormattedHTMLMessage id="propro.public_library_detail" />
+                }
               >
                 <Link to={"/library/public_library/detail/" + list.id}>
                   <button
@@ -495,13 +497,20 @@ class Public_library extends React.Component {
                   </button>
                 </Link>
               </Tooltip>
-              {/* 蛋白质列表链接 */}
+              {/* 更新链接 */}
               <Tooltip
                 title={
-                  <FormattedHTMLMessage id="propro.public_lib_protein_list" />
+                  <FormattedHTMLMessage id="propro.public_library_update" />
                 }
               >
-                <Link to={"/library/public_library/detail/" + list.id}>
+                <Link
+                  to={
+                    "/library/standard_library/update/" +
+                    list.id +
+                    "_" +
+                    list.name
+                  }
+                >
                   <button
                     type="button"
                     className={"btn " + `${styles.bg_primary_color}`}
@@ -522,7 +531,7 @@ class Public_library extends React.Component {
               {/* 肽段列表链接 */}
               <Tooltip
                 title={
-                  <FormattedHTMLMessage id="propro.public_lib_peptides_list" />
+                  <FormattedHTMLMessage id="propro.public_library_peptides_list" />
                 }
               >
                 <Link to={"/library/public_library/detail/" + list.id}>
@@ -597,7 +606,7 @@ class Public_library extends React.Component {
               />
             </Link>
           </Tooltip>
-          <FormattedHTMLMessage id="propro.public_lib_title" />
+          <FormattedHTMLMessage id="propro.public_library_title" />
         </div>
         <div
           style={{

@@ -89,10 +89,22 @@ const public_library_state_to_props = state => {
   let {
     public_library_list_id_detail_status,
     public_library_list_id_detail_time,
-    public_library_id_detail_data
+    public_library_id_detail_data,
+    public_library_id_aggregate_status,
+    public_library_id_aggregate_time,
+    public_library_id_delete_pseudopeptides_time,
+    public_library_id_delete_pseudopeptides_status,
+    delete_public_library_by_id_time,
+    delete_public_library_by_id_status
   } = state["public_library_id_detail"];
 
-  (obj.public_library_list_id_detail_status = public_library_list_id_detail_status),
+  (obj.delete_public_library_by_id_status = delete_public_library_by_id_status),
+    (obj.delete_public_library_by_id_time = delete_public_library_by_id_time),
+    (obj.public_library_id_delete_pseudopeptides_status = public_library_id_delete_pseudopeptides_status),
+    (obj.public_library_id_delete_pseudopeptides_time = public_library_id_delete_pseudopeptides_time),
+    (obj.public_library_id_aggregate_status = public_library_id_aggregate_status),
+    (obj.public_library_id_aggregate_time = public_library_id_aggregate_time),
+    (obj.public_library_list_id_detail_status = public_library_list_id_detail_status),
     (obj.public_library_list_id_detail_time = public_library_list_id_detail_time),
     (obj.public_library_id_detail_data = public_library_id_detail_data);
   return obj;
@@ -105,6 +117,38 @@ const public_library_dispatch_to_props = dispatch => {
       const action = {
         type: "public_library_id_detail/get_library_list_id_detail",
         payload: id
+      };
+      dispatch(action);
+    },
+    // 重新统计
+    aggregate: id => {
+      const action = {
+        type: "public_library_id_detail/aggregate",
+        payload: id
+      };
+      dispatch(action);
+    },
+    // 生成伪肽段
+    generate: obj => {
+      const action = {
+        type: "public_library_id_detail/generate",
+        payload: obj
+      };
+      dispatch(action);
+    },
+    // 删除肽段
+    delete_pseudopeptides: obj => {
+      const action = {
+        type: "public_library_id_detail/delete_pseudopeptides",
+        payload: obj
+      };
+      dispatch(action);
+    },
+    // 删除公共标准库
+    delete_public_library_by_id: obj => {
+      const action = {
+        type: "public_library_id_detail/delete_public_library_by_id",
+        payload: obj
       };
       dispatch(action);
     },
@@ -129,10 +173,19 @@ class Library_list_detail extends React.Component {
     super(props);
     this.state = {
       public_library_list_id_detail_status: -1,
-      public_library_id_detail_data: {}
+      public_library_id_detail_data: {},
+      public_library_id: -1,
+      modal_visible: false
     };
     //   调用查询
     this.query_list_id_detail();
+    // 配置 message
+    message.config({
+      top: 480,
+      duration: 2,
+      maxCount: 5,
+      getContainer: () => document.body
+    });
   }
 
   query_list_id_detail = () => {
@@ -142,6 +195,12 @@ class Library_list_detail extends React.Component {
     let index = url.lastIndexOf("/");
     let id = url.substring(index + 1, url.length);
     this.props.get_public_library_list(id);
+    setTimeout(() => {
+      // 写入 id
+      this.setState({
+        public_library_id: id
+      });
+    }, 120);
   };
 
   handel_public_library_list_id_detail = () => {
@@ -226,6 +285,199 @@ class Library_list_detail extends React.Component {
     });
   };
 
+  // 重新统计
+  aggregate = () => {
+    // 获取到当前页面的id
+    let id = this.state.public_library_id;
+    this.props.aggregate(id);
+    let { language } = this.props;
+    message.loading(
+      Languages[language]["propro.public_library_detail_re_statistic_analyse"] +
+        " : " +
+        Languages[language]["propro.public_library_detail_running"],
+      3.5
+    );
+  };
+
+  // 生成伪肽段
+  generate = value => {
+    // 读取 id
+    let { language } = this.props;
+
+    let id = this.state.public_library_id;
+
+    let obj = {
+      id: id,
+      generator: value
+    };
+    // 调用 生成伪肽段 api
+
+    this.props.generate(obj);
+    //
+    message.loading(
+      Languages[language][
+        "propro.public_library_detail_generating_pseudopeptides"
+      ] +
+        " : " +
+        Languages[language]["propro.public_library_detail_running"],
+      3.5
+    );
+  };
+
+  handle_public_library_id_aggregate = () => {
+    // 更新
+    // 时间戳设置为 0
+    this.props.set_state_newvalue({
+      target: "public_library_id_aggregate_time",
+      value: 0
+    });
+
+    let { language } = this.props;
+
+    // 读取状态
+    if (0 == this.props.public_library_id_aggregate_status) {
+      // 更新成功
+      setTimeout(() => {
+        // 提示
+        message.success(
+          Languages[language][
+            "propro.public_library_detail_re_statistic_analyse"
+          ] +
+            " : " +
+            Languages[language]["propro.public_library_detail_success"],
+          4
+        );
+      }, 220);
+    } else {
+      // 更新失败
+      setTimeout(() => {
+        // 提示
+        message.error(
+          Languages[language][
+            "propro.public_library_detail_re_statistic_analyse"
+          ] +
+            " : " +
+            Languages[language]["propro.public_library_detail_failed"],
+          4
+        );
+      }, 220);
+    }
+    return 0;
+  };
+
+  delete_pseudopeptides = () => {
+    let id = this.state.public_library_id;
+    let { language } = this.props;
+
+    let obj = {
+      id: id
+    };
+    this.props.delete_pseudopeptides(obj);
+    message.loading(
+      Languages[language][
+        "propro.public_library_detail_delete_pseudopeptides"
+      ] +
+        " : " +
+        Languages[language]["propro.public_library_detail_running"],
+      3.5
+    );
+  };
+
+  handle_public_library_id_delete_pseudopeptides = () => {
+    // 处理 删除肽段
+    // 时间戳设置为 0
+    this.props.set_state_newvalue({
+      target: "public_library_id_delete_pseudopeptides_time",
+      value: 0
+    });
+
+    let { language } = this.props;
+
+    // 读取状态
+    if (0 == this.props.public_library_id_delete_pseudopeptides_status) {
+      // 更新成功
+      setTimeout(() => {
+        // 提示
+        message.success(
+          Languages[language][
+            "propro.public_library_detail_delete_pseudopeptides"
+          ] +
+            " : " +
+            Languages[language]["propro.public_library_detail_success"],
+          4
+        );
+      }, 220);
+    } else {
+      // 更新失败
+      setTimeout(() => {
+        // 提示
+        message.error(
+          Languages[language][
+            "propro.public_library_detail_delete_pseudopeptides"
+          ] +
+            " : " +
+            Languages[language]["propro.public_library_detail_failed"],
+          4
+        );
+      }, 220);
+    }
+  };
+
+  // 删除当前库
+  delete_library_by_id = () => {
+    // 获取到当前库的id
+    // 发起警告
+    this.setState({
+      modal_visible: true
+    });
+  };
+  delete_library_by_id_confirm = () => {
+    let { public_library_id } = this.state;
+
+    this.props.delete_public_library_by_id({ id: public_library_id });
+    this.setState({
+      modal_visible: false
+    });
+  };
+  delete_library_by_id_cancel = () => {
+    this.setState({
+      modal_visible: false
+    });
+  };
+
+  handle_delete_public_library_by_id = () => {
+    // 处理删除标准库的结果
+    // 时间戳归零
+    this.props.set_state_newvalue({
+      target: "delete_public_library_by_id_time",
+      value: 0
+    });
+    let { delete_public_library_by_id_status, language } = this.props;
+
+    if (0 == delete_public_library_by_id_status) {
+      // 删除成功
+      // 弹出删除成功
+      message.success(
+        Languages[language]["propro.public_library_detail_delete_by_id"] +
+          " : " +
+          Languages[language]["propro.public_library_detail_success"],
+        4
+      );
+      // 延时跳转到 标准库页面
+      setTimeout(() => {
+        this.props.history.push("/library/public_library");
+      }, 800);
+    } else {
+      // 删除失败
+      message.error(
+        Languages[language]["propro.public_library_detail_delete_by_id"] +
+          " : " +
+          Languages[language]["propro.public_library_detail_failed"],
+        4
+      );
+    }
+  };
+
   render() {
     // 监控 public_library_list 数据变化
     if (0 != this.props.public_library_list_id_detail_time) {
@@ -251,6 +503,21 @@ class Library_list_detail extends React.Component {
       );
     }
 
+    if (10000 < this.props.public_library_id_aggregate_time) {
+      // 重新统计 更新
+      this.handle_public_library_id_aggregate();
+    }
+
+    if (10000 < this.props.public_library_id_delete_pseudopeptides_time) {
+      // 删除肽段 更新
+      this.handle_public_library_id_delete_pseudopeptides();
+    }
+
+    // 监控删除标准库
+    if (10000 < this.props.delete_public_library_by_id_time) {
+      this.handle_delete_public_library_by_id();
+    }
+
     const detail_data = this.state.public_library_id_detail_data;
 
     return (
@@ -265,7 +532,7 @@ class Library_list_detail extends React.Component {
         >
           <Tooltip
             placement="topLeft"
-            title={<FormattedHTMLMessage id="propro.public_lib_title" />}
+            title={<FormattedHTMLMessage id="propro.public_library_title" />}
           >
             <Link to="/library/public_library">
               <img
@@ -278,8 +545,27 @@ class Library_list_detail extends React.Component {
             </Link>
           </Tooltip>
 
-          <FormattedHTMLMessage id="propro.public_lib_detail_title" />
+          <FormattedHTMLMessage id="propro.public_library_detail_title" />
         </div>
+
+        {/* 提示用户警告信息 */}
+        <Modal
+          title={
+            <b>
+              <FormattedHTMLMessage id="propro.modal_title" />
+            </b>
+          }
+          visible={this.state.modal_visible}
+          onOk={this.delete_library_by_id_confirm}
+          onCancel={this.delete_library_by_id_cancel}
+          maskClosable={true}
+          okText={<FormattedHTMLMessage id="propro.modal_confirm" />}
+          cancelText={<FormattedHTMLMessage id="propro.modal_cancel" />}
+        >
+          <div className={styles.font_red_color}>
+            <FormattedHTMLMessage id="propro.public_library_detail_delete_warning" />
+          </div>
+        </Modal>
 
         <div
           style={{
@@ -310,7 +596,7 @@ class Library_list_detail extends React.Component {
                   <Fragment>
                     <Row>
                       <Col lg={8}>
-                        <FormattedHTMLMessage id="propro.public_lib_detail_creator" />
+                        <FormattedHTMLMessage id="propro.public_library_detail_creator" />
                         :&nbsp;
                         <span
                           className={"badge " + `${styles.bg_second_color}`}
@@ -320,7 +606,7 @@ class Library_list_detail extends React.Component {
                         </span>
                       </Col>
                       <Col lg={8}>
-                        <FormattedHTMLMessage id="propro.public_lib_detail_create_time" />
+                        <FormattedHTMLMessage id="propro.public_library_detail_create_time" />
                         :&nbsp;
                         <span
                           className={"badge " + `${styles.bg_green_color}`}
@@ -331,7 +617,7 @@ class Library_list_detail extends React.Component {
                       </Col>
 
                       <Col lg={8}>
-                        <FormattedHTMLMessage id="propro.public_lib_detail_last_modify_time" />
+                        <FormattedHTMLMessage id="propro.public_library_detail_last_modify_time" />
                         :&nbsp;
                         <span
                           className={"badge " + `${styles.bg_yellow_color}`}
@@ -346,7 +632,7 @@ class Library_list_detail extends React.Component {
               >
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_id" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_id" />
                   }
                   span={2}
                 >
@@ -355,7 +641,7 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_name" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_name" />
                   }
                   span={2}
                 >
@@ -364,13 +650,13 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_lib_type" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_library_type" />
                   }
                   span={2}
                 >
                   <span className={styles.font_primary_color}>
                     {0 == detail_data.type ? (
-                      <FormattedHTMLMessage id="propro.public_lib" />
+                      <FormattedHTMLMessage id="propro.public_library" />
                     ) : (
                       "IRT Library"
                     )}
@@ -379,7 +665,7 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_generator" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_generator" />
                   }
                   span={2}
                 >
@@ -390,7 +676,7 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_protein_count" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_protein_count" />
                   }
                   span={2}
                 >
@@ -410,7 +696,7 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_unique_protein_count" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_unique_protein_count" />
                   }
                   span={2}
                 >
@@ -430,7 +716,7 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_deweight_protein_count" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_deweight_protein_count" />
                   }
                   span={2}
                 >
@@ -450,7 +736,7 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_peptide_count" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_peptide_count" />
                   }
                   span={2}
                 >
@@ -470,7 +756,7 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_unique_peptide_count" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_unique_peptide_count" />
                   }
                   span={2}
                 >
@@ -490,7 +776,7 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_deweight_peptide_count" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_deweight_peptide_count" />
                   }
                   span={2}
                 >
@@ -510,7 +796,7 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_fastade_weight_protein_count" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_fastade_weight_protein_count" />
                   }
                   span={2}
                 >
@@ -530,7 +816,7 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_fastade_weight_peptide_count" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_fastade_weight_peptide_count" />
                   }
                   span={2}
                 >
@@ -550,7 +836,7 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_description" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_description" />
                   }
                   span={4}
                 >
@@ -570,74 +856,76 @@ class Library_list_detail extends React.Component {
 
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.public_lib_detail_peptide_analyse" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_peptide_analyse" />
                   }
                   span={4}
                 >
-                  <Link to="/console">
-                    <button
-                      type="button"
-                      className="btn btn-outline-primary"
-                      style={{
-                        padding: "5px",
-                        height: "30px",
-                        fontSize: "12px",
-                        lineHeight: "20px"
-                      }}
-                    >
-                      <FormattedHTMLMessage id="propro.public_lib_detail_re_statistic_analyse" />
-                    </button>
-                  </Link>
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    style={{
+                      padding: "5px",
+                      height: "30px",
+                      fontSize: "12px",
+                      lineHeight: "20px"
+                    }}
+                    onClick={this.aggregate}
+                  >
+                    {/* 重新统计 */}
 
-                  <Link to="/console">
-                    <button
-                      type="button"
-                      className="btn btn-outline-dark"
-                      style={{
-                        padding: "5px",
-                        height: "30px",
-                        fontSize: "12px",
-                        lineHeight: "20px",
-                        marginLeft: "10px"
-                      }}
-                    >
-                      <FormattedHTMLMessage id="propro.public_lib_detail_generating_pseudopeptides" />
-                      (Shuffle)
-                    </button>
-                  </Link>
+                    <FormattedHTMLMessage id="propro.public_library_detail_re_statistic_analyse" />
+                  </button>
 
-                  <Link to="/console">
-                    <button
-                      type="button"
-                      className="btn btn-outline-dark"
-                      style={{
-                        padding: "5px",
-                        height: "30px",
-                        fontSize: "12px",
-                        lineHeight: "20px",
-                        marginLeft: "10px"
-                      }}
-                    >
-                      <FormattedHTMLMessage id="propro.public_lib_detail_generating_pseudopeptides" />
-                      (Nico)
-                    </button>
-                  </Link>
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark"
+                    style={{
+                      padding: "5px",
+                      height: "30px",
+                      fontSize: "12px",
+                      lineHeight: "20px",
+                      marginLeft: "10px"
+                    }}
+                    onClick={() => {
+                      this.generate("shuffle");
+                    }}
+                  >
+                    <FormattedHTMLMessage id="propro.public_library_detail_generating_pseudopeptides" />
+                    (Shuffle)
+                  </button>
 
-                  <Link to="/console">
-                    <button
-                      type="button"
-                      className="btn btn-outline-danger"
-                      style={{
-                        padding: "5px",
-                        height: "30px",
-                        fontSize: "12px",
-                        lineHeight: "20px",
-                        marginLeft: "10px"
-                      }}
-                    >
-                      <FormattedHTMLMessage id="propro.public_lib_detail_delete_pseudopeptides" />
-                    </button>
-                  </Link>
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark"
+                    style={{
+                      padding: "5px",
+                      height: "30px",
+                      fontSize: "12px",
+                      lineHeight: "20px",
+                      marginLeft: "10px"
+                    }}
+                    onClick={() => {
+                      this.generate("nico");
+                    }}
+                  >
+                    <FormattedHTMLMessage id="propro.public_library_detail_generating_pseudopeptides" />
+                    (Nico)
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-outline-danger"
+                    style={{
+                      padding: "5px",
+                      height: "30px",
+                      fontSize: "12px",
+                      lineHeight: "20px",
+                      marginLeft: "10px"
+                    }}
+                    onClick={this.delete_pseudopeptides}
+                  >
+                    <FormattedHTMLMessage id="propro.public_library_detail_delete_pseudopeptides" />
+                  </button>
                 </Descriptions.Item>
               </Descriptions>
 
@@ -666,24 +954,23 @@ class Library_list_detail extends React.Component {
                       marginLeft: "10px"
                     }}
                   >
-                    <FormattedHTMLMessage id="propro.public_lib_detail_modify" />
+                    <FormattedHTMLMessage id="propro.public_library_detail_modify" />
                   </button>
                 </Link>
-                <Link to="/console">
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    style={{
-                      padding: "5px 10px",
-                      height: "30px",
-                      fontSize: "14px",
-                      lineHeight: "20px",
-                      marginLeft: "30px"
-                    }}
-                  >
-                    <FormattedHTMLMessage id="propro.public_lib_detail_delete" />
-                  </button>
-                </Link>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  style={{
+                    padding: "5px 10px",
+                    height: "30px",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    marginLeft: "30px"
+                  }}
+                  onClick={this.delete_library_by_id}
+                >
+                  <FormattedHTMLMessage id="propro.public_library_detail_delete" />
+                </button>
               </Col>
             </Col>
           </Row>

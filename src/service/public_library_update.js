@@ -55,12 +55,47 @@ export async function update_library_list_id_detail(data) {
     return "error";
   }
 
-  console.log(body_data);
-
   // 注意 这里使用 reqwest 异步里面声明阻塞 切勿乱调用 支持文件上传
 
   return await reqwest({
     url: "/propro_server/library/update",
+    method: "post",
+    processData: false,
+    data: body_data,
+    type: "json",
+    headers: {
+      token: token
+    },
+    success: res => {
+      //  返回 json
+      return res;
+    },
+    error: () => {
+      return "error";
+    }
+  });
+}
+
+// 与 standard_library_update.js 使用同样的函数
+// 像这种类似的接口有很多，只是为了今后开发扩展更灵活
+export async function query_task_id(data = "") {
+  // 读取最新的 token
+  let token = tao.get_token();
+
+  if (-1 == token || "" == data) {
+    // 不存在 token
+    return "error";
+  }
+
+  let body_data = new FormData();
+  try {
+    body_data.append("taskId", data.task_id);
+  } catch (e) {
+    return "error";
+  }
+
+  return await reqwest({
+    url: "/propro_server/task/detail",
     method: "post",
     processData: false,
     data: body_data,

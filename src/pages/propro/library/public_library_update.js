@@ -43,12 +43,15 @@ import {
   Form,
   Radio,
   Checkbox,
-  Upload
+  Upload,
+  Timeline
 } from "antd";
 const { TextArea } = Input;
 import Highlighter from "react-highlight-words";
 import reqwest from "reqwest";
 import tao from "../../../utils/common";
+import $ from "jquery";
+
 /****************  导入组件 end ***************************/
 
 /****************  导入国际化语言 ***************************/
@@ -93,12 +96,18 @@ const public_library_state_update_to_props = state => {
   let {
     public_library_update_status,
     public_library_update_time,
-    public_library_id_detail_update_data
+    public_library_update_task_id,
+    public_library_query_task_time,
+    public_library_query_task_data,
+    public_library_query_task_status
   } = state["public_library_update"];
 
-  (obj.public_library_update_status = public_library_update_status),
+  (obj.public_library_query_task_time = public_library_query_task_time),
+    (obj.public_library_query_task_data = public_library_query_task_data),
+    (obj.public_library_query_task_status = public_library_query_task_status),
+    (obj.public_library_update_status = public_library_update_status),
     (obj.public_library_update_time = public_library_update_time),
-    (obj.public_library_id_detail_update_data = public_library_id_detail_update_data);
+    (obj.public_library_update_task_id = public_library_update_task_id);
   return obj;
 };
 
@@ -108,6 +117,13 @@ const public_library_update_dispatch_to_props = dispatch => {
     update_library_list_id_detail: data => {
       const action = {
         type: "public_library_update/update_library_list_id_detail",
+        payload: data
+      };
+      dispatch(action);
+    },
+    query_task_id: data => {
+      const action = {
+        type: "public_library_update/query_task_id",
         payload: data
       };
       dispatch(action);
@@ -138,15 +154,17 @@ class Public_library_update extends React.Component {
       public_library_update_status: -1,
       // 默认是 library
       public_library_type: "library",
-      // 边框样式
-      upload_csv_library_style: false,
       //
       public_lib_update_only_target_peptides: false,
       peptide_file_list: [],
       csv_library_file_list: [],
       public_lib_detail_description: null,
-      uploading: false
-      //   language: this.props.language
+      // 定时器
+      query_task_interval: null,
+      // 是否显示 task 进度
+      query_task_show: false,
+      // 输出的 元素
+      query_task_elements: null
     };
 
     // 注意: 这里实际上 id和name 是不允许更改的
@@ -196,21 +214,6 @@ class Public_library_update extends React.Component {
     });
   };
 
-  // 上传
-  upload_peptide_list_file = e => {
-    console.log("=============");
-    console.log(e);
-  };
-
-  before_upload_peptide_list_file = file => {
-    console.log(" before_upload_peptide_list_file ");
-    console.log(file);
-    this.setState(state => ({
-      peptide_file_list: [...state.peptide_file_list, file]
-    }));
-    return false;
-  };
-
   // 详情
   change_detail_description = e => {
     this.setState({
@@ -218,9 +221,6 @@ class Public_library_update extends React.Component {
     });
   };
 
-  aaaa = () => {
-    console.log("lllllllll");
-  };
   // 提交表单
   handle_submit = () => {
     // 读取 peptide_file_list
@@ -235,31 +235,181 @@ class Public_library_update extends React.Component {
     obj.detail_description = this.state.public_lib_detail_description;
 
     if ("" == obj.csv_library_file_list) {
-      console.log("nonono");
       return -1;
     }
 
     this.props.update_library_list_id_detail(obj);
   };
 
-  change_csv_file = e => {
-    this.setState({
-      csv_library_file_list: e.target.files[0]
+  handle_public_library_update = () => {
+    // 时间戳归零
+    this.props.set_state_newvalue({
+      target: "public_library_update_time",
+      value: 0
     });
-    console.log(e.target.files[0]);
-    console.log(e.target.value);
+    let { language } = this.props;
+    // 提取成功状态
+    setTimeout(() => {
+      if (0 == this.props.public_library_update_status) {
+        // 更新成功
+        setTimeout(() => {
+          // 提示成功
+          message.success(
+            Languages[language]["propro.public_library_update_title"] +
+              " : " +
+              Languages[language]["propro.public_library_update_success"],
+            2
+          );
+        }, 180);
+
+        console.log(this.props.public_library_update_task_id);
+        // 调用查询任务接口
+        try {
+          clearInterval(this.state.query_task_interval);
+        } catch (e) {
+          // pass
+        } finally {
+          this.setState({
+            query_task_interval: setInterval(() => {
+              this.props.query_task_id({
+                // 提取taskid
+                task_id: this.props.public_library_update_task_id
+              });
+            }, 2000)
+          });
+        }
+      } else {
+        // 更新失败
+        setTimeout(() => {
+          // 出错提示
+          message.error(
+            Languages[language]["propro.public_library_update_title"] +
+              " : " +
+              Languages[language]["propro.public_library_update_failed"],
+            4
+          );
+        }, 220);
+      }
+    }, 200);
   };
 
-  open_csv_file = () => {
-    // 打开上传文件
-    document.getElementById("public_lib_update_upload_csv_library").click();
-  };
+  handle_public_library_query_task = () => {
+    // 处理查询任务id的状态信息
+    // 时间戳归零
+    this.props.set_state_newvalue({
+      target: "public_library_query_task_time",
+      value: 0
+    });
+    // 调用显示任务进度
+    setTimeout(() => {
+      this.setState({
+        query_task_show: true
+      });
+    }, 200);
+    if (0 == this.props.public_library_query_task_status) {
+      // 提取成功
+      let { public_library_query_task_data } = this.props;
+      let {
+        lastModifiedDate,
+        id,
+        creator,
+        createDate,
+        logs,
+        name,
+        startTime,
+        status,
+        totalCost,
+        taskTemplate
+      } = public_library_query_task_data;
+      // 渲染数据
+      let elements = new Array();
+      elements.push(
+        <Timeline.Item dot={<Icon type="clock-circle-o" />} key={"elements-id"}>
+          <span className={styles.font_primary_color}>
+            {tao.format_time(createDate)}
+          </span>
+          <br />
+          <span className={styles.font_second_color}>
+            <b>creator:</b>&nbsp;&nbsp;
+          </span>
+          {creator}
+          <br />
+          <b className={styles.font_second_color}>taskId:&nbsp;</b>
+          &nbsp;&nbsp;
+          {id}
+        </Timeline.Item>
+      );
+      for (let i = 0, len = logs.length; i < len; i++) {
+        let element = logs[i];
+        elements.push(
+          <Timeline.Item key={"elements-" + i}>
+            <span className={styles.font_primary_color}>
+              {tao.format_time(parseInt(element.time))}
+            </span>
+            <br />
+            {element.content}
+          </Timeline.Item>
+        );
+      }
+      elements.push(
+        <Timeline.Item
+          dot={<Icon type="clock-circle-o" />}
+          key={"elements-end"}
+        >
+          <span className={styles.font_primary_color}>
+            {tao.format_time(lastModifiedDate)}
+          </span>
+          <br />
+          <span
+            className={
+              "badge " + ("SUCCESS" == status ? "badge-success" : "badge-info")
+            }
+            style={{
+              padding: "5px 10px",
+              fontSize: "8px"
+            }}
+          >
+            {status}
+          </span>
+        </Timeline.Item>
+      );
 
-  upload_csv_file_css = () => {
-    this.setState(state => ({
-      // 取反样式
-      upload_csv_library_style: !state.upload_csv_library_style
-    }));
+      setTimeout(() => {
+        this.setState({
+          query_task_elements: elements
+        });
+      }, 100);
+
+      // 处理状态
+      if ("SUCCESS" == status) {
+        // 成功
+        // 定位滚动条 到底部
+        setTimeout(() => {
+          $("html,body").animate(
+            { scrollTop: parseInt(document.body.scrollHeight) },
+            800
+          );
+        }, 300);
+        // 尝试清空定时器
+        try {
+          clearInterval(this.state.query_task_interval);
+        } catch (e) {
+          //
+        } finally {
+          setTimeout(() => {
+            this.setState({
+              query_task_interval: null,
+              public_library_create_name: null
+            });
+          }, 120);
+        }
+      }
+    } else {
+      // 提取失败
+      // 不予理睬 注意 这种情况会导致请求失败一直发起请求 暂时先不考虑
+      // pass
+      return -1;
+    }
   };
 
   render() {
@@ -280,6 +430,16 @@ class Public_library_update extends React.Component {
           </Row>
         </Fragment>
       );
+    }
+
+    if (10000 < this.props.public_library_update_time) {
+      // 提取更新状态
+      this.handle_public_library_update();
+    }
+
+    if (10000 < this.props.public_library_query_task_time) {
+      // 传入了新状态
+      this.handle_public_library_query_task();
     }
 
     const { peptide_file_list, csv_library_file_list } = this.state;
@@ -334,7 +494,9 @@ class Public_library_update extends React.Component {
         >
           <Tooltip
             placement="topLeft"
-            title={<FormattedHTMLMessage id="propro.public_lib_detail_title" />}
+            title={
+              <FormattedHTMLMessage id="propro.public_library_detail_title" />
+            }
           >
             <Link
               to={
@@ -352,25 +514,8 @@ class Public_library_update extends React.Component {
             </Link>
           </Tooltip>
 
-          <FormattedHTMLMessage id="propro.public_lib_update_title" />
+          <FormattedHTMLMessage id="propro.public_library_update_title" />
         </div>
-
-        {/* <div>
-          <Upload {...props}>
-            <Button>
-              <Icon type="upload" /> Select File
-            </Button>
-          </Upload>
-          <Button
-            type="primary"
-            onClick={this.handleUpload}
-            disabled={peptide_file_list.length === 0}
-            loading={uploading}
-            style={{ marginTop: 16 }}
-          >
-            {uploading ? "Uploading" : "Start Upload"}
-          </Button>
-        </div> */}
 
         <div
           style={{
@@ -395,7 +540,7 @@ class Public_library_update extends React.Component {
                 paddingBottom: "10px"
               }}
             >
-              <FormattedHTMLMessage id="propro.public_lib_detail_name" />
+              <FormattedHTMLMessage id="propro.public_library_detail_name" />
             </div>
             <Input
               value={this.state.public_library_update_name}
@@ -415,7 +560,7 @@ class Public_library_update extends React.Component {
                 paddingBottom: "10px"
               }}
             >
-              <FormattedHTMLMessage id="propro.public_lib_detail_id" />
+              <FormattedHTMLMessage id="propro.public_library_detail_id" />
             </div>
             <Input value={this.state.public_library_update_id} maxLength={30} />
           </div>
@@ -432,7 +577,7 @@ class Public_library_update extends React.Component {
                 paddingBottom: "10px"
               }}
             >
-              <FormattedHTMLMessage id="propro.public_lib_detail_lib_type" />
+              <FormattedHTMLMessage id="propro.public_library_detail_lib_type" />
             </div>
             <div>
               <Radio.Group
@@ -457,7 +602,7 @@ class Public_library_update extends React.Component {
                 marginTop: "8px"
               }}
             >
-              <FormattedHTMLMessage id="propro.public_lib_update_only_target_peptides" />
+              <FormattedHTMLMessage id="propro.public_library_update_only_target_peptides" />
             </Checkbox>
           </div>
 
@@ -473,7 +618,7 @@ class Public_library_update extends React.Component {
                 paddingBottom: "10px"
               }}
             >
-              <FormattedHTMLMessage id="propro.public_lib_detail_description" />
+              <FormattedHTMLMessage id="propro.public_library_detail_description" />
             </div>
             <TextArea
               onChange={this.change_detail_description}
@@ -495,7 +640,7 @@ class Public_library_update extends React.Component {
               }}
             >
               <span className={styles.font_red_color}>*</span>
-              <FormattedHTMLMessage id="propro.public_lib_update_upload_csv_library" />
+              <FormattedHTMLMessage id="propro.public_library_update_upload_csv_library" />
             </div>
 
             <Upload.Dragger {...csv_library_file_list_props}>
@@ -503,7 +648,7 @@ class Public_library_update extends React.Component {
                 <Icon type="inbox" />
               </p>
               <p className="ant-upload-text">
-                <FormattedHTMLMessage id="propro.public_lib_update_upload_file_description" />
+                <FormattedHTMLMessage id="propro.public_library_update_upload_file_description" />
               </p>
             </Upload.Dragger>
           </div>
@@ -520,13 +665,11 @@ class Public_library_update extends React.Component {
                 paddingBottom: "10px"
               }}
             >
-              <FormattedHTMLMessage id="propro.public_lib_update_only_upload_peptide_list" />
+              <FormattedHTMLMessage id="propro.public_library_update_only_upload_peptide_list" />
             </div>
 
             <Upload.Dragger
               {...peptide_file_list_props}
-              // beforeUpload={this.before_upload_peptide_list_file}
-              // onChange={this.upload_peptide_list_file()}
               // multiple={false}
               // peptide_file_list={this.state.peptide_file_list}
             >
@@ -534,7 +677,7 @@ class Public_library_update extends React.Component {
                 <Icon type="inbox" />
               </p>
               <p className="ant-upload-text">
-                <FormattedHTMLMessage id="propro.public_lib_update_upload_file_description" />
+                <FormattedHTMLMessage id="propro.public_library_update_upload_file_description" />
               </p>
             </Upload.Dragger>
           </div>
@@ -559,12 +702,27 @@ class Public_library_update extends React.Component {
             >
               <span>
                 &nbsp;
-                <FormattedHTMLMessage id="propro.public_lib_update_submit" />
+                <FormattedHTMLMessage id="propro.public_library_update_submit" />
               </span>
             </Button>
           </div>
 
-          {/* 提取 */}
+          {/* 任务状态 */}
+          {this.state.query_task_show && (
+            <div
+              style={{
+                marginTop: "30px"
+              }}
+            >
+              <Timeline
+                pending={
+                  null == this.state.query_task_interval ? false : "Running..."
+                }
+              >
+                {this.state.query_task_elements}
+              </Timeline>
+            </div>
+          )}
         </div>
       </div>
     );

@@ -7,8 +7,8 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @CreateTime          2019-8-25 18:25:38
- * @UpdateTime          2019-8-16 01:05:41
- * @Archive             公共标准库
+ * @UpdateTime          2019-8-30 12:38:19
+ * @Archive             标准库
  */
 
 /****************  导入组件 ***************************/
@@ -65,8 +65,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../style/dashboard/console.less";
 import "../../../layout/Common.css";
 import detail_svg from "../style/static/library/detail.svg";
-import proteins_list_svg from "../style/static/library/list.svg";
-import unordered_list_svg from "../style/static/dashboard/unordered_list.svg";
+import public_library_scg from "../style/static/library/public.svg";
+import update_library_svg from "../style/static/library/update.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
 
@@ -90,14 +90,19 @@ const standard_library_state_to_props = state => {
     standard_library_list_time = 0,
     current_page,
     total_page,
-    library_list
+    library_list,
+    standard_library_set_public_time,
+    standard_library_set_public_status
   } = state["standard_library"];
 
-  (obj.standard_library_list_status = standard_library_list_status),
+  (obj.standard_library_set_public_status = standard_library_set_public_status),
+    (obj.standard_library_set_public_time = standard_library_set_public_time),
+    (obj.standard_library_list_status = standard_library_list_status),
     (obj.standard_library_list_time = standard_library_list_time),
     (obj.current_page = current_page),
     (obj.total_page = total_page),
     (obj.library_list = library_list);
+  console.log(obj);
   return obj;
 };
 
@@ -114,6 +119,13 @@ const standard_library_dispatch_to_props = dispatch => {
     set_state_newvalue: data => {
       const action = {
         type: "standard_library/set_state_newvalue",
+        payload: data
+      };
+      dispatch(action);
+    },
+    set_library_public_by_id: data => {
+      const action = {
+        type: "standard_library/set_library_public_by_id",
         payload: data
       };
       dispatch(action);
@@ -142,6 +154,13 @@ class Standard_library extends React.Component {
     };
 
     this.props.get_standard_library_list();
+    // 配置 message
+    message.config({
+      top: 500,
+      duration: 2,
+      maxCount: 5,
+      getContainer: () => document.body
+    });
   }
 
   handle_standard_library_list = () => {
@@ -252,14 +271,14 @@ class Standard_library extends React.Component {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          <FormattedHTMLMessage id="propro.standard_lib_search" />
+          <FormattedHTMLMessage id="propro.standard_library_search" />
         </Button>
         <Button
           onClick={() => this.handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          <FormattedHTMLMessage id="propro.standard_lib_reset" />
+          <FormattedHTMLMessage id="propro.standard_library_reset" />
         </Button>
       </div>
     ),
@@ -296,6 +315,53 @@ class Standard_library extends React.Component {
     this.setState({ searchText: "" });
   };
 
+  set_this_public = (id = "", status) => {
+    console.log(id, status);
+    if (false == status && 5 < id.length) {
+      // 调用 公开标准库接口
+      this.props.set_library_public_by_id({ id: id });
+    } else {
+      // 不需要更新
+      return;
+    }
+  };
+
+  handle_standard_library_set_public = () => {
+    // 时间戳设置为 0
+    this.props.set_state_newvalue({
+      target: "standard_library_set_public_time",
+      value: 0
+    });
+
+    // 提取返回状态
+    let { standard_library_set_public_status, language } = this.props;
+
+    if (0 == standard_library_set_public_status) {
+      // 更新成功
+      setTimeout(() => {
+        // 提示
+        message.success(
+          Languages[language]["propro.standard_library_set_public"] +
+            " : " +
+            Languages[language]["propro.prompt_success"],
+          2
+        );
+      }, 160);
+    } else {
+      // 更新失败
+      // 更新失败
+      setTimeout(() => {
+        // 提示
+        message.error(
+          Languages[language]["propro.standard_library_set_public"] +
+            " : " +
+            Languages[language]["propro.prompt_failed"],
+          4
+        );
+      }, 220);
+    }
+  };
+
   render() {
     const columns = [
       {
@@ -308,13 +374,11 @@ class Standard_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.standard_lib_index" />
+            <FormattedHTMLMessage id="propro.standard_library_index" />
           </span>
         ),
         dataIndex: "index",
         key: "index"
-        // width: "30%",
-        // ...this.get_column_search_props("id")
       },
       {
         //   标准库名称
@@ -326,12 +390,10 @@ class Standard_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.standard_lib_name" />
+            <FormattedHTMLMessage id="propro.standard_library_name" />
           </span>
         ),
-        // dataIndex: "name",
         key: "name",
-        // width: "20%"
         ...this.get_column_search_props("name"),
         render: list => {
           return (
@@ -351,12 +413,11 @@ class Standard_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.standard_lib_id" />
+            <FormattedHTMLMessage id="propro.standard_library_id" />
           </span>
         ),
         dataIndex: "id",
         key: "id",
-        // width: "30%",
         ...this.get_column_search_props("id")
       },
       {
@@ -369,7 +430,7 @@ class Standard_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.standard_lib_is_public" />
+            <FormattedHTMLMessage id="propro.standard_library_is_public" />
           </span>
         ),
         dataIndex: "is_public",
@@ -398,7 +459,7 @@ class Standard_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.standard_lib_protein_count" />
+            <FormattedHTMLMessage id="propro.standard_library_protein_count" />
           </span>
         ),
         dataIndex: "protein_count",
@@ -414,7 +475,7 @@ class Standard_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.standard_lib_protein_count" />
+            <FormattedHTMLMessage id="propro.standard_library_protein_count" />
           </span>
         ),
         dataIndex: "total_count",
@@ -430,7 +491,7 @@ class Standard_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.standard_lib_create_time" />
+            <FormattedHTMLMessage id="propro.standard_library_create_time" />
           </span>
         ),
         dataIndex: "create_date",
@@ -451,7 +512,7 @@ class Standard_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.standard_lib_creator" />
+            <FormattedHTMLMessage id="propro.standard_library_creator" />
           </span>
         ),
         dataIndex: "creator",
@@ -467,7 +528,7 @@ class Standard_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.standard_lib_operation" />
+            <FormattedHTMLMessage id="propro.standard_library_operation" />
           </span>
         ),
         key: "action",
@@ -477,7 +538,9 @@ class Standard_library extends React.Component {
             <Fragment key="2019-8-16 00:32:54">
               {/* 详情链接 */}
               <Tooltip
-                title={<FormattedHTMLMessage id="propro.standard_lib_detail" />}
+                title={
+                  <FormattedHTMLMessage id="propro.standard_library_detail" />
+                }
               >
                 <Link to={"/library/standard_library/detail/" + list.id}>
                   <button
@@ -497,13 +560,20 @@ class Standard_library extends React.Component {
                   </button>
                 </Link>
               </Tooltip>
-              {/* 蛋白质列表链接 */}
+              {/* 更新标准库链接 */}
               <Tooltip
                 title={
-                  <FormattedHTMLMessage id="propro.standard_lib_protein_list" />
+                  <FormattedHTMLMessage id="propro.standard_library_update" />
                 }
               >
-                <Link to={"/library/standard_library/detail/" + list.id}>
+                <Link
+                  to={
+                    "/library/standard_library/update/" +
+                    list.id +
+                    "_" +
+                    list.name
+                  }
+                >
                   <button
                     type="button"
                     className={"btn " + `${styles.bg_primary_color}`}
@@ -513,7 +583,7 @@ class Standard_library extends React.Component {
                     }}
                   >
                     <img
-                      src={unordered_list_svg}
+                      src={update_library_svg}
                       style={{
                         height: "20px"
                       }}
@@ -524,26 +594,27 @@ class Standard_library extends React.Component {
               {/* 肽段列表链接 */}
               <Tooltip
                 title={
-                  <FormattedHTMLMessage id="propro.standard_lib_peptides_list" />
+                  <FormattedHTMLMessage id="propro.standard_library_set_public" />
                 }
               >
-                <Link to={"/library/standard_library/detail/" + list.id}>
-                  <button
-                    type="button"
-                    className={"btn " + `${styles.bg_green_color}`}
+                <button
+                  type="button"
+                  className={"btn " + `${styles.bg_green_color}`}
+                  style={{
+                    padding: "5px 10px",
+                    margin: "5px"
+                  }}
+                  onClick={() => {
+                    this.set_this_public(list.id, list.is_public);
+                  }}
+                >
+                  <img
+                    src={public_library_scg}
                     style={{
-                      padding: "5px 10px",
-                      margin: "5px"
+                      height: "20px"
                     }}
-                  >
-                    <img
-                      src={proteins_list_svg}
-                      style={{
-                        height: "20px"
-                      }}
-                    />
-                  </button>
-                </Link>
+                  />
+                </button>
               </Tooltip>
             </Fragment>
           );
@@ -575,6 +646,10 @@ class Standard_library extends React.Component {
       );
     }
 
+    if (10000 < this.props.standard_library_set_public_time) {
+      this.handle_standard_library_set_public();
+    }
+
     return (
       <div>
         <div
@@ -599,7 +674,7 @@ class Standard_library extends React.Component {
               />
             </Link>
           </Tooltip>
-          <FormattedHTMLMessage id="propro.standard_lib_title" />
+          <FormattedHTMLMessage id="propro.standard_library_title" />
         </div>
         <div
           style={{

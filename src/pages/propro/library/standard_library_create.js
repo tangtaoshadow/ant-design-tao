@@ -19,6 +19,7 @@ import { connect } from "dva";
 import Link from "umi/link";
 import { FormattedHTMLMessage } from "react-intl";
 import { Fragment } from "react";
+import $ from "jquery";
 
 import {
   Layout,
@@ -365,6 +366,13 @@ class Standard_library_create extends React.Component {
       // 处理状态
       if ("SUCCESS" == status) {
         // 成功
+        // 定位滚动条 到底部
+        setTimeout(() => {
+          $("html,body").animate(
+            { scrollTop: parseInt(document.body.scrollHeight) },
+            800
+          );
+        }, 300);
         // 尝试清空定时器
         try {
           clearInterval(this.state.query_task_interval);

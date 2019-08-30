@@ -55,7 +55,6 @@ let model = {
       const { call, put } = sagaEffects;
       let result = "";
 
-      console.log(payload);
       try {
         result = yield call(
           standard_library_update_service.query_task_id,

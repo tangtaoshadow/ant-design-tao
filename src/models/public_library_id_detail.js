@@ -8,8 +8,10 @@
  *
  */
 
-import * as library_list_id_detail_service from "../service/public_library_id_detail";
-console.log("init models public_library.js");
+import * as public_library_id_detail_service from "../service/public_library_id_detail";
+import * as standard_library_id_detail_service from "../service/standard_library_id_detail";
+
+console.log("init models public_library_id_detail_service.js");
 
 //  开始执行
 /********************** library_list_id_detail model  执行 **********************/
@@ -25,7 +27,14 @@ let model = {
     public_library_list_id_detail_status: -1,
     // 最新获取数据的时间戳
     public_library_list_id_detail_time: 0,
-    public_library_id_detail_data: {}
+    public_library_id_detail_data: {},
+    public_library_id_aggregate_status: -1,
+    public_library_id_aggregate_time: 0,
+    // 删除肽段
+    public_library_id_delete_pseudopeptides_status: -1,
+    public_library_id_delete_pseudopeptides_time: 0,
+    delete_public_library_by_id_status: -1,
+    delete_public_library_by_id_time: 0
   },
 
   effects: {
@@ -35,7 +44,7 @@ let model = {
       let result = "";
       try {
         result = yield call(
-          library_list_id_detail_service.get_library_list_id_detail,
+          public_library_id_detail_service.get_library_list_id_detail,
           payload
         );
       } catch (e) {
@@ -43,6 +52,71 @@ let model = {
       }
       yield put({
         type: "get_library_list_id_detail_result",
+        payload: result
+      });
+      return 0;
+    },
+    *aggregate({ payload }, sagaEffects) {
+      const { call, put } = sagaEffects;
+      let result = "";
+      try {
+        result = yield call(
+          public_library_id_detail_service.aggregate,
+          payload
+        );
+      } catch (e) {
+        result = "";
+      }
+      yield put({
+        type: "aggregate_result",
+        payload: result
+      });
+      return 0;
+    },
+    *generate({ payload }, sagaEffects) {
+      const { call, put } = sagaEffects;
+      let result = "";
+      try {
+        result = yield call(public_library_id_detail_service.generate, payload);
+      } catch (e) {
+        result = "";
+      }
+      yield put({
+        type: "generate_result",
+        payload: result
+      });
+      return 0;
+    },
+    *delete_pseudopeptides({ payload }, sagaEffects) {
+      const { call, put } = sagaEffects;
+      let result = "";
+      try {
+        result = yield call(
+          public_library_id_detail_service.delete_pseudopeptides,
+          payload
+        );
+      } catch (e) {
+        result = "";
+      }
+      yield put({
+        type: "delete_pseudopeptides_result",
+        payload: result
+      });
+      return 0;
+    },
+    *delete_public_library_by_id({ payload }, sagaEffects) {
+      const { call, put } = sagaEffects;
+      let result = "";
+      try {
+        result = yield call(
+          public_library_id_detail_service.delete_public_library_by_id,
+          payload
+        );
+      } catch (e) {
+        result = "";
+      }
+      yield put({
+        type: "delete_public_library_by_id_result",
         payload: result
       });
       return 0;
@@ -104,11 +178,171 @@ let model = {
 
       console.log(obj);
       return obj;
+    },
+    get_library_list_id_detail_result(state, { payload: result }) {
+      // 尝试提取返回结果
+      let res_status = -1;
+      let obj = {};
+      for (let i in state) {
+        obj[i] = state[i];
+      }
+      if ("error" != result) {
+        try {
+          // 尝试提取 服务端返回数据 error_1 与 error 区分
+          let { status = "error_1" } = result;
+
+          (obj.public_library_id_detail_data = result.data),
+            // 如果提取到 status 那么就 把 status 返回
+            (res_status = "error_1" == status ? -1 : status);
+        } catch (e) {
+          // 转换出错
+        }
+      } else {
+        // 这里本地出错
+      }
+
+      obj.public_library_list_id_detail_time = new Date().getTime();
+
+      // 1 检查 返回数据状态
+
+      if (-1 == res_status) {
+        // 发生严重错误
+        (obj.public_library_list_id_detail_status = -1),
+          // 最新获取数据的时间戳
+          (obj.public_library_id_aggregate_status = -1),
+          (obj.public_library_id_aggregate_time = 0),
+          // 清空数据
+          (obj.public_library_id_detail_data = null);
+
+        return obj;
+      }
+
+      // 2 成功获取数据
+      obj.public_library_list_id_detail_status = res_status;
+
+      return obj;
+    },
+    aggregate_result(state, { payload: result }) {
+      let res_status = -1;
+      // copy 状态
+      let obj = {};
+      for (let i in state) {
+        obj[i] = state[i];
+      }
+
+      if ("error" != result) {
+        try {
+          // 尝试提取 服务端返回数据 error_1 与 error 区分
+          let { status = "error_1" } = result;
+
+          // 如果提取到 status 那么就 把 status 返回
+          res_status = "error_1" == status ? -1 : status;
+        } catch (e) {
+          // 转换出错
+        }
+      } else {
+        // 这里本地出错
+      }
+
+      obj.public_library_id_aggregate_time = new Date().getTime();
+
+      // 1 检查 返回数据状态
+
+      if (-1 == res_status) {
+        // 发生严重错误
+        obj.public_library_id_aggregate_status = -2;
+        return obj;
+      }
+
+      obj.public_library_id_aggregate_status = res_status;
+
+      return obj;
+    },
+    // 重新生成
+    generate_result(state, { payload: result }) {
+      let obj = {};
+      for (let i in state) {
+        obj[i] = state[i];
+      }
+      return obj;
+    },
+    delete_pseudopeptides_result(state, { payload: result }) {
+      let obj = {};
+      for (let i in state) {
+        obj[i] = state[i];
+      }
+
+      let res_status = -1;
+
+      // 校验结果
+      if ("error" != result) {
+        try {
+          // 尝试提取 服务端返回数据 error_1 与 error 区分
+          let { status = "error_1" } = result;
+
+          // 如果提取到 status 那么就 把 status 返回
+          res_status = "error_1" == status ? -1 : status;
+        } catch (e) {
+          // 转换出错
+        }
+      } else {
+        // 这里本地出错
+      }
+
+      obj.public_library_id_delete_pseudopeptides_time = new Date().getTime();
+
+      if (-1 == res_status) {
+        // 出错
+        // 严重错误
+        obj.public_library_id_delete_pseudopeptides_status = -1;
+      } else {
+        // 正常响应 虽然上面代码相同 但是处理逻辑不一样 不要搞混
+        obj.public_library_id_delete_pseudopeptides_status = res_status;
+      }
+
+      return obj;
+    },
+    delete_public_library_by_id_result(state, { payload: result }) {
+      let obj = {};
+      for (let i in state) {
+        obj[i] = state[i];
+      }
+
+      let res_status = -1;
+
+      // 校验结果
+      if ("error" != result) {
+        try {
+          // 尝试提取 服务端返回数据 error_1 与 error 区分
+          let { status = "error_1" } = result;
+
+          // 如果提取到 status 那么就 把 status 返回
+          res_status = "error_1" == status ? -1 : status;
+        } catch (e) {
+          // 转换出错
+        }
+      } else {
+        // 这里本地出错
+      }
+
+      obj.delete_public_library_by_id_time = new Date().getTime();
+
+      if (-1 == res_status) {
+        // 出错
+        // 严重错误
+        obj.delete_public_library_by_id_status = -1;
+        return obj;
+      } else {
+        // 正常响应 虽然上面代码相同 但是处理逻辑不一样 不要搞混
+        obj.delete_public_library_by_id_status = res_status;
+      }
+
+      return obj;
     }
 
     //
   }
 };
-console.log("init models library_list_id_detail.js end");
+console.log("init models public_library_id_detail_service.js end");
 
 export default model;

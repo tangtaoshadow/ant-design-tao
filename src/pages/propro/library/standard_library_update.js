@@ -150,10 +150,10 @@ class Public_library_update extends React.Component {
       standard_library_update_status: -1,
       // 默认是 library
       standard_library_type: "library",
-      standard_lib_update_only_target_peptides: false,
+      standard_library_update_only_target_peptides: false,
       peptide_file_list: [],
       csv_library_file_list: [],
-      standard_lib_detail_description: null,
+      standard_library_detail_description: null,
       // 定时器
       query_task_interval: null,
       // 是否显示 task 进度
@@ -213,14 +213,14 @@ class Public_library_update extends React.Component {
 
   change_only_target_peptides = e => {
     this.setState({
-      standard_lib_update_only_target_peptides: e.target.checked
+      standard_library_update_only_target_peptides: e.target.checked
     });
   };
 
   // 详情
   change_detail_description = e => {
     this.setState({
-      standard_lib_detail_description: e.target.value
+      standard_library_detail_description: e.target.value
     });
   };
 
@@ -234,8 +234,8 @@ class Public_library_update extends React.Component {
     obj.id = this.state.standard_library_update_id;
     obj.name = this.state.standard_library_update_name;
     obj.library_type = this.state.standard_library_type;
-    obj.only_target_peptides = this.state.standard_lib_update_only_target_peptides;
-    obj.detail_description = this.state.standard_lib_detail_description;
+    obj.only_target_peptides = this.state.standard_library_update_only_target_peptides;
+    obj.detail_description = this.state.standard_library_detail_description;
 
     if ("" == obj.csv_library_file_list) {
       // 文件为空
@@ -247,7 +247,7 @@ class Public_library_update extends React.Component {
     message.loading(
       Languages[language]["propro.standard_library_create_title"] +
         " : " +
-        Languages[language]["propro.standard_lib_detail_running"],
+        Languages[language]["propro.standard_library_detail_running"],
       2.5
     );
     this.setState({
@@ -508,7 +508,7 @@ class Public_library_update extends React.Component {
           <Tooltip
             placement="topLeft"
             title={
-              <FormattedHTMLMessage id="propro.standard_lib_detail_title" />
+              <FormattedHTMLMessage id="propro.standard_library_detail_title" />
             }
           >
             <Link
@@ -553,7 +553,7 @@ class Public_library_update extends React.Component {
                 paddingBottom: "10px"
               }}
             >
-              <FormattedHTMLMessage id="propro.standard_lib_detail_name" />
+              <FormattedHTMLMessage id="propro.standard_library_detail_name" />
             </div>
             <Input
               value={this.state.standard_library_update_name}
@@ -573,7 +573,7 @@ class Public_library_update extends React.Component {
                 paddingBottom: "10px"
               }}
             >
-              <FormattedHTMLMessage id="propro.standard_lib_detail_id" />
+              <FormattedHTMLMessage id="propro.standard_library_detail_id" />
             </div>
             <Input
               value={this.state.standard_library_update_id}
@@ -593,7 +593,7 @@ class Public_library_update extends React.Component {
                 paddingBottom: "10px"
               }}
             >
-              <FormattedHTMLMessage id="propro.standard_lib_detail_lib_type" />
+              <FormattedHTMLMessage id="propro.standard_library_detail_library_type" />
             </div>
             <div>
               <Radio.Group
@@ -634,7 +634,7 @@ class Public_library_update extends React.Component {
                 paddingBottom: "10px"
               }}
             >
-              <FormattedHTMLMessage id="propro.standard_lib_detail_description" />
+              <FormattedHTMLMessage id="propro.standard_library_detail_description" />
             </div>
             <TextArea
               onChange={this.change_detail_description}
