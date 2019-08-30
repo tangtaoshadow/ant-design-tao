@@ -72,8 +72,10 @@ let language_ch = {
   "propro.modal_cancel": "取消",
 
   // 提示级别
+  "propro.prompt_running": "运行...",
   "propro.prompt_success": "成功",
   "propro.prompt_failed": "失败",
+  "propro.prompt_cancel": "取消",
 
   // 用户设定
   "propro.user_setting": "设置",

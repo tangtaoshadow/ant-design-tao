@@ -102,7 +102,6 @@ const standard_library_state_to_props = state => {
     (obj.current_page = current_page),
     (obj.total_page = total_page),
     (obj.library_list = library_list);
-  console.log(obj);
   return obj;
 };
 
@@ -316,13 +315,26 @@ class Standard_library extends React.Component {
   };
 
   set_this_public = (id = "", status) => {
-    console.log(id, status);
+    let { language } = this.props;
     if (false == status && 5 < id.length) {
       // 调用 公开标准库接口
+      // 提示
+      message.loading(
+        Languages[language]["propro.standard_library_set_public"] +
+          " : " +
+          Languages[language]["propro.prompt_running"],
+        0.5
+      );
       this.props.set_library_public_by_id({ id: id });
     } else {
       // 不需要更新
-      return;
+      message.info(
+        Languages[language]["propro.standard_library_set_public"] +
+          " : " +
+          Languages[language]["propro.prompt_cancel"],
+        1
+      );
+      return -1;
     }
   };
 
@@ -339,6 +351,14 @@ class Standard_library extends React.Component {
     if (0 == standard_library_set_public_status) {
       // 更新成功
       setTimeout(() => {
+        this.setState({ standard_library_list_status: -1 });
+      }, 800);
+      setTimeout(() => {
+        // 调用重新获取数据接口 注意演示 防止过度刷新请求
+        this.props.get_standard_library_list();
+      }, 1100);
+
+      setTimeout(() => {
         // 提示
         message.success(
           Languages[language]["propro.standard_library_set_public"] +
@@ -346,10 +366,9 @@ class Standard_library extends React.Component {
             Languages[language]["propro.prompt_success"],
           2
         );
-      }, 160);
+      }, 520);
     } else {
-      // 更新失败
-      // 更新失败
+      // 执行公开 失败
       setTimeout(() => {
         // 提示
         message.error(
@@ -358,7 +377,7 @@ class Standard_library extends React.Component {
             Languages[language]["propro.prompt_failed"],
           4
         );
-      }, 220);
+      }, 520);
     }
   };
 
