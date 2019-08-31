@@ -155,10 +155,10 @@ class Public_library_update extends React.Component {
       // 默认是 library
       public_library_type: "library",
       //
-      public_lib_update_only_target_peptides: false,
+      public_library_update_only_target_peptides: false,
       peptide_file_list: [],
       csv_library_file_list: [],
-      public_lib_detail_description: null,
+      public_library_detail_description: null,
       // 定时器
       query_task_interval: null,
       // 是否显示 task 进度
@@ -210,14 +210,14 @@ class Public_library_update extends React.Component {
 
   change_only_target_peptides = e => {
     this.setState({
-      public_lib_update_only_target_peptides: e.target.checked
+      public_library_update_only_target_peptides: e.target.checked
     });
   };
 
   // 详情
   change_detail_description = e => {
     this.setState({
-      public_lib_detail_description: e.target.value
+      public_library_detail_description: e.target.value
     });
   };
 
@@ -231,8 +231,8 @@ class Public_library_update extends React.Component {
     obj.id = this.state.public_library_update_id;
     obj.name = this.state.public_library_update_name;
     obj.library_type = this.state.public_library_type;
-    obj.only_target_peptides = this.state.public_lib_update_only_target_peptides;
-    obj.detail_description = this.state.public_lib_detail_description;
+    obj.only_target_peptides = this.state.public_library_update_only_target_peptides;
+    obj.detail_description = this.state.public_library_detail_description;
 
     if ("" == obj.csv_library_file_list) {
       return -1;
@@ -577,7 +577,7 @@ class Public_library_update extends React.Component {
                 paddingBottom: "10px"
               }}
             >
-              <FormattedHTMLMessage id="propro.public_library_detail_lib_type" />
+              <FormattedHTMLMessage id="propro.public_library_detail_library_type" />
             </div>
             <div>
               <Radio.Group

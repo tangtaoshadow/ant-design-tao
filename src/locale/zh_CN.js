@@ -261,6 +261,22 @@ let language_ch = {
   "propro.standard_library_create_only_name": "标准库名称必须唯一",
   "propro.standard_library_create_submit": "创建",
 
+  // 肽段列表
+  "propro.peptide_list_title": "肽段列表",
+  "propro.peptide_list_library_information": "库信息",
+  "propro.peptide_list_search": "查找",
+  "propro.peptide_list_search_by_name_title": "查询库",
+  "propro.peptide_list_search_by_name": "请输入库名称",
+  "propro.peptide_list_name": "名称",
+  "propro.peptide_list_id": "ID",
+  "propro.peptide_list_total_pages": "总页数",
+  "propro.peptide_list_receive_pages": "已加载页数",
+  "propro.peptide_list_page_size": "页大小",
+  "propro.peptide_list_current_page": "当前页",
+  "propro.peptide_list_search_time": "搜索用时",
+  "propro.peptide_list_search_numbers": "搜索结果",
+  "propro.peptide_list_see_detail": "查看详情",
+
   "propro.end": "end"
 };
 

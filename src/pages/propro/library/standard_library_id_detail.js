@@ -460,24 +460,29 @@ class Standard_library_list_detail extends React.Component {
     if (0 == delete_standard_library_by_id_status) {
       // 删除成功
       // 弹出删除成功
-      message.success(
-        Languages[language]["propro.standard_library_detail_delete_by_id"] +
-          " : " +
-          Languages[language]["propro.standard_library_detail_success"],
-        4
-      );
+      setTimeout(() => {
+        message.success(
+          Languages[language]["propro.standard_library_detail_delete_by_id"] +
+            " : " +
+            Languages[language]["propro.standard_library_detail_success"],
+          4
+        );
+      }, 110);
+
       // 延时跳转到 标准库页面
       setTimeout(() => {
         this.props.history.push("/library/standard_library");
       }, 800);
     } else {
-      // 删除失败
-      message.error(
-        Languages[language]["propro.standard_library_detail_delete_by_id"] +
-          " : " +
-          Languages[language]["propro.standard_library_detail_failed"],
-        4
-      );
+      setTimeout(() => {
+        // 删除失败
+        message.error(
+          Languages[language]["propro.standard_library_detail_delete_by_id"] +
+            " : " +
+            Languages[language]["propro.standard_library_detail_failed"],
+          4
+        );
+      }, 120);
     }
   };
 

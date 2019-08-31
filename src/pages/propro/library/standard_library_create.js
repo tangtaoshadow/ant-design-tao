@@ -51,7 +51,6 @@ import {
 } from "antd";
 const { TextArea } = Input;
 import Highlighter from "react-highlight-words";
-import reqwest from "reqwest";
 import tao from "../../../utils/common";
 /****************  导入组件 end ***************************/
 

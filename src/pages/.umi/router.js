@@ -100,6 +100,11 @@ const routes = [
         exact: true,
       },
       {
+        path: '/library/peptide/list/*',
+        component: require('../propro/peptide/list').default,
+        exact: true,
+      },
+      {
         path: '/test',
         component: require('../propro/test').default,
         exact: true,

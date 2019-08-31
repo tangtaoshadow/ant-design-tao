@@ -112,7 +112,6 @@ let model = {
       obj.public_library_list_status = res_status;
       obj.public_library_list_time = new Date().getTime();
 
-      console.log(obj);
       return obj;
     }
 

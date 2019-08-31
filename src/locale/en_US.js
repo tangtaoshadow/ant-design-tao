@@ -259,8 +259,24 @@ let language_en = {
     "Upload Peptide List",
   "propro.standard_library_create_only_name":
     "The name of the standard library must be unique",
-
   "propro.standard_library_create_submit": "Create",
+
+  // 肽段列表
+  "propro.peptide_list_title": "Peptide list",
+  "propro.peptide_list_library_information": "Library Info",
+  "propro.peptide_list_search": "Search",
+  "propro.peptide_list_search_by_name_title": "Search library",
+  "propro.peptide_list_search_by_name": "Please enter a library name",
+  "propro.peptide_list_name": "Name",
+  "propro.peptide_list_id": "ID",
+  "propro.peptide_list_total_pages": "Total Pages",
+  "propro.peptide_list_receive_pages": "Number of pages downloaded",
+
+  "propro.peptide_list_page_size": "Page Size",
+  "propro.peptide_list_current_page": "Current page",
+  "propro.peptide_list_search_time": "Search time",
+  "propro.peptide_list_search_numbers": "Search results",
+  "propro.peptide_list_see_detail": "Library detail",
 
   "propro.end": "end"
 };

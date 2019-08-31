@@ -497,20 +497,14 @@ class Public_library extends React.Component {
                   </button>
                 </Link>
               </Tooltip>
-              {/* 更新链接 */}
+
+              {/* 肽段列表链接 */}
               <Tooltip
                 title={
-                  <FormattedHTMLMessage id="propro.public_library_update" />
+                  <FormattedHTMLMessage id="propro.public_library_peptides_list" />
                 }
               >
-                <Link
-                  to={
-                    "/library/standard_library/update/" +
-                    list.id +
-                    "_" +
-                    list.name
-                  }
-                >
+                <Link to={"/library/peptide/list/" + list.id}>
                   <button
                     type="button"
                     className={"btn " + `${styles.bg_primary_color}`}
@@ -619,6 +613,10 @@ class Public_library extends React.Component {
           <Table
             size={"middle"}
             columns={columns}
+            pagination={{
+              position: "bottom",
+              hideOnSinglePage: true
+            }}
             dataSource={this.state.public_library_list_data}
           />
         </div>

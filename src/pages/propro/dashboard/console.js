@@ -223,6 +223,7 @@ class Console extends React.Component {
           key: "public_lib_count",
           name: <FormattedHTMLMessage id="propro.console_public_lib" />,
           number: public_lib_count,
+          name_link: "library/public_library",
           add: "",
           list: "library/public_library"
         },
@@ -230,6 +231,7 @@ class Console extends React.Component {
           key: "public_irt_count",
           name: <FormattedHTMLMessage id="propro.console_public_irt" />,
           number: public_irt_count,
+          name_link: "library/public_library",
           add: "",
           list: "home"
         },
@@ -237,6 +239,7 @@ class Console extends React.Component {
           key: "lib_count",
           name: <FormattedHTMLMessage id="propro.console_lib" />,
           number: lib_count,
+          name_link: "library/standard_library",
           add: "library/standard_library_create",
           list: "library/standard_library"
         },
@@ -244,14 +247,15 @@ class Console extends React.Component {
           key: "irt_lib_count",
           name: <FormattedHTMLMessage id="propro.console_irt_lib" />,
           number: irt_lib_count,
+          name_link: "library/public_library",
           add: "home",
           list: "home"
         },
-
         {
           key: "exp_swath_count",
           name: <FormattedHTMLMessage id="propro.console_exp_swath" />,
           number: exp_swath_count,
+          name_link: "library/public_library",
           add: "home",
           list: "home"
         },
@@ -259,6 +263,7 @@ class Console extends React.Component {
           key: "exp_prm_count",
           name: <FormattedHTMLMessage id="propro.console_exp_prm" />,
           number: exp_prm_count,
+          name_link: "library/public_library",
           add: "home",
           list: "home"
         },
@@ -266,6 +271,7 @@ class Console extends React.Component {
           key: "project_count",
           name: <FormattedHTMLMessage id="propro.console_project" />,
           number: project_count,
+          name_link: "library/public_library",
           add: "",
           list: "home"
         },
@@ -273,6 +279,7 @@ class Console extends React.Component {
           key: "overview_count",
           name: <FormattedHTMLMessage id="propro.console_overview" />,
           number: overview_count,
+          name_link: "library/public_library",
           add: "",
           list: "home"
         },
@@ -280,6 +287,7 @@ class Console extends React.Component {
           key: "task_running_count",
           name: <FormattedHTMLMessage id="propro.console_task_running" />,
           number: task_running_count,
+          name_link: "library/public_library",
           add: "",
           list: "home"
         }
@@ -307,16 +315,15 @@ class Console extends React.Component {
             名称
           </span>
         ),
-        dataIndex: "name",
         key: "name",
         render: text => (
-          <Link to="home">
+          <Link to={text.name_link}>
             <span
               style={{
                 fontSize: "14px"
               }}
             >
-              {text}
+              {text.name}
             </span>
           </Link>
         )

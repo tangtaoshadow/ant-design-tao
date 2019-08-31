@@ -85,6 +85,11 @@ export default {
           path: "/library/standard_library_create",
           component: "propro/library/standard_library_create"
         },
+        {
+          // 肽段列表 指定id * id
+          path: "/library/peptide/list/*",
+          component: "propro/peptide/list"
+        },
         // {
         //   path: '/locale',
         //   component: 'propro/locale'

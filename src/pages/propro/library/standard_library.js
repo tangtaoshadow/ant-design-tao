@@ -148,7 +148,7 @@ class Standard_library extends React.Component {
       standard_library_list_data: [],
       // 默认没有数据 状态为 -1 这个变量 暂时用不着 但是后续扩展会用到
       standard_library_list_status: -1,
-      searchText: ""
+      search_text: ""
       //   language: this.props.language
     };
 
@@ -297,7 +297,7 @@ class Standard_library extends React.Component {
     render: text => (
       <Highlighter
         highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-        searchWords={[this.state.searchText]}
+        searchWords={[this.state.search_text]}
         autoEscape
         textToHighlight={text.toString()}
       />
@@ -306,12 +306,12 @@ class Standard_library extends React.Component {
 
   handleSearch = (selectedKeys, confirm) => {
     confirm();
-    this.setState({ searchText: selectedKeys[0] });
+    this.setState({ search_text: selectedKeys[0] });
   };
 
   handleReset = clearFilters => {
     clearFilters();
-    this.setState({ searchText: "" });
+    this.setState({ search_text: "" });
   };
 
   set_this_public = (id = "", status) => {
@@ -706,6 +706,10 @@ class Standard_library extends React.Component {
           <Table
             size={"middle"}
             columns={columns}
+            pagination={{
+              position: "bottom",
+              hideOnSinglePage: true
+            }}
             dataSource={this.state.standard_library_list_data}
           />
         </div>
