@@ -104,9 +104,7 @@ class LoginForm extends React.Component {
 
   constructor(props){
     super(props);
-    this.state={
-      locale:localStorage.getItem("locale"),
-    }
+   
   }
 
   handleSubmit = e => {
@@ -458,14 +456,11 @@ const WrappedRegisterForm = Form.create({ name: 'normal_register' })(RegisterFor
 
 
 
-
 @connect(loginStateToProps,loginDispatchToProps)
 export default class Login extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
    
-    };
     
     // 配置 message
     message.config({
@@ -480,18 +475,23 @@ export default class Login extends React.Component {
   }
 
   // 登录结果前端处理
-  login_handle=(login_status,language)=>{
+  handle_login=(login_status,language)=>{
     let login_result = '' ;
      // // 需要处理 登录结果
     if('error'==login_status||-1==login_status){
       // 提示登录失败
-      login_result=Languages[language]["propro.login_error"];
-      message.error(login_result,3);
+      setTimeout(() => {
+        login_result=Languages[language]["propro.login_error"];
+        message.error(login_result,3);   
+      }, 100);
+     
     }else if(0==login_status){
       // 登录成功
-      login_result=Languages[language]["propro.login_success"];
       // 这个关闭时间延长 使得它跳转到控制台时 它仍然存在 增强过渡效果
-      message.success(login_result,5);
+      setTimeout(() => {
+        login_result=Languages[language]["propro.login_success"];
+        message.success(login_result,5);
+      }, 80);
       setTimeout(()=>{
         message.loading(Languages[language]["propro.loading"],2,()=>{
           // 跳转
@@ -501,8 +501,11 @@ export default class Login extends React.Component {
     }else if(-2==login_status||-3==login_status){
       // -2 用户名不存在  -3 密码错误
       // 统一提示用户名或密码错误
-      login_result=Languages[language]["propro.login_false"];
-      message.warn(login_result,3);
+      setTimeout(() => {
+        login_result=Languages[language]["propro.login_false"];
+        message.warn(login_result,3);        
+      }, 100);
+
     }
   }
 
@@ -515,7 +518,7 @@ export default class Login extends React.Component {
       
       // 根据 login_time 判断是否需要处理结果
       if(login_time>((new Date().getTime())-500)){
-          this.login_handle(login_status,language);
+          this.handle_login(login_status,language);
       }
 
       return (
@@ -551,7 +554,6 @@ export default class Login extends React.Component {
                 <span style={{
                   fontSize:'10px',
                   fontWeight:'500',
-                  // fontStyle:'italic',
                 }}>
                 1.1.1-Release
                 </span>

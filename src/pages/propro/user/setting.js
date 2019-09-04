@@ -314,6 +314,7 @@ class UserSetting extends React.Component {
           );
         }, 800);
       }
+
       this.props.set_state_newvalue({ target: "update_info_time", value: 0 });
     }
 

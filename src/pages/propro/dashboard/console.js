@@ -247,9 +247,9 @@ class Console extends React.Component {
           key: "irt_lib_count",
           name: <FormattedHTMLMessage id="propro.console_irt_lib" />,
           number: irt_lib_count,
-          name_link: "library/public_library",
+          name_link: "irt_library/list",
           add: "home",
-          list: "home"
+          list: "irt_library/list"
         },
         {
           key: "exp_swath_count",

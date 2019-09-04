@@ -87,13 +87,33 @@ export default {
         },
         {
           // 肽段列表 指定id * id
-          path: "/library/peptide/list/*",
+          path: "/peptide/list/*",
           component: "propro/peptide/list"
+        },
+        {
+          // 肽段列表详情 id 第一个* 肽段列表的id 第二个* 肽段列表里面的详情的id
+          path: "/peptide/detail/*/*",
+          component: "propro/peptide/detail"
+        },
+        {
+          // 蛋白质列表 指定库的id * id
+          path: "/protein/list/*",
+          component: "propro/protein/list"
+        },
+        {
+          // 肽段列表详情 id 第一个* 肽段列表的id 第二个* 肽段列表里面的详情的id
+          path: "/protein/detail/*/*",
+          component: "propro/protein/detail"
         },
         // {
         //   path: '/locale',
         //   component: 'propro/locale'
         // },
+        {
+          // irt 标准库 列表
+          path: "/irt_library/list",
+          component: "propro/irt_library/list"
+        },
         {
           path: "/test",
           component: "propro/test"

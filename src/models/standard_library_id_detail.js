@@ -2,7 +2,7 @@
 /***
  * @Author          TangTao https://www.promiselee.cn/tao
  * @CreateTime      2019-8-16 02:22:18
- * @UpdateTime      2019-8-30 00:00:17
+ * @UpdateTime      2019-9-2 22:12:37
  * @Copyright       西湖大学 propro http://www.proteomics.pro/
  * @Archive         查询指定id的库信息
  *

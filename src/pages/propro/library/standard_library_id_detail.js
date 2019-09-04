@@ -7,7 +7,7 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @CreateTime          2019-8-26 10:10:20
- * @UpdateTime
+ * @UpdateTime          2019-9-2 22:00:19
  * @Archive             显示 标准库 指定 id 的详情
  */
 
@@ -821,6 +821,7 @@ class Standard_library_list_detail extends React.Component {
                   </span>
                 </Descriptions.Item>
 
+                {/* Fasta去除真肽段数目 */}
                 <Descriptions.Item
                   label={
                     <FormattedHTMLMessage id="propro.standard_library_detail_fastade_weight_peptide_count" />
@@ -841,6 +842,7 @@ class Standard_library_list_detail extends React.Component {
                   </span>
                 </Descriptions.Item>
 
+                {/* 详情描述 */}
                 <Descriptions.Item
                   label={
                     <FormattedHTMLMessage id="propro.standard_library_detail_description" />
@@ -861,6 +863,7 @@ class Standard_library_list_detail extends React.Component {
                   </span>
                 </Descriptions.Item>
 
+                {/* 肽段分析 2019-9-2 10:57:34 */}
                 <Descriptions.Item
                   label={
                     <FormattedHTMLMessage id="propro.standard_library_detail_peptide_analyse" />
@@ -935,6 +938,46 @@ class Standard_library_list_detail extends React.Component {
                   >
                     <FormattedHTMLMessage id="propro.standard_library_detail_delete_pseudopeptides" />
                   </button>
+                </Descriptions.Item>
+
+                {/* 肽段 链接 */}
+                <Descriptions.Item
+                  label={
+                    <FormattedHTMLMessage id="propro.standard_library_detail_peptide_link" />
+                  }
+                  span={4}
+                >
+                  <Link to={"/peptide/list/" + this.state.standard_library_id}>
+                    <button
+                      type="button"
+                      className="btn btn-outline-dark"
+                      style={{
+                        padding: "5px",
+                        height: "30px",
+                        fontSize: "12px",
+                        lineHeight: "20px"
+                      }}
+                    >
+                      {/* 肽段列表 */}
+                      <FormattedHTMLMessage id="propro.standard_library_detail_peptide_list" />
+                    </button>
+                  </Link>
+
+                  <Link to={"/protein/list/" + this.state.standard_library_id}>
+                    <button
+                      type="button"
+                      className="btn btn-outline-dark"
+                      style={{
+                        padding: "5px",
+                        height: "30px",
+                        fontSize: "12px",
+                        lineHeight: "20px",
+                        marginLeft: "10px"
+                      }}
+                    >
+                      <FormattedHTMLMessage id="propro.standard_library_detail_protein_list" />
+                    </button>
+                  </Link>
                 </Descriptions.Item>
               </Descriptions>
 

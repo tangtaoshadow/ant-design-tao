@@ -1,14 +1,14 @@
-// src/pages/propro/library/public_library.js
-// 公共标准库
+// src/pages/propro/irt_library/list.js
+// irt 标准库 列表
 
 /***
  * @Author              TangTao https://www.promiselee.cn/tao
  * @Email               tangtao2099@outlook.com
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
- * @CreateTime          2019-8-14 23:48:57
- * @UpdateTime          2019-8-16 01:05:41
- * @Archive             公共标准库
+ * @CreateTime          2019-9-3 21:40:02
+ * @UpdateTime          2019-9-4 15:28:14
+ * @Archive             irt 库 列表
  */
 
 /****************  导入组件 ***************************/
@@ -65,17 +65,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../style/dashboard/console.less";
 import "../../../layout/Common.css";
 import detail_svg from "../style/static/library/detail.svg";
-import proteins_list_svg from "../style/static/library/list.svg";
-import unordered_list_svg from "../style/static/dashboard/unordered_list.svg";
+import public_library_scg from "../style/static/library/public.svg";
+import update_library_svg from "../style/static/library/update.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
 
 /****************  导入 styles end ***************************/
 
-/***********  public_library View 初始化   ***************/
-/***********  public_library View 初始化   ***************/
+/***********  irt_standard_library View 初始化   ***************/
+/***********  irt_standard_library View 初始化   ***************/
 
-const public_library_state_to_props = state => {
+const irt_standard_library_state_to_props = state => {
   // 发送的对象
   let obj = {};
 
@@ -86,34 +86,42 @@ const public_library_state_to_props = state => {
   }
 
   let {
-    public_library_list_status = -1,
-    public_library_list_time = 0,
-    current_page,
-    total_page,
-    library_list
-  } = state["public_library"];
+    irt_standard_library_list_status = -1,
+    irt_standard_library_list_time = 0,
+    irt_standard_library_list_data = {},
+    irt_standard_library_set_public_time,
+    irt_standard_library_set_public_status
+  } = state["irt_standard_library"];
 
-  (obj.public_library_list_status = public_library_list_status),
-    (obj.public_library_list_time = public_library_list_time),
-    (obj.current_page = current_page),
-    (obj.total_page = total_page),
-    (obj.library_list = library_list);
+  (obj.irt_standard_library_set_public_status = irt_standard_library_set_public_status),
+    (obj.irt_standard_library_set_public_time = irt_standard_library_set_public_time),
+    (obj.irt_standard_library_list_status = irt_standard_library_list_status),
+    (obj.irt_standard_library_list_time = irt_standard_library_list_time),
+    (obj.irt_standard_library_list_data = irt_standard_library_list_data);
+
   return obj;
 };
 
-const public_library_dispatch_to_props = dispatch => {
+const irt_standard_library_dispatch_to_props = dispatch => {
   return {
     // 更新触发器
-    get_public_library_list: () => {
+    get_irt_standard_library_list: () => {
       const action = {
-        type: "public_library/get_public_library_list",
+        type: "irt_standard_library/get_irt_standard_library_list",
         payload: null
       };
       dispatch(action);
     },
     set_state_newvalue: data => {
       const action = {
-        type: "public_library/set_state_newvalue",
+        type: "irt_standard_library/set_state_newvalue",
+        payload: data
+      };
+      dispatch(action);
+    },
+    set_library_public_by_id: data => {
+      const action = {
+        type: "irt_standard_library/set_library_public_by_id",
         payload: data
       };
       dispatch(action);
@@ -121,54 +129,62 @@ const public_library_dispatch_to_props = dispatch => {
   };
 };
 
-/***********  public_library View 初始化 end  ***************/
+/***********  irt_standard_library View 初始化 end  ***************/
 
 @connect(
-  public_library_state_to_props,
-  public_library_dispatch_to_props
+  irt_standard_library_state_to_props,
+  irt_standard_library_dispatch_to_props
 )
-class Public_library extends React.Component {
+class Irt_standard_library extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query_public_library_list_times: 0,
-      public_library_list_data: [],
+      // 查询标准库的次数
+      query_irt_standard_library_list_times: 0,
+      //   查询到的标准库数据
+      irt_standard_library_list_data: [],
       // 默认没有数据 状态为 -1 这个变量 暂时用不着 但是后续扩展会用到
-      public_library_list_status: -1,
-      searchText: ""
+      irt_standard_library_list_status: -1,
+      // 请求失败再次发起请求的尝试次数
+      irt_standard_library_list_false_time: 5,
+      search_text: ""
       //   language: this.props.language
     };
 
-    this.props.get_public_library_list();
+    this.props.get_irt_standard_library_list();
+    // 配置 message
+    message.config({
+      top: 500,
+      duration: 2,
+      maxCount: 5,
+      getContainer: () => document.body
+    });
   }
 
-  handle_public_library_list = () => {
-    setTimeout((i = this.state.query_public_library_list_times) => {
-      this.setState({ query_public_library_list_times: i + 1 });
-    }, 230);
+  handle_irt_standard_library_list = () => {
     // 时间戳设置为 0
     this.props.set_state_newvalue({
-      target: "public_library_list_time",
+      target: "irt_standard_library_list_time",
       value: 0
     });
 
     // 检查状态
-    if (0 == this.props.public_library_list_status) {
+    if (0 == this.props.irt_standard_library_list_status) {
       // 数据获取成功
       setTimeout(() => {
         // 调用 添加更新数据函数
-        this.change_public_library_list_data(this.props);
+        this.change_irt_standard_library_list_data();
         // 添加服务端数据
         this.setState({
           // 标记 成功
-          public_library_list_status: 0
+          irt_standard_library_list_status: 0
         });
       }, 200);
     } else {
       // 数据获取失败
       setTimeout(() => {
         this.setState({
-          public_library_list_status: -1
+          irt_standard_library_list_status: -1
         });
       }, 220);
       Modal.error({
@@ -182,42 +198,56 @@ class Public_library extends React.Component {
     return 0;
   };
 
-  change_public_library_list_data = obj => {
+  change_irt_standard_library_list_data = () => {
+    console.log(this.props.irt_standard_library_list_data);
     //   提取 model 层 传过来的数据
-    const { current_page, total_page, library_list } = obj;
-    let obj_data = new Array();
-    let index = 1;
-    for (let i in library_list) {
-      // 提取
-      let {
-        id,
-        name,
-        doPublic,
-        creator,
-        createDate,
-        proteinCount,
-        totalCount
-      } = library_list[i];
-      // 缓存对象
-      let obj_temp = {};
-      obj_temp.id = id;
-      // 添加索引是为了展示方便
-      obj_temp.index = index++;
-      obj_temp.key = "library_list_" + i;
-      obj_temp.name = name;
-      obj_temp.is_public = doPublic;
-      obj_temp.creator = creator;
-      // 转换时间戳为指定的日期格式
-      obj_temp.create_date = tao.format_time(createDate);
-      // 蛋白质数目
-      obj_temp.protein_count = proteinCount;
-      // 肽段数目
-      obj_temp.total_count = totalCount;
-      obj_data.push(obj_temp);
+    const {
+      libraryList: library_list,
+      totalPage: total_page,
+      pageSize: page_size,
+      currentPage: current_page
+    } = this.props.irt_standard_library_list_data;
+
+    let { length: len0 } = library_list;
+    let obj_data = null;
+    if (0 < len0) {
+      obj_data = new Array(len0);
+      let index = 0;
+      for (let i in library_list) {
+        // 提取
+        let {
+          id,
+          name,
+          doPublic,
+          creator,
+          createDate,
+          proteinCount,
+          totalCount
+        } = library_list[i];
+
+        // 缓存对象
+        let obj_temp = {};
+        obj_temp.id = id;
+
+        // 添加索引是为了展示方便
+        obj_temp.index = index + 1;
+        obj_temp.key = "irt_library_list_" + i;
+        obj_temp.name = name;
+        obj_temp.is_public = doPublic;
+        obj_temp.creator = creator;
+
+        // 转换时间戳为指定的日期格式
+        obj_temp.create_date = tao.format_time(createDate);
+        // 蛋白质数目
+        obj_temp.protein_count = proteinCount;
+        // 肽段数目
+        obj_temp.total_count = totalCount;
+        obj_data[index++] = obj_temp;
+      }
     }
 
     this.setState({
-      public_library_list_data: obj_data
+      irt_standard_library_list_data: obj_data
     });
 
     return 0;
@@ -250,14 +280,14 @@ class Public_library extends React.Component {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          <FormattedHTMLMessage id="propro.public_library_search" />
+          <FormattedHTMLMessage id="propro.irt_standard_library_search" />
         </Button>
         <Button
           onClick={() => this.handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          <FormattedHTMLMessage id="propro.public_library_reset" />
+          <FormattedHTMLMessage id="propro.irt_standard_library_reset" />
         </Button>
       </div>
     ),
@@ -277,7 +307,7 @@ class Public_library extends React.Component {
     render: text => (
       <Highlighter
         highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-        searchWords={[this.state.searchText]}
+        searchWords={[this.state.search_text]}
         autoEscape
         textToHighlight={text.toString()}
       />
@@ -286,12 +316,79 @@ class Public_library extends React.Component {
 
   handleSearch = (selectedKeys, confirm) => {
     confirm();
-    this.setState({ searchText: selectedKeys[0] });
+    this.setState({ search_text: selectedKeys[0] });
   };
 
   handleReset = clearFilters => {
     clearFilters();
-    this.setState({ searchText: "" });
+    this.setState({ search_text: "" });
+  };
+
+  set_this_public = (id = "", status) => {
+    let { language } = this.props;
+    if (false == status && 5 < id.length) {
+      // 调用 公开标准库接口
+      // 提示
+      message.loading(
+        Languages[language]["propro.irt_standard_library_set_public"] +
+          " : " +
+          Languages[language]["propro.prompt_running"],
+        0.5
+      );
+      this.props.set_library_public_by_id({ id: id });
+    } else {
+      // 不需要更新
+      message.info(
+        Languages[language]["propro.irt_standard_library_set_public"] +
+          " : " +
+          Languages[language]["propro.prompt_cancel"],
+        1
+      );
+      return -1;
+    }
+  };
+
+  handle_irt_standard_library_set_public = () => {
+    // 时间戳设置为 0
+    this.props.set_state_newvalue({
+      target: "irt_standard_library_set_public_time",
+      value: 0
+    });
+
+    // 提取返回状态
+    let { irt_standard_library_set_public_status, language } = this.props;
+
+    if (0 == irt_standard_library_set_public_status) {
+      // 更新成功
+      setTimeout(() => {
+        this.setState({ irt_standard_library_list_status: -1 });
+      }, 800);
+      setTimeout(() => {
+        // 调用重新获取数据接口 注意演示 防止过度刷新请求
+        this.props.get_irt_standard_library_list();
+      }, 1100);
+
+      setTimeout(() => {
+        // 提示
+        message.success(
+          Languages[language]["propro.irt_standard_library_set_public"] +
+            " : " +
+            Languages[language]["propro.prompt_success"],
+          2
+        );
+      }, 520);
+    } else {
+      // 执行公开 失败
+      setTimeout(() => {
+        // 提示
+        message.error(
+          Languages[language]["propro.irt_standard_library_set_public"] +
+            " : " +
+            Languages[language]["propro.prompt_failed"],
+          4
+        );
+      }, 520);
+    }
   };
 
   render() {
@@ -306,13 +403,11 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_library_index" />
+            <FormattedHTMLMessage id="propro.irt_standard_library_index" />
           </span>
         ),
         dataIndex: "index",
         key: "index"
-        // width: "30%",
-        // ...this.get_column_search_props("id")
       },
       {
         //   标准库名称
@@ -324,16 +419,14 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_library_name" />
+            <FormattedHTMLMessage id="propro.irt_standard_library_name" />
           </span>
         ),
-        // dataIndex: "name",
         key: "name",
-        // width: "20%"
         ...this.get_column_search_props("name"),
         render: list => {
           return (
-            <Link to={"/library/public_library/detail/" + list.id}>
+            <Link to={"/library/irt_standard_library/detail/" + list.id}>
               {list.name}
             </Link>
           );
@@ -349,12 +442,11 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_library_id" />
+            <FormattedHTMLMessage id="propro.irt_standard_library_id" />
           </span>
         ),
         dataIndex: "id",
         key: "id",
-        // width: "30%",
         ...this.get_column_search_props("id")
       },
       {
@@ -367,7 +459,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_library_is_public" />
+            <FormattedHTMLMessage id="propro.irt_standard_library_is_public" />
           </span>
         ),
         dataIndex: "is_public",
@@ -396,7 +488,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_library_protein_count" />
+            <FormattedHTMLMessage id="propro.irt_standard_library_protein_count" />
           </span>
         ),
         dataIndex: "protein_count",
@@ -412,7 +504,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_library_protein_count" />
+            <FormattedHTMLMessage id="propro.irt_standard_library_protein_count" />
           </span>
         ),
         dataIndex: "total_count",
@@ -428,7 +520,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_library_create_time" />
+            <FormattedHTMLMessage id="propro.irt_standard_library_create_time" />
           </span>
         ),
         dataIndex: "create_date",
@@ -449,7 +541,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_library_creator" />
+            <FormattedHTMLMessage id="propro.irt_standard_library_creator" />
           </span>
         ),
         dataIndex: "creator",
@@ -465,7 +557,7 @@ class Public_library extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.public_library_operation" />
+            <FormattedHTMLMessage id="propro.irt_standard_library_operation" />
           </span>
         ),
         key: "action",
@@ -476,10 +568,10 @@ class Public_library extends React.Component {
               {/* 详情链接 */}
               <Tooltip
                 title={
-                  <FormattedHTMLMessage id="propro.public_library_detail" />
+                  <FormattedHTMLMessage id="propro.irt_standard_library_detail" />
                 }
               >
-                <Link to={"/library/public_library/detail/" + list.id}>
+                <Link to={"/library/irt_standard_library/detail/" + list.id}>
                   <button
                     type="button"
                     className={"btn " + `${styles.bg_second_color}`}
@@ -497,14 +589,20 @@ class Public_library extends React.Component {
                   </button>
                 </Link>
               </Tooltip>
-
-              {/* 肽段列表链接 */}
+              {/* 更新标准库链接 */}
               <Tooltip
                 title={
-                  <FormattedHTMLMessage id="propro.public_library_peptides_list" />
+                  <FormattedHTMLMessage id="propro.irt_standard_library_update" />
                 }
               >
-                <Link to={"/peptide/list/" + list.id}>
+                <Link
+                  to={
+                    "/library/irt_standard_library/update/" +
+                    list.id +
+                    "_" +
+                    list.name
+                  }
+                >
                   <button
                     type="button"
                     className={"btn " + `${styles.bg_primary_color}`}
@@ -514,7 +612,7 @@ class Public_library extends React.Component {
                     }}
                   >
                     <img
-                      src={unordered_list_svg}
+                      src={update_library_svg}
                       style={{
                         height: "20px"
                       }}
@@ -522,30 +620,30 @@ class Public_library extends React.Component {
                   </button>
                 </Link>
               </Tooltip>
-
-              {/* 蛋白列表链接 */}
+              {/* 肽段列表链接 */}
               <Tooltip
                 title={
-                  <FormattedHTMLMessage id="propro.public_library_protein_list" />
+                  <FormattedHTMLMessage id="propro.irt_standard_library_set_public" />
                 }
               >
-                <Link to={"/protein/list/" + list.id}>
-                  <button
-                    type="button"
-                    className={"btn " + `${styles.bg_green_color}`}
+                <button
+                  type="button"
+                  className={"btn " + `${styles.bg_green_color}`}
+                  style={{
+                    padding: "5px 10px",
+                    margin: "5px"
+                  }}
+                  onClick={() => {
+                    this.set_this_public(list.id, list.is_public);
+                  }}
+                >
+                  <img
+                    src={public_library_scg}
                     style={{
-                      padding: "5px 10px",
-                      margin: "5px"
+                      height: "20px"
                     }}
-                  >
-                    <img
-                      src={proteins_list_svg}
-                      style={{
-                        height: "20px"
-                      }}
-                    />
-                  </button>
-                </Link>
+                  />
+                </button>
               </Tooltip>
             </Fragment>
           );
@@ -553,13 +651,13 @@ class Public_library extends React.Component {
       }
     ];
 
-    // 监控 public_library_list 数据变化
-    if (0 != this.props.public_library_list_time) {
+    // 监控 irt_standard_library_list 数据变化
+    if (0 != this.props.irt_standard_library_list_time) {
       // 资源有更新
-      this.handle_public_library_list();
+      this.handle_irt_standard_library_list();
     }
 
-    if (0 != this.state.public_library_list_status) {
+    if (0 != this.state.irt_standard_library_list_status) {
       return (
         <Fragment>
           <Row>
@@ -575,6 +673,10 @@ class Public_library extends React.Component {
           </Row>
         </Fragment>
       );
+    }
+
+    if (10000 < this.props.irt_standard_library_set_public_time) {
+      this.handle_irt_standard_library_set_public();
     }
 
     return (
@@ -601,7 +703,7 @@ class Public_library extends React.Component {
               />
             </Link>
           </Tooltip>
-          <FormattedHTMLMessage id="propro.public_library_title" />
+          <FormattedHTMLMessage id="propro.irt_standard_library_title" />
         </div>
         <div
           style={{
@@ -618,7 +720,7 @@ class Public_library extends React.Component {
               position: "bottom",
               hideOnSinglePage: true
             }}
-            dataSource={this.state.public_library_list_data}
+            dataSource={this.state.irt_standard_library_list_data}
           />
         </div>
       </div>
@@ -626,4 +728,4 @@ class Public_library extends React.Component {
   }
 }
 
-export default Public_library;
+export default Irt_standard_library;

@@ -21,9 +21,12 @@ export function _onCreate() {
   });
   
   app.model({ namespace: 'console', ...(require('F:/java/antd-2/ant-design-tao/src/models/console.js').default) });
+app.model({ namespace: 'irt_standard_library', ...(require('F:/java/antd-2/ant-design-tao/src/models/irt_standard_library.js').default) });
 app.model({ namespace: 'language', ...(require('F:/java/antd-2/ant-design-tao/src/models/language.js').default) });
 app.model({ namespace: 'login', ...(require('F:/java/antd-2/ant-design-tao/src/models/login.js').default) });
+app.model({ namespace: 'peptide_detail', ...(require('F:/java/antd-2/ant-design-tao/src/models/peptide_detail.js').default) });
 app.model({ namespace: 'peptide_list', ...(require('F:/java/antd-2/ant-design-tao/src/models/peptide_list.js').default) });
+app.model({ namespace: 'protein_list', ...(require('F:/java/antd-2/ant-design-tao/src/models/protein_list.js').default) });
 app.model({ namespace: 'public_library_id_detail', ...(require('F:/java/antd-2/ant-design-tao/src/models/public_library_id_detail.js').default) });
 app.model({ namespace: 'public_library_update', ...(require('F:/java/antd-2/ant-design-tao/src/models/public_library_update.js').default) });
 app.model({ namespace: 'public_library', ...(require('F:/java/antd-2/ant-design-tao/src/models/public_library.js').default) });

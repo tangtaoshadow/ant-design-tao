@@ -228,11 +228,11 @@ class Public_library_update extends React.Component {
     obj.peptide_file_list = this.state.peptide_file_list;
     obj.csv_library_file_list = this.state.csv_library_file_list;
 
-    obj.id = this.state.public_library_update_id;
-    obj.name = this.state.public_library_update_name;
-    obj.library_type = this.state.public_library_type;
-    obj.only_target_peptides = this.state.public_library_update_only_target_peptides;
-    obj.detail_description = this.state.public_library_detail_description;
+    (obj.id = this.state.public_library_update_id),
+      (obj.name = this.state.public_library_update_name),
+      (obj.library_type = this.state.public_library_type),
+      (obj.only_target_peptides = this.state.public_library_update_only_target_peptides),
+      (obj.detail_description = this.state.public_library_detail_description);
 
     if ("" == obj.csv_library_file_list) {
       return -1;
@@ -565,7 +565,7 @@ class Public_library_update extends React.Component {
             <Input value={this.state.public_library_update_id} maxLength={30} />
           </div>
 
-          {/* type */}
+          {/* 库类型 */}
           <div
             className="input-group-sm mb-3"
             style={{

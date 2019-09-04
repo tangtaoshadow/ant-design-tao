@@ -7,7 +7,7 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @CreateTime          2019-8-25 18:25:38
- * @UpdateTime          2019-8-30 12:38:19
+ * @UpdateTime          2019-9-2 21:59:18
  * @Archive             标准库
  */
 
@@ -102,6 +102,7 @@ const standard_library_state_to_props = state => {
     (obj.current_page = current_page),
     (obj.total_page = total_page),
     (obj.library_list = library_list);
+
   return obj;
 };
 
@@ -218,15 +219,18 @@ class Standard_library extends React.Component {
         proteinCount,
         totalCount
       } = library_list[i];
+
       // 缓存对象
       let obj_temp = {};
       obj_temp.id = id;
+
       // 添加索引是为了展示方便
       obj_temp.index = index++;
       obj_temp.key = "library_list_" + i;
       obj_temp.name = name;
       obj_temp.is_public = doPublic;
       obj_temp.creator = creator;
+
       // 转换时间戳为指定的日期格式
       obj_temp.create_date = tao.format_time(createDate);
       // 蛋白质数目

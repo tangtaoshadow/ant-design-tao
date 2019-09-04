@@ -927,6 +927,45 @@ class Library_list_detail extends React.Component {
                     <FormattedHTMLMessage id="propro.public_library_detail_delete_pseudopeptides" />
                   </button>
                 </Descriptions.Item>
+                {/* 肽段 链接 */}
+                <Descriptions.Item
+                  label={
+                    <FormattedHTMLMessage id="propro.public_library_detail_peptide_link" />
+                  }
+                  span={4}
+                >
+                  <Link to={"/peptide/list/" + this.state.public_library_id}>
+                    <button
+                      type="button"
+                      className="btn btn-outline-dark"
+                      style={{
+                        padding: "5px",
+                        height: "30px",
+                        fontSize: "12px",
+                        lineHeight: "20px"
+                      }}
+                    >
+                      {/* 肽段列表 */}
+                      <FormattedHTMLMessage id="propro.public_library_detail_peptide_list" />
+                    </button>
+                  </Link>
+
+                  <Link to={"/protein/list/" + this.state.public_library_id}>
+                    <button
+                      type="button"
+                      className="btn btn-outline-dark"
+                      style={{
+                        padding: "5px",
+                        height: "30px",
+                        fontSize: "12px",
+                        lineHeight: "20px",
+                        marginLeft: "10px"
+                      }}
+                    >
+                      <FormattedHTMLMessage id="propro.public_library_detail_protein_list" />
+                    </button>
+                  </Link>
+                </Descriptions.Item>
               </Descriptions>
 
               <Col

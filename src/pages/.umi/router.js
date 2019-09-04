@@ -100,8 +100,28 @@ const routes = [
         exact: true,
       },
       {
-        path: '/library/peptide/list/*',
+        path: '/peptide/list/*',
         component: require('../propro/peptide/list').default,
+        exact: true,
+      },
+      {
+        path: '/peptide/detail/*/*',
+        component: require('../propro/peptide/detail').default,
+        exact: true,
+      },
+      {
+        path: '/protein/list/*',
+        component: require('../propro/protein/list').default,
+        exact: true,
+      },
+      {
+        path: '/protein/detail/*/*',
+        component: require('../propro/protein/detail').default,
+        exact: true,
+      },
+      {
+        path: '/irt_library/list',
+        component: require('../propro/irt_library/list').default,
         exact: true,
       },
       {

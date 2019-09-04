@@ -113,7 +113,7 @@ let language_ch = {
   "propro.network_error":
     "..(｡•ˇ‸ˇ•｡)… 非常抱歉,PROPRO未能成功获取数据,请检查网络",
 
-  // 公共标准库
+  // 公共标准库 列表
   "propro.public_library_title": "公共标准库列表",
   "propro.public_library_search": "搜索",
   "propro.public_library_reset": "重置",
@@ -130,6 +130,44 @@ let language_ch = {
   "propro.public_library_protein_list": "蛋白质列表",
   "propro.public_library_peptides_list": "肽段列表",
   "propro.public_library_update": "更新公共标准库",
+
+  // 标准库 列表
+  "propro.standard_library_title": "标准库列表",
+  "propro.standard_library_search": "搜索",
+  "propro.standard_library_reset": "重置",
+  "propro.standard_library_index": "序列号",
+  "propro.standard_library_id": "标准库id",
+  "propro.standard_library_name": "标准库名称",
+  "propro.standard_library_protein_count": "蛋白质数目",
+  "propro.standard_library_total_count": "肽段数目",
+  "propro.standard_library_create_time": "创建时间",
+  "propro.standard_library_is_public": "是否公开",
+  "propro.standard_library_creator": "创建者",
+  "propro.standard_library_operation": "操作",
+  "propro.standard_library_detail": "详情",
+  "propro.standard_library_protein_list": "蛋白质列表",
+  "propro.standard_library_peptides_list": "肽段列表",
+  "propro.standard_library_update": "更新标准库",
+  "propro.standard_library_set_public": "公开标准库",
+
+  // IRT 校准库 列表
+  "propro.irt_standard_library_title": "IRT校准库列表",
+  "propro.irt_standard_library_search": "搜索",
+  "propro.irt_standard_library_reset": "重置",
+  "propro.irt_standard_library_index": "序列号",
+  "propro.irt_standard_library_id": "校准库id",
+  "propro.irt_standard_library_name": "校准库名称",
+  "propro.irt_standard_library_protein_count": "蛋白质数目",
+  "propro.irt_standard_library_total_count": "肽段数目",
+  "propro.irt_standard_library_create_time": "创建时间",
+  "propro.irt_standard_library_is_public": "是否公开",
+  "propro.irt_standard_library_creator": "创建者",
+  "propro.irt_standard_library_operation": "操作",
+  "propro.irt_standard_library_detail": "详情",
+  "propro.irt_standard_library_protein_list": "蛋白质列表",
+  "propro.irt_standard_library_peptides_list": "肽段列表",
+  "propro.irt_standard_library_update": "更新校准库",
+  "propro.irt_standard_library_set_public": "公开校准库",
 
   // 公共标准库详情
   "propro.public_library_detail_title": "公共标准库详情页",
@@ -154,6 +192,7 @@ let language_ch = {
   "propro.public_library_detail_create_time": "创建时间",
   "propro.public_library_detail_last_modify_time": "最后修改时间",
   "propro.public_library_detail_peptide_analyse": "肽段分析",
+  "propro.public_library_detail_peptide_link": "查看肽段",
   "propro.public_library_detail_re_statistic_analyse":
     "重新统计蛋白质与肽段的数目",
   "propro.public_library_detail_generating_pseudopeptides": "生成伪肽段",
@@ -165,6 +204,8 @@ let language_ch = {
   "propro.public_library_detail_failed": "失败",
   "propro.public_library_detail_delete_warning": "确认删除该标准库",
   "propro.public_library_detail_delete_by_id": "删除标准库",
+  "propro.public_library_detail_peptide_list": "肽段列表",
+  "propro.public_library_detail_protein_list": "蛋白质列表",
 
   // 更新公共标准库
   "propro.public_library_update_title": "更新公共标准库",
@@ -192,25 +233,6 @@ let language_ch = {
   "propro.standard_library_update_success": "成功",
   "propro.standard_library_update_failed": "失败",
 
-  // 标准库
-  "propro.standard_library_title": "标准库列表",
-  "propro.standard_library_search": "搜索",
-  "propro.standard_library_reset": "重置",
-  "propro.standard_library_index": "序列号",
-  "propro.standard_library_id": "标准库id",
-  "propro.standard_library_name": "标准库名称",
-  "propro.standard_library_protein_count": "蛋白质数目",
-  "propro.standard_library_total_count": "肽段数目",
-  "propro.standard_library_create_time": "创建时间",
-  "propro.standard_library_is_public": "是否公开",
-  "propro.standard_library_creator": "创建者",
-  "propro.standard_library_operation": "操作",
-  "propro.standard_library_detail": "详情",
-  "propro.standard_library_protein_list": "蛋白质列表",
-  "propro.standard_library_peptides_list": "肽段列表",
-  "propro.standard_library_update": "更新标准库",
-  "propro.standard_library_set_public": "公开标准库",
-
   // 标准库详情
   "propro.standard_library_detail_title": "标准库详情页",
   "propro.standard_library": "标准库",
@@ -235,6 +257,7 @@ let language_ch = {
   "propro.standard_library_detail_create_time": "创建时间",
   "propro.standard_library_detail_last_modify_time": "最后修改时间",
   "propro.standard_library_detail_peptide_analyse": "肽段分析",
+  "propro.standard_library_detail_peptide_link": "查看肽段",
   "propro.standard_library_detail_re_statistic_analyse":
     "重新统计蛋白质与肽段的数目",
   "propro.standard_library_detail_generating_pseudopeptides": "生成伪肽段",
@@ -246,6 +269,8 @@ let language_ch = {
   "propro.standard_library_detail_failed": "失败",
   "propro.standard_library_detail_delete_warning": "确认删除该标准库",
   "propro.standard_library_detail_delete_by_id": "删除标准库",
+  "propro.standard_library_detail_peptide_list": "肽段列表",
+  "propro.standard_library_detail_protein_list": "蛋白质列表",
 
   // 创建标准库
 
@@ -261,7 +286,7 @@ let language_ch = {
   "propro.standard_library_create_only_name": "标准库名称必须唯一",
   "propro.standard_library_create_submit": "创建",
 
-  // 肽段列表
+  // 肽段列表页
   "propro.peptide_list_title": "肽段列表",
   "propro.peptide_list_library_information": "库信息",
   "propro.peptide_list_search": "查找",
@@ -276,6 +301,25 @@ let language_ch = {
   "propro.peptide_list_search_time": "搜索用时",
   "propro.peptide_list_search_numbers": "搜索结果",
   "propro.peptide_list_see_detail": "查看详情",
+
+  // 肽段列表详情
+  "propro.peptide_detail_title": "肽段详情",
+
+  // 蛋白质列表页
+  "propro.protein_list_title": "蛋白质列表",
+  "propro.protein_list_library_information": "库信息",
+  "propro.protein_list_search": "查找",
+  "propro.protein_list_search_by_name_title": "查询库",
+  "propro.protein_list_search_by_name": "请输入库名称",
+  "propro.protein_list_name": "名称",
+  "propro.protein_list_id": "ID",
+  "propro.protein_list_total_pages": "总页数",
+  "propro.protein_list_receive_pages": "已加载页数",
+  "propro.protein_list_page_size": "页大小",
+  "propro.protein_list_current_page": "当前页",
+  "propro.protein_list_search_time": "搜索用时",
+  "propro.protein_list_search_numbers": "搜索结果",
+  "propro.protein_list_see_detail": "查看详情",
 
   "propro.end": "end"
 };
