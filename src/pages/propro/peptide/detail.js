@@ -200,7 +200,6 @@ class Peptide_detail extends React.Component {
       language,
       peptide_detail_data
     } = this.props;
-    console.log(peptide_detail_data);
 
     if (0 == peptide_detail_data_status) {
       //   成功
@@ -304,7 +303,6 @@ class Peptide_detail extends React.Component {
           }
         }
 
-        console.log(decoy_fragment_arr);
 
         this.setState({
           peptide_detail_data_status: 0,

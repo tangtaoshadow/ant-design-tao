@@ -58,6 +58,10 @@ export default {
           component: "propro/public_standard_library/list"
         },
         {
+          path: "/public_standard_library/detail/*",
+          component: "propro/public_standard_library/detail"
+        },
+        {
           path: "/library/standard_library",
           component: "propro/library/standard_library"
         },

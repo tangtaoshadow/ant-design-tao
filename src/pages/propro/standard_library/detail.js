@@ -769,7 +769,8 @@ class Standard_library_detail extends React.Component {
                     {0 == detail_data.type ? (
                       <FormattedHTMLMessage id="propro.standard_library" />
                     ) : (
-                      "IRT Library"
+                      
+                      <FormattedHTMLMessage id="propro.irt_standard_library" />
                     )}
                   </span>
                 </Descriptions.Item>

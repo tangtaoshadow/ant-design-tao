@@ -6,9 +6,9 @@
  * @Email               tangtao2099@outlook.com
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
- * @CreateTime          2019-9-3 21:40:02
- * @UpdateTime          2019-9-6 15:31:38
- * @Archive             public 库 列表
+ * @CreateTime          2019-8-14 23:48:57
+ * @UpdateTime          2019-9-6 15:49:50
+ * @Archive             2.0版本 公共标准库
  */
 
 /****************  导入组件 ***************************/
@@ -65,8 +65,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../style/dashboard/console.less";
 import "../../../layout/Common.css";
 import detail_svg from "../style/static/library/detail.svg";
-import public_library_scg from "../style/static/library/public.svg";
-import update_library_svg from "../style/static/library/update.svg";
+import proteins_list_svg from "../style/static/library/list.svg";
+import unordered_list_svg from "../style/static/dashboard/unordered_list.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
 
@@ -217,7 +217,6 @@ class Public_standard_library_list extends React.Component {
   };
 
   change_public_standard_library_list_data = () => {
-    console.log(this.props.public_standard_library_list_data);
     //   提取 model 层 传过来的数据
     const {
       libraryList: library_list,
@@ -249,7 +248,7 @@ class Public_standard_library_list extends React.Component {
 
         // 添加索引是为了展示方便
         (obj_temp.index = index + 1),
-          (obj_temp.key = "public_library_list_" + i),
+          (obj_temp.key = "public_standard_library_list_list_" + i),
           (obj_temp.name = name),
           (obj_temp.is_public = doPublic),
           (obj_temp.creator = creator),
@@ -616,20 +615,14 @@ class Public_standard_library_list extends React.Component {
                   </button>
                 </Link>
               </Tooltip>
-              {/* 更新标准库链接 */}
+
+              {/* 肽段列表链接 */}
               <Tooltip
                 title={
-                  <FormattedHTMLMessage id="propro.public_standard_library_list_update" />
+                  <FormattedHTMLMessage id="propro.public_standard_library_list_peptides_list" />
                 }
               >
-                <Link
-                  to={
-                    "/library/public_standard_library/update/" +
-                    list.id +
-                    "_" +
-                    list.name
-                  }
-                >
+                <Link to={"/peptide/list/" + list.id}>
                   <button
                     type="button"
                     className={"btn " + `${styles.bg_primary_color}`}
@@ -639,7 +632,7 @@ class Public_standard_library_list extends React.Component {
                     }}
                   >
                     <img
-                      src={update_library_svg}
+                      src={unordered_list_svg}
                       style={{
                         height: "20px"
                       }}
@@ -647,30 +640,30 @@ class Public_standard_library_list extends React.Component {
                   </button>
                 </Link>
               </Tooltip>
-              {/* 肽段列表链接 */}
+
+              {/* 蛋白列表链接 */}
               <Tooltip
                 title={
-                  <FormattedHTMLMessage id="propro.public_standard_library_list_set_public" />
+                  <FormattedHTMLMessage id="propro.public_standard_library_list_protein_list" />
                 }
               >
-                <button
-                  type="button"
-                  className={"btn " + `${styles.bg_green_color}`}
-                  style={{
-                    padding: "5px 10px",
-                    margin: "5px"
-                  }}
-                  onClick={() => {
-                    this.set_this_public(list.id, list.is_public);
-                  }}
-                >
-                  <img
-                    src={public_library_scg}
+                <Link to={"/protein/list/" + list.id}>
+                  <button
+                    type="button"
+                    className={"btn " + `${styles.bg_green_color}`}
                     style={{
-                      height: "20px"
+                      padding: "5px 10px",
+                      margin: "5px"
                     }}
-                  />
-                </button>
+                  >
+                    <img
+                      src={proteins_list_svg}
+                      style={{
+                        height: "20px"
+                      }}
+                    />
+                  </button>
+                </Link>
               </Tooltip>
             </Fragment>
           );

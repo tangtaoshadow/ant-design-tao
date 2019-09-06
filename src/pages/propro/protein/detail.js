@@ -204,7 +204,6 @@ class Peptide_detail extends React.Component {
       language,
       peptide_detail_data
     } = this.props;
-    console.log(peptide_detail_data);
 
     if (0 == peptide_detail_data_status) {
       //   成功

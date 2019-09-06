@@ -68,6 +68,11 @@ const routes = [
         exact: true,
       },
       {
+        path: '/public_standard_library/detail/*',
+        component: require('../propro/public_standard_library/detail').default,
+        exact: true,
+      },
+      {
         path: '/library/standard_library',
         component: require('../propro/library/standard_library').default,
         exact: true,

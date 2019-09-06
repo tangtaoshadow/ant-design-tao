@@ -217,7 +217,6 @@ class Irt_standard_library_list extends React.Component {
   };
 
   change_irt_standard_library_list_data = () => {
-    console.log(this.props.irt_standard_library_list_data);
     //   提取 model 层 传过来的数据
     const {
       libraryList: library_list,

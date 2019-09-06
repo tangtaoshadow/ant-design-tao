@@ -184,7 +184,6 @@ class Protein_list extends React.Component {
       value: 0
     });
     let { protein_list_data_status, language, protein_list_data } = this.props;
-    console.log(protein_list_data);
 
     if (0 == protein_list_data_status) {
       //   成功
@@ -342,14 +341,14 @@ class Protein_list extends React.Component {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          <FormattedHTMLMessage id="propro.standard_library_search" />
+          <FormattedHTMLMessage id="propro.standard_library_list_search" />
         </Button>
         <Button
           onClick={() => this.handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          <FormattedHTMLMessage id="propro.standard_library_reset" />
+          <FormattedHTMLMessage id="propro.standard_library_list_reset" />
         </Button>
       </div>
     ),

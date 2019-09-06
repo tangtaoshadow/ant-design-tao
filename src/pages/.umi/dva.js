@@ -29,9 +29,9 @@ app.model({ namespace: 'login', ...(require('F:/java/antd-2/ant-design-tao/src/m
 app.model({ namespace: 'peptide_detail', ...(require('F:/java/antd-2/ant-design-tao/src/models/peptide_detail.js').default) });
 app.model({ namespace: 'peptide_list', ...(require('F:/java/antd-2/ant-design-tao/src/models/peptide_list.js').default) });
 app.model({ namespace: 'protein_list', ...(require('F:/java/antd-2/ant-design-tao/src/models/protein_list.js').default) });
-app.model({ namespace: 'public_library_id_detail', ...(require('F:/java/antd-2/ant-design-tao/src/models/public_library_id_detail.js').default) });
 app.model({ namespace: 'public_library_list', ...(require('F:/java/antd-2/ant-design-tao/src/models/public_library_list.js').default) });
 app.model({ namespace: 'public_library_update', ...(require('F:/java/antd-2/ant-design-tao/src/models/public_library_update.js').default) });
+app.model({ namespace: 'public_standard_library_detail', ...(require('F:/java/antd-2/ant-design-tao/src/models/public_standard_library_detail.js').default) });
 app.model({ namespace: 'puzzlecards', ...(require('F:/java/antd-2/ant-design-tao/src/models/puzzlecards.js').default) });
 app.model({ namespace: 'standard_library_create', ...(require('F:/java/antd-2/ant-design-tao/src/models/standard_library_create.js').default) });
 app.model({ namespace: 'standard_library_detail', ...(require('F:/java/antd-2/ant-design-tao/src/models/standard_library_detail.js').default) });
