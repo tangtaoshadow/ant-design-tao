@@ -75,7 +75,7 @@ import preloader_svg from "../style/static/dashboard/preloader.svg";
 /***********  public_standard_library View 初始化   ***************/
 /***********  public_standard_library View 初始化   ***************/
 
-const public_standard_library_state_to_props = state => {
+const public_standard_library_list_state_to_props = state => {
   // 发送的对象
   let obj = {};
 
@@ -103,7 +103,7 @@ const public_standard_library_state_to_props = state => {
   return obj;
 };
 
-const public_standard_library_dispatch_to_props = dispatch => {
+const public_standard_library_list_dispatch_to_props = dispatch => {
   return {
     // 更新触发器
     get_public_standard_library_list: () => {
@@ -133,8 +133,8 @@ const public_standard_library_dispatch_to_props = dispatch => {
 /***********  public_standard_library View 初始化 end  ***************/
 
 @connect(
-  public_standard_library_state_to_props,
-  public_standard_library_dispatch_to_props
+  public_standard_library_list_state_to_props,
+  public_standard_library_list_dispatch_to_props
 )
 class Public_standard_library_list extends React.Component {
   constructor(props) {
