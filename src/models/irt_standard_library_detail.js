@@ -1,67 +1,75 @@
-// path : /src/models/library_list_id_detail.js
+// path : /src/models/irt_standard_library_detail.js
 /***
  * @Author          TangTao https://www.promiselee.cn/tao
  * @CreateTime      2019-8-16 02:22:18
- * @UpdateTime      2019-8-14 20:26:25
+ * @UpdateTime      2019-9-2 22:12:37
  * @Copyright       西湖大学 propro http://www.proteomics.pro/
- * @Archive         查询指定id的库信息
+ * @Archive         irt 库的详情信息 指定id
  *
  */
 
-import * as public_library_id_detail_service from "../service/public_library_id_detail";
-import * as standard_library_id_detail_service from "../service/standard_library_detail";
-
-console.log("init models public_library_id_detail_service.js");
+import * as irt_standard_library_detail_service from "../service/irt_standard_library_detail";
+console.log("init models irt_standard_library_detail.js");
 
 //  开始执行
-/********************** library_list_id_detail model  执行 **********************/
-/********************** library_list_id_detail model  执行 **********************/
-/********************** library_list_id_detail model  执行 **********************/
+/********************** irt_standard_library_detail model  执行 **********************/
+/********************** irt_standard_library_detail model  执行 **********************/
+/********************** irt_standard_library_detail model  执行 **********************/
 
 let model = {
-  namespace: "public_library_id_detail",
+  namespace: "irt_standard_library_detail",
   state: {
     // 资源列表数据
     // 通过 time 来判断是否更新了数据 通过 status 来判断数据的状态
     // -1 表示没有数据 0 有数据 -2 出错 获取数据失败
-    public_library_list_id_detail_status: -1,
+    irt_standard_library_detail_status: -1,
     // 最新获取数据的时间戳
-    public_library_list_id_detail_time: 0,
-    public_library_id_detail_data: {},
-    public_library_id_aggregate_status: -1,
-    public_library_id_aggregate_time: 0,
+    irt_standard_library_detail_time: 0,
+    irt_standard_library_detail_data: {},
+
+    // 更新状态
+    irt_standard_library_detail_aggregate_status: -1,
+    irt_standard_library_detail_aggregate_time: 0,
+
+    // 生成肽段
+    irt_standard_library_detail_generate_status: -1,
+    irt_standard_library_detail_generate_time: 0,
+
     // 删除肽段
-    public_library_id_delete_pseudopeptides_status: -1,
-    public_library_id_delete_pseudopeptides_time: 0,
-    delete_public_library_by_id_status: -1,
-    delete_public_library_by_id_time: 0
+    irt_standard_library_detail_delete_pseudopeptides_status: -1,
+    irt_standard_library_detail_delete_pseudopeptides_time: 0,
+
+    // 删除库
+    irt_standard_library_detail_delete_status: -1,
+    irt_standard_library_detail_delete_time: 0
   },
 
   effects: {
     // 获取资源列表 由用户切换到指定界面才会发起请求 节省资源
-    *get_library_list_id_detail({ payload }, sagaEffects) {
+    *get_irt_standard_library_detail({ payload }, sagaEffects) {
       const { call, put } = sagaEffects;
       let result = "";
       try {
         result = yield call(
-          public_library_id_detail_service.get_library_list_id_detail,
+          irt_standard_library_detail_service.get_irt_standard_library_detail,
           payload
         );
       } catch (e) {
         result = "";
       }
       yield put({
-        type: "get_library_list_id_detail_result",
+        type: "get_irt_standard_library_detail_result",
         payload: result
       });
       return 0;
     },
+    // 重新统计
     *aggregate({ payload }, sagaEffects) {
       const { call, put } = sagaEffects;
       let result = "";
       try {
         result = yield call(
-          public_library_id_detail_service.aggregate,
+          irt_standard_library_detail_service.aggregate,
           payload
         );
       } catch (e) {
@@ -73,11 +81,15 @@ let model = {
       });
       return 0;
     },
+    // 生成伪肽段
     *generate({ payload }, sagaEffects) {
       const { call, put } = sagaEffects;
       let result = "";
       try {
-        result = yield call(public_library_id_detail_service.generate, payload);
+        result = yield call(
+          irt_standard_library_detail_service.generate,
+          payload
+        );
       } catch (e) {
         result = "";
       }
@@ -92,7 +104,7 @@ let model = {
       let result = "";
       try {
         result = yield call(
-          public_library_id_detail_service.delete_pseudopeptides,
+          irt_standard_library_detail_service.delete_pseudopeptides,
           payload
         );
       } catch (e) {
@@ -104,23 +116,24 @@ let model = {
       });
       return 0;
     },
-    *delete_public_library_by_id({ payload }, sagaEffects) {
+    *delete_standard_library_by_id({ payload }, sagaEffects) {
       const { call, put } = sagaEffects;
       let result = "";
       try {
         result = yield call(
-          public_library_id_detail_service.delete_public_library_by_id,
+          irt_standard_library_detail_service.delete_standard_library_by_id,
           payload
         );
       } catch (e) {
         result = "";
       }
       yield put({
-        type: "delete_public_library_by_id_result",
+        type: "delete_standard_library_by_id_result",
         payload: result
       });
       return 0;
     }
+
     // 更新 token
     // ...
   },
@@ -139,50 +152,11 @@ let model = {
       }
       return obj;
     },
-    get_library_list_id_detail_result(state, { payload: result }) {
+    get_irt_standard_library_detail_result(state, { payload: result }) {
       // 尝试提取返回结果
       let res_status = -1;
       let obj = {};
-      if ("error" != result) {
-        try {
-          // 尝试提取 服务端返回数据 error_1 与 error 区分
-          let { status = "error_1" } = result;
-
-          (obj.public_library_id_detail_data = result.data),
-            // 如果提取到 status 那么就 把 status 返回
-            (res_status = "error_1" == status ? -1 : status);
-        } catch (e) {
-          // 转换出错
-        }
-      } else {
-        // 这里本地出错
-      }
-
-      // 1 检查 返回数据状态
-
-      if (-1 == res_status) {
-        // 发生严重错误
-        let obj_err = {
-          public_library_list_id_detail_status: -2,
-          // 最新获取数据的时间戳
-          public_library_list_id_detail_time: new Date().getTime(),
-          public_library_id_detail_data: {}
-        };
-
-        return obj_err;
-      }
-
-      // 2 成功获取数据
-      obj.public_library_list_id_detail_status = res_status;
-      obj.public_library_list_id_detail_time = new Date().getTime();
-
-      console.log(obj);
-      return obj;
-    },
-    get_library_list_id_detail_result(state, { payload: result }) {
-      // 尝试提取返回结果
-      let res_status = -1;
-      let obj = {};
+      // 复制数据
       for (let i in state) {
         obj[i] = state[i];
       }
@@ -191,7 +165,7 @@ let model = {
           // 尝试提取 服务端返回数据 error_1 与 error 区分
           let { status = "error_1" } = result;
 
-          (obj.public_library_id_detail_data = result.data),
+          (obj.irt_standard_library_detail_data = result.data),
             // 如果提取到 status 那么就 把 status 返回
             (res_status = "error_1" == status ? -1 : status);
         } catch (e) {
@@ -201,24 +175,21 @@ let model = {
         // 这里本地出错
       }
 
-      obj.public_library_list_id_detail_time = new Date().getTime();
+      // 写入时间
+      obj.irt_standard_library_detail_time = new Date().getTime();
 
       // 1 检查 返回数据状态
 
       if (-1 == res_status) {
         // 发生严重错误
-        (obj.public_library_list_id_detail_status = -1),
-          // 最新获取数据的时间戳
-          (obj.public_library_id_aggregate_status = -1),
-          (obj.public_library_id_aggregate_time = 0),
-          // 清空数据
-          (obj.public_library_id_detail_data = null);
+
+        obj.irt_standard_library_detail_status = -1;
 
         return obj;
       }
 
       // 2 成功获取数据
-      obj.public_library_list_id_detail_status = res_status;
+      obj.irt_standard_library_detail_status = res_status;
 
       return obj;
     },
@@ -244,26 +215,53 @@ let model = {
         // 这里本地出错
       }
 
-      obj.public_library_id_aggregate_time = new Date().getTime();
+      obj.irt_standard_library_detail_aggregate_time = new Date().getTime();
 
       // 1 检查 返回数据状态
 
       if (-1 == res_status) {
         // 发生严重错误
-        obj.public_library_id_aggregate_status = -2;
+        obj.irt_standard_library_detail_aggregate_status = -2;
         return obj;
       }
 
-      obj.public_library_id_aggregate_status = res_status;
+      obj.irt_standard_library_detail_aggregate_status = res_status;
 
       return obj;
     },
     // 重新生成
     generate_result(state, { payload: result }) {
       let obj = {};
+      let res_status = -1;
+
       for (let i in state) {
         obj[i] = state[i];
       }
+
+      if ("error" != result) {
+        try {
+          // 尝试提取 服务端返回数据 error_1 与 error 区分
+          let { status = "error_1" } = result;
+
+          // 如果提取到 status 那么就 把 status 返回
+          res_status = "error_1" == status ? -1 : status;
+        } catch (e) {
+          // 转换出错
+        }
+      } else {
+        // 这里本地出错
+      }
+
+      obj.irt_standard_library_detail_generate_time = new Date().getTime();
+
+      if (-1 == res_status) {
+        // 失败
+        obj.irt_standard_library_detail_generate_status = -1;
+        return obj;
+      }
+
+      obj.irt_standard_library_detail_generate_status = res_status;
+
       return obj;
     },
     delete_pseudopeptides_result(state, { payload: result }) {
@@ -289,20 +287,20 @@ let model = {
         // 这里本地出错
       }
 
-      obj.public_library_id_delete_pseudopeptides_time = new Date().getTime();
+      obj.irt_standard_library_detail_delete_pseudopeptides_time = new Date().getTime();
 
       if (-1 == res_status) {
         // 出错
         // 严重错误
-        obj.public_library_id_delete_pseudopeptides_status = -1;
+        obj.irt_standard_library_detail_delete_pseudopeptides_status = -1;
       } else {
         // 正常响应 虽然上面代码相同 但是处理逻辑不一样 不要搞混
-        obj.public_library_id_delete_pseudopeptides_status = res_status;
+        obj.irt_standard_library_detail_delete_pseudopeptides_status = res_status;
       }
 
       return obj;
     },
-    delete_public_library_by_id_result(state, { payload: result }) {
+    delete_standard_library_by_id_result(state, { payload: result }) {
       let obj = {};
       for (let i in state) {
         obj[i] = state[i];
@@ -325,16 +323,16 @@ let model = {
         // 这里本地出错
       }
 
-      obj.delete_public_library_by_id_time = new Date().getTime();
+      obj.irt_standard_library_detail_delete_time = new Date().getTime();
 
       if (-1 == res_status) {
         // 出错
         // 严重错误
-        obj.delete_public_library_by_id_status = -1;
+        obj.irt_standard_library_detail_delete_status = -1;
         return obj;
       } else {
         // 正常响应 虽然上面代码相同 但是处理逻辑不一样 不要搞混
-        obj.delete_public_library_by_id_status = res_status;
+        obj.irt_standard_library_detail_delete_status = res_status;
       }
 
       return obj;
@@ -343,6 +341,6 @@ let model = {
     //
   }
 };
-console.log("init models public_library_id_detail_service.js end");
+console.log("init models irt_standard_library_detail.js end");
 
 export default model;

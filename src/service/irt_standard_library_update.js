@@ -1,8 +1,8 @@
-// /src/service/standard_library_update.js
+// /src/service/irt_standard_library_update.js
 
 /***
  * @Author          TangTao https://www.promiselee.cn/tao
- * @CreateTime      2019-8-28 18:48:24
+ * @CreateTime      2019-9-5 13:56:58
  * @UpdateTime      2019-8-29 22:28:44
  * @Copyright       西湖大学 propro TangTao http://www.proteomics.pro/
  * @Archive         更新标准库 指定id 的 库信息
@@ -11,15 +11,14 @@
 
 import request from "../utils/request";
 import tao from "../utils/common";
-import $ from "jquery";
 import reqwest from "reqwest";
 
-// 更新标准库
-export async function update_standard_library_by_id(data) {
+// 更新irt标准库
+export async function update_irt_standard_library_by_id(data) {
   // 读取最新的 token
   let token = tao.get_token();
 
-  if (-1 == token) {
+  if (-1 == token || "" == data) {
     // 不存在 token
     return "error";
   }
@@ -52,8 +51,6 @@ export async function update_standard_library_by_id(data) {
   } catch (e) {
     return "error";
   }
-
-  console.log(body_data);
 
   // 注意 这里使用 reqwest 异步里面声明阻塞 切勿乱调用 支持文件上传
 

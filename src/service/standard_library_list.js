@@ -1,10 +1,10 @@
-// /src/service/irt_standard_library.js
+// /src/service/standard_library_list.js
 
 import request from "../utils/request";
 import tao from "../utils/common";
 
 // 更新 token
-export function get_irt_standard_library_list(data = "") {
+export function get_standard_library_list(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
 
@@ -13,7 +13,8 @@ export function get_irt_standard_library_list(data = "") {
     return "error";
   }
 
-  return request("/propro_server/library/listIrt", {
+  // 请求 irt 库列表
+  return request("/propro_server/library/list", {
     headers: {
       // 'content-type': 'application/json',
       // "X-Requested-With": "XMLHttpRequest",
@@ -26,16 +27,18 @@ export function get_irt_standard_library_list(data = "") {
   });
 }
 
-// 设置标准库 公开 2019-8-30 13:02:03 tangtao
+// 设置标准库 公开  tangtao
 export function set_library_public_by_id(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
 
   let { id = "" } = data;
+
   if (-1 == token || "" == data || "" == id) {
     // 不存在 token
     return "error";
   }
+
   let bodys = "";
   bodys += "id" + "=" + id + "&";
 

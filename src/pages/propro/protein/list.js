@@ -272,6 +272,7 @@ class Protein_list extends React.Component {
           "@Author:tangtao; 系统已终止运行,请重新刷新页面; ",
           "初步诊断:未能成功连接到 propro-server 的服务器"
         );
+        // 终止发送
         return -1;
       }
       // 尽快写入 防止短时间多次
@@ -282,6 +283,7 @@ class Protein_list extends React.Component {
       }, 100);
       // 警告
       console.warn("正在尝试重新连接到 propro-server 的服务器");
+
       // 发起请求
       setTimeout(() => {
         this.get_current_protein_list_id();

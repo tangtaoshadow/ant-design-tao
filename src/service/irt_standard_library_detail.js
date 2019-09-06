@@ -1,11 +1,11 @@
-// /src/service/library_list_id_detail.js
+// /src/service/irt_standard_library_detail.js
 
 /***
  * @Author          TangTao https://www.promiselee.cn/tao
- * @CreateTime      2019-8-16 02:39:43
- * @UpdateTime      2019-8-26 11:36:57
+ * @CreateTime      2019-9-4 18:19:18
+ * @UpdateTime      2019-9-4 22:45:47
  * @Copyright       西湖大学 propro http://www.proteomics.pro/
- * @Archive         查询指定id的库信息 统计
+ * @Archive         irt 标准库 状态信息 更新 修改 删除
  *
  */
 
@@ -13,15 +13,19 @@ import request from "../utils/request";
 import tao from "../utils/common";
 import reqwest from "reqwest";
 
-// 获取控制台资源列表
-export function get_library_list_id_detail(id = "") {
+// 获取irt 详情资源列表
+export function get_irt_standard_library_detail(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
+  // 提取关键数据
+  let { id = "" } = data;
 
-  if (-1 == token) {
+  if (-1 == token || "" == data || "" == id) {
     // 不存在 token
     return "error";
   }
+
+  // 打包数据
   let bodys = "";
   bodys += "id" + "=" + id + "&";
 
@@ -64,10 +68,11 @@ export function aggregate(id = "") {
   });
 }
 
+// 生成伪肽段
 export async function generate(payload) {
   let { id = "", generator = "" } = payload;
   // 检验id
-  if (5 > id.length || "" == generator) {
+  if (null == id || 5 > id.length || "" == generator) {
     return "error";
   }
   // 读取最新的 token

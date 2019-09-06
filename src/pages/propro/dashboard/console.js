@@ -225,7 +225,7 @@ class Console extends React.Component {
           number: public_lib_count,
           name_link: "library/public_library",
           add: "",
-          list: "library/public_library"
+          list: "public_standard_library/list"
         },
         {
           key: "public_irt_count",
@@ -239,17 +239,17 @@ class Console extends React.Component {
           key: "lib_count",
           name: <FormattedHTMLMessage id="propro.console_lib" />,
           number: lib_count,
-          name_link: "library/standard_library",
-          add: "library/standard_library_create",
-          list: "library/standard_library"
+          name_link: "standard_library",
+          add: "/standard_library_create",
+          list: "standard_library/list"
         },
         {
           key: "irt_lib_count",
           name: <FormattedHTMLMessage id="propro.console_irt_lib" />,
           number: irt_lib_count,
-          name_link: "irt_library/list",
+          name_link: "irt_standard_library/list",
           add: "home",
-          list: "irt_library/list"
+          list: "irt_standard_library/list"
         },
         {
           key: "exp_swath_count",
@@ -388,6 +388,7 @@ class Console extends React.Component {
                 </Link>
               </Tooltip>
             )}
+            {/* 显示分割线 */}
             {"" != text.add && "" != text.list && <Divider type="vertical" />}
             {"" != text.list && (
               <Tooltip title="标准库列表">

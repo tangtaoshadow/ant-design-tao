@@ -63,8 +63,8 @@ const routes = [
         exact: true,
       },
       {
-        path: '/library/public_library',
-        component: require('../propro/library/public_library').default,
+        path: '/public_standard_library/list',
+        component: require('../propro/public_standard_library/list').default,
         exact: true,
       },
       {
@@ -73,29 +73,27 @@ const routes = [
         exact: true,
       },
       {
-        path: '/library/standard_library/detail/*',
-        component: require('../propro/library/standard_library_id_detail')
-          .default,
+        path: '/standard_library/detail/*',
+        component: require('../propro/standard_library/detail').default,
         exact: true,
       },
       {
-        path: '/library/public_library/detail/*',
-        component: require('../propro/library/public_library_id_detail')
-          .default,
+        path: '/irt_standard_library/update/*',
+        component: require('../propro/irt_standard_library/update').default,
         exact: true,
       },
       {
-        path: '/library/public_library/update/*',
+        path: '/public_library/update/*',
         component: require('../propro/library/public_library_update').default,
         exact: true,
       },
       {
-        path: '/library/standard_library/update/*',
-        component: require('../propro/library/standard_library_update').default,
+        path: '/standard_library/update/*',
+        component: require('../propro/standard_library/update').default,
         exact: true,
       },
       {
-        path: '/library/standard_library_create',
+        path: '/standard_library_create',
         component: require('../propro/library/standard_library_create').default,
         exact: true,
       },
@@ -120,8 +118,18 @@ const routes = [
         exact: true,
       },
       {
-        path: '/irt_library/list',
-        component: require('../propro/irt_library/list').default,
+        path: '/irt_standard_library/list',
+        component: require('../propro/irt_standard_library/list').default,
+        exact: true,
+      },
+      {
+        path: '/irt_standard_library/detail/*',
+        component: require('../propro/irt_standard_library/detail').default,
+        exact: true,
+      },
+      {
+        path: '/standard_library/list',
+        component: require('../propro/standard_library/list').default,
         exact: true,
       },
       {

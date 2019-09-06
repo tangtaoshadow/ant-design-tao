@@ -54,8 +54,8 @@ export default {
           component: "propro/error/login"
         },
         {
-          path: "/library/public_library",
-          component: "propro/library/public_library"
+          path: "/public_standard_library/list",
+          component: "propro/public_standard_library/list"
         },
         {
           path: "/library/standard_library",
@@ -63,26 +63,26 @@ export default {
         },
         {
           // 显示标准库 指定id的 详情 * id
-          path: "/library/standard_library/detail/*",
-          component: "propro/library/standard_library_id_detail"
+          path: "/standard_library/detail/*",
+          component: "propro/standard_library/detail"
         },
         {
-          // 显示公共标准库 指定id的 详情 * id
-          path: "/library/public_library/detail/*",
-          component: "propro/library/public_library_id_detail"
+          // 更新IRT标准库 指定id的 详情 * id_name
+          path: "/irt_standard_library/update/*",
+          component: "propro/irt_standard_library/update"
         },
         {
           // 更新公共标准库 指定id * id_name
-          path: "/library/public_library/update/*",
+          path: "/public_library/update/*",
           component: "propro/library/public_library_update"
         },
         {
           // 更新标准库 指定id * id_name
-          path: "/library/standard_library/update/*",
-          component: "propro/library/standard_library_update"
+          path: "/standard_library/update/*",
+          component: "propro/standard_library/update"
         },
         {
-          path: "/library/standard_library_create",
+          path: "/standard_library_create",
           component: "propro/library/standard_library_create"
         },
         {
@@ -111,8 +111,18 @@ export default {
         // },
         {
           // irt 标准库 列表
-          path: "/irt_library/list",
-          component: "propro/irt_library/list"
+          path: "/irt_standard_library/list",
+          component: "propro/irt_standard_library/list"
+        },
+        {
+          // irt 标准库 列表
+          path: "/irt_standard_library/detail/*",
+          component: "propro/irt_standard_library/detail"
+        },
+        {
+          // 标准库 列表
+          path: "/standard_library/list",
+          component: "propro/standard_library/list"
         },
         {
           path: "/test",

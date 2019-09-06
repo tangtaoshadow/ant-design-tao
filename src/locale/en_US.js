@@ -60,6 +60,9 @@ let language_en = {
   "propro.modal_confirm": "Confirm",
   "propro.modal_cancel": "Cancel",
 
+  // url错误
+  "propro.url_error": "Sorry (｡•́︿•̀｡) ,The current URL does not exist",
+
   // 提示级别
   "propro.prompt_running": "Running...",
   "propro.prompt_success": "Success",
@@ -122,42 +125,42 @@ let language_en = {
   "propro.public_library_update": "Update public standard library",
 
   // 标准库 列表
-  "propro.standard_library_title": "Library List",
-  "propro.standard_library_search": "Search",
-  "propro.standard_library_reset": "Reset",
-  "propro.standard_library_index": "Serial Number",
-  "propro.standard_library_id": "Library ID",
-  "propro.standard_library_name": "Library Name",
-  "propro.standard_library_protein_count": "Proteins Count",
-  "propro.standard_library_total_count": "Peptides Count",
-  "propro.standard_library_create_time": "Create Date",
-  "propro.standard_library_is_public": "Is Public",
-  "propro.standard_library_creator": "Creator",
-  "propro.standard_library_operation": "Operation",
-  "propro.standard_library_detail": "Details",
-  "propro.standard_library_protein_list": "Protein List",
-  "propro.standard_library_peptides_list": "Peptides List",
-  "propro.standard_library_update": "Update standard library",
-  "propro.standard_library_set_public": "Set up a public standard library",
+  "propro.standard_library_list_title": "Library List",
+  "propro.standard_library_list_search": "Search",
+  "propro.standard_library_list_reset": "Reset",
+  "propro.standard_library_list_index": "Serial Number",
+  "propro.standard_library_list_id": "Library ID",
+  "propro.standard_library_list_name": "Library Name",
+  "propro.standard_library_list_protein_count": "Proteins Count",
+  "propro.standard_library_list_total_count": "Peptides Count",
+  "propro.standard_library_list_create_time": "Create Date",
+  "propro.standard_library_list_is_public": "Is Public",
+  "propro.standard_library_list_creator": "Creator",
+  "propro.standard_library_list_operation": "Operation",
+  "propro.standard_library_list_detail": "Details",
+  "propro.standard_library_list_protein_list": "Protein List",
+  "propro.standard_library_list_peptides_list": "Peptides List",
+  "propro.standard_library_list_update": "Update standard library",
+  "propro.standard_library_list_set_public": "Set up a public standard library",
 
   // IRT 标准库 列表
-  "propro.irt_standard_library_title": "IRT Library List",
-  "propro.irt_standard_library_search": "Search",
-  "propro.irt_standard_library_reset": "Reset",
-  "propro.irt_standard_library_index": "Serial Number",
-  "propro.irt_standard_library_id": "Library ID",
-  "propro.irt_standard_library_name": "Library Name",
-  "propro.irt_standard_library_protein_count": "Proteins Count",
-  "propro.irt_standard_library_total_count": "Peptides Count",
-  "propro.irt_standard_library_create_time": "Create Date",
-  "propro.irt_standard_library_is_public": "Is Public",
-  "propro.irt_standard_library_creator": "Creator",
-  "propro.irt_standard_library_operation": "Operation",
-  "propro.irt_standard_library_detail": "Details",
-  "propro.irt_standard_library_protein_list": "Protein List",
-  "propro.irt_standard_library_peptides_list": "Peptides List",
-  "propro.irt_standard_library_update": "Update IRT library",
-  "propro.irt_standard_library_set_public": "Set up a public IRT library",
+  "propro.irt_standard_library_list_title": "IRT Library List",
+  "propro.irt_standard_library_list_search": "Search",
+  "propro.irt_standard_library_list_reset": "Reset",
+  "propro.irt_standard_library_list_index": "Serial Number",
+  "propro.irt_standard_library_list_id": "Library ID",
+  "propro.irt_standard_library_list_name": "Library Name",
+  "propro.irt_standard_library_list_protein_count": "Proteins Count",
+  "propro.irt_standard_library_list_total_count": "Peptides Count",
+  "propro.irt_standard_library_list_create_time": "Create Date",
+  "propro.irt_standard_library_list_is_public": "Is Public",
+  "propro.irt_standard_library_list_creator": "Creator",
+  "propro.irt_standard_library_list_operation": "Operation",
+  "propro.irt_standard_library_list_detail": "Details",
+  "propro.irt_standard_library_list_protein_list": "Protein List",
+  "propro.irt_standard_library_list_peptides_list": "Peptides List",
+  "propro.irt_standard_library_list_update": "Update IRT library",
+  "propro.irt_standard_library_list_set_public": "Set up a public IRT library",
 
   // 公共标准库详情
   "propro.public_library_detail_title": "Public Library Detail",
@@ -199,6 +202,49 @@ let language_en = {
   "propro.public_library_detail_peptide_list": "Peptide list",
   "propro.public_library_detail_protein_list": "Protein list",
 
+  // IRT 校准库详情
+  "propro.irt_standard_library_detail_title": "IRT Library Detail",
+  "propro.irt_standard_library": "Public Library",
+  "propro.irt_standard_library_detail_id": "Library ID",
+  "propro.irt_standard_library_detail_name": "Library Name",
+  "propro.irt_standard_library_detail_library_type": "Library Type",
+  "propro.irt_standard_library_detail_generator": "Generator",
+  "propro.irt_standard_library_detail_protein_count": "Proteins Count",
+  "propro.irt_standard_library_detail_unique_protein_count":
+    "Unique Proteins Count",
+  "propro.irt_standard_library_detail_deweight_protein_count":
+    "Library  De-Weight Protein Count",
+  "propro.irt_standard_library_detail_peptide_count": "Peptides Count",
+  "propro.irt_standard_library_detail_unique_peptide_count":
+    "Unique Peptides Count",
+  "propro.irt_standard_library_detail_deweight_peptide_count":
+    "Library De-weight Target Peptide Count",
+  "propro.irt_standard_library_detail_fastade_weight_protein_count":
+    "Fasta De-Weight Protein Count",
+  "propro.irt_standard_library_detail_fastade_weight_peptide_count":
+    "Fasta De-weight Target Peptide Count",
+  "propro.irt_standard_library_detail_description": "Detailed description",
+  "propro.irt_standard_library_detail_creator": "Creator",
+  "propro.irt_standard_library_detail_create_time": "Creation Date",
+  "propro.irt_standard_library_detail_last_modify_time": "Last Modified Date",
+  "propro.irt_standard_library_detail_peptide_analyse": "Peptide Analyse",
+  "propro.irt_standard_library_detail_peptide_link": "View peptide",
+  "propro.irt_standard_library_detail_re_statistic_analyse":
+    "Recount For Protein and Peptide",
+  "propro.irt_standard_library_detail_generating_pseudopeptides":
+    "Generate Decoy",
+  "propro.irt_standard_library_detail_delete_pseudopeptides": "Delete Decoy",
+  "propro.irt_standard_library_detail_modify": "Modify",
+  "propro.irt_standard_library_detail_delete": "Delete",
+  "propro.irt_standard_library_detail_running": "Running",
+  "propro.irt_standard_library_detail_success": "Success",
+  "propro.irt_standard_library_detail_failed": "Failed",
+  "propro.irt_standard_library_detail_delete_warning":
+    "Are you sure you want to delete this public library ?",
+  "propro.irt_standard_library_detail_delete_by_id": "Delete public library",
+  "propro.irt_standard_library_detail_peptide_list": "Peptide list",
+  "propro.irt_standard_library_detail_protein_list": "Protein list",
+
   // 更新公共标准库
   "propro.public_library_update_title": "Update Public Library",
   "propro.public_library_update_only_target_peptides": "Only Target Peptides",
@@ -215,6 +261,7 @@ let language_en = {
   // 更新 标准库
   "propro.standard_library_update_title": "Update Library",
   "propro.standard_library_update_only_target_peptides": "Only Target Peptides",
+  "propro.standard_library_update_detail_description": "Detailed description",
   "propro.standard_library_update_upload_csv_library":
     "Please upload a Library in CSV/TraML format",
   "propro.standard_library_update_upload_file_description":
@@ -224,6 +271,25 @@ let language_en = {
   "propro.standard_library_update_submit": "Update",
   "propro.standard_library_update_success": "Success",
   "propro.standard_library_update_failed": "Failed",
+  "propro.public_library_detail_delete_warning":
+    "Are you sure you want to delete this public library ?",
+  "propro.public_library_detail_delete_by_id": "Delete public library",
+
+  // 更新 IRT 标准库
+  "propro.irt_standard_library_update_title": "Update Library",
+  "propro.irt_standard_library_update_only_target_peptides":
+    "Only Target Peptides",
+  "propro.irt_standard_library_update_detail_description":
+    "Detailed description",
+  "propro.irt_standard_library_update_upload_csv_library":
+    "Please upload a Library in CSV/TraML format",
+  "propro.irt_standard_library_update_upload_file_description":
+    "Click or drag file to this area to upload",
+  "propro.irt_standard_library_update_only_upload_peptide_list":
+    "Upload Peptide List",
+  "propro.irt_standard_library_update_submit": "Update",
+  "propro.irt_standard_library_update_success": "Success",
+  "propro.irt_standard_library_update_failed": "Failed",
   "propro.public_library_detail_delete_warning":
     "Are you sure you want to delete this public library ?",
   "propro.public_library_detail_delete_by_id": "Delete public library",

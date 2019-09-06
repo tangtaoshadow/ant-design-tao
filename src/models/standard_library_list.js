@@ -1,77 +1,75 @@
-// path : /src/models/standard_library_update.js
+// path : /src/models/standard_library_list.js
 /***
- * @Author          TangTao https://www.promiselee.cn/tao
- * @CreateTime      2019-8-28 18:47:17
- * @UpdateTime      2019-8-29 21:36:07
+ * @Author          TangTao https://promiselee.cn/tao
+ * @CreateTime      2019-8-25 18:28:54
+ * @UpdateTime      2019-9-4 21:18:10
  * @Copyright       西湖大学 propro http://www.proteomics.pro/
- * @Archive         查询指定id的库信息
+ * @Archive         调用查询 标准库 的业务逻辑
  *
  */
 
-import * as standard_library_update_service from "../service/standard_library_update";
-console.log("init models standard_library.js");
+import * as standard_library_list_service from "../service/standard_library_list";
+console.log("init models standard_library_list.js");
 
 //  开始执行
-/********************** standard_library_update model  执行 **********************/
-/********************** standard_library_update model  执行 **********************/
-/********************** standard_library_update model  执行 **********************/
+/********************** standard_library_list model  执行 **********************/
+/********************** standard_library_list model  执行 **********************/
+/********************** standard_library_list model  执行 **********************/
 
 let model = {
-  namespace: "standard_library_update",
+  namespace: "standard_library_list",
   state: {
     // 资源列表数据
     // 通过 time 来判断是否更新了数据 通过 status 来判断数据的状态
     // -1 表示没有数据 0 有数据 -2 出错 获取数据失败
-    standard_library_update_status: -1,
+    standard_library_list_status: -1,
     // 最新获取数据的时间戳
-    standard_library_update_time: 0,
-    standard_library_update_data: null,
-    // 任务状态 数据 时间
-    standard_library_update_query_task_time: 0,
-    standard_library_update_query_task_data: null,
-    standard_library_update_query_task_status: -1
+    standard_library_list_time: 0,
+    // 返回的数据
+    standard_library_list_data: 0,
+
+    standard_library_list_set_public_status: -1,
+    standard_library_list_set_public_time: 0
   },
 
   effects: {
-    // 更新指定的irt库
-    *update_standard_library_by_id({ payload }, sagaEffects) {
+    // 获取资源列表 由用户切换到指定界面才会发起请求 节省资源
+    *get_standard_library_list({ payload }, sagaEffects) {
       const { call, put } = sagaEffects;
       let result = "";
       try {
+        // 捕获异常
         result = yield call(
-          standard_library_update_service.update_standard_library_by_id,
+          standard_library_list_service.get_standard_library_list,
           payload
         );
       } catch (e) {
         result = "";
       }
       yield put({
-        type: "update_standard_library_by_id_result",
+        type: "get_standard_library_list_result",
         payload: result
       });
       return 0;
     },
-    *query_task_id({ payload }, sagaEffects) {
+    *set_library_public_by_id({ payload }, sagaEffects) {
       const { call, put } = sagaEffects;
       let result = "";
-
       try {
+        // 捕获异常
         result = yield call(
-          standard_library_update_service.query_task_id,
+          standard_library_list_service.set_library_public_by_id,
           payload
         );
       } catch (e) {
         result = "";
       }
-
       yield put({
-        type: "query_task_id_result",
+        type: "set_library_public_by_id_result",
         payload: result
       });
-
       return 0;
     }
-
     // 更新 token
     // ...
   },
@@ -90,7 +88,7 @@ let model = {
       }
       return obj;
     },
-    update_standard_library_by_id_result(state, { payload: result }) {
+    get_standard_library_list_result(state, { payload: result }) {
       // 尝试提取返回结果
       let res_status = -1;
       let obj = {};
@@ -102,46 +100,42 @@ let model = {
         try {
           // 尝试提取 服务端返回数据 error_1 与 error 区分
           let { status = "error_1" } = result;
-
-          (obj.standard_library_update_data = result.data),
-            // 如果提取到 status 那么就 把 status 返回
-            (res_status = "error_1" == status ? -1 : status);
+          // 尝试写入 data
+          obj.standard_library_list_data = result.data;
+          // 如果提取到 status 那么就 把 status 返回
+          res_status = "error_1" == status ? -1 : status;
         } catch (e) {
           // 转换出错
         }
       } else {
-        // 这里本地出错
+        // 这里本地出错 pass
       }
 
-      obj.standard_library_update_time = new Date().getTime();
+      obj.standard_library_list_time = new Date().getTime();
 
       // 1 检查 返回数据状态
-
       if (-1 == res_status) {
         // 发生严重错误
-        (obj.standard_library_update_data = null),
-          (obj.standard_library_update_status = -1);
+        obj.standard_library_list_status = res_status;
         return obj;
       }
 
       // 2 成功获取数据
-      obj.standard_library_update_status = res_status;
+      obj.standard_library_list_status = res_status;
 
-      // 3 返回对象
       return obj;
     },
-    query_task_id_result(state, { payload: result }) {
+    set_library_public_by_id_result(state, { payload: result }) {
       let res_status = -1;
       let obj = {};
       for (let i in state) {
         obj[i] = state[i];
       }
-      //
+
       if ("error" != result) {
         try {
           // 尝试提取 服务端返回数据 error_1 与 error 区分
           let { status = "error_1" } = result;
-
           // 如果提取到 status 那么就 把 status 返回
           res_status = "error_1" == status ? -1 : status;
         } catch (e) {
@@ -151,19 +145,17 @@ let model = {
         // 这里本地出错
       }
 
-      obj.standard_library_update_query_task_time = new Date().getTime();
+      obj.standard_library_list_set_public_time = new Date().getTime();
 
+      // 1 检查 返回数据状态
       if (-1 == res_status) {
-        //  数据获取失败
-        obj.standard_library_update_query_task_status = -1;
+        // 发生严重错误
+        obj.standard_library_list_set_public_status = res_status;
+        return obj;
       }
 
-      if (0 == res_status) {
-        // 只有成功才写入
-        obj.standard_library_update_query_task_data = result.task;
-      }
-
-      obj.standard_library_update_query_task_status = res_status;
+      // 2 成功获取数据
+      obj.standard_library_list_set_public_status = res_status;
 
       return obj;
     }
@@ -171,6 +163,6 @@ let model = {
     //
   }
 };
-console.log("init models library_list_id_detail.js end");
+console.log("init models standard_library_list.js end");
 
 export default model;
