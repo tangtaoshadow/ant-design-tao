@@ -172,6 +172,24 @@ let language_ch = {
   "propro.irt_standard_library_list_update": "更新校准库",
   "propro.irt_standard_library_list_set_public": "公开校准库",
 
+  // 公共 irt 校准库 列表
+  "propro.public_irt_standard_library_list_title": "公共IRT库列表",
+  "propro.public_irt_standard_library_list_search": "搜索",
+  "propro.public_irt_standard_library_list_reset": "重置",
+  "propro.public_irt_standard_library_list_index": "序列号",
+  "propro.public_irt_standard_library_list_id": "校准库id",
+  "propro.public_irt_standard_library_list_name": "校准库名称",
+  "propro.public_irt_standard_library_list_protein_count": "蛋白质数目",
+  "propro.public_irt_standard_library_list_total_count": "肽段数目",
+  "propro.public_irt_standard_library_list_create_time": "创建时间",
+  "propro.public_irt_standard_library_list_is_public": "是否公开",
+  "propro.public_irt_standard_library_list_creator": "创建者",
+  "propro.public_irt_standard_library_list_operation": "操作",
+  "propro.public_irt_standard_library_list_detail": "详情",
+  "propro.public_irt_standard_library_list_protein_list": "蛋白质列表",
+  "propro.public_irt_standard_library_list_peptides_list": "肽段列表",
+  "propro.public_irt_standard_library_list_update": "更新IRT校准库",
+
   // 公共标准库详情
   "propro.public_standard_library_detail_title": "公共标准库详情页",
   "propro.public_standard_library": "公共标准库",
@@ -254,20 +272,67 @@ let language_ch = {
   "propro.irt_standard_library_detail_peptide_list": "肽段列表",
   "propro.irt_standard_library_detail_protein_list": "蛋白质列表",
 
+  // 公共 irt 库 详情
+  "propro.public_irt_standard_library_detail_title": "公共 IRT 校准库详情页",
+  "propro.public_irt_standard_library": "公共 IRT 校准库",
+  "propro.public_irt_standard_library_detail_id": "校准库ID",
+  "propro.public_irt_standard_library_detail_name": "校准库名称",
+  "propro.public_irt_standard_library_detail_library_type": "库类型",
+  "propro.public_irt_standard_library_detail_generator": "Generator",
+  "propro.public_irt_standard_library_detail_protein_count": "蛋白质数目",
+  "propro.public_irt_standard_library_detail_unique_protein_count":
+    "Unique 蛋白质数目",
+  "propro.public_irt_standard_library_detail_deweight_protein_count":
+    "Library 去除蛋白数目",
+  "propro.public_irt_standard_library_detail_peptide_count": "肽段数目",
+  "propro.public_irt_standard_library_detail_unique_peptide_count":
+    "Unique 肽段数目",
+  "propro.public_irt_standard_library_detail_deweight_peptide_count":
+    "Library 去除真肽段数目",
+  "propro.public_irt_standard_library_detail_fastade_weight_protein_count":
+    "Fasta 去除蛋白数目",
+  "propro.public_irt_standard_library_detail_fastade_weight_peptide_count":
+    "Fasta去除真肽段数目",
+  "propro.public_irt_standard_library_detail_description": "详情描述",
+  "propro.public_irt_standard_library_detail_creator": "创建者",
+  "propro.public_irt_standard_library_detail_create_time": "创建时间",
+  "propro.public_irt_standard_library_detail_last_modify_time": "最后修改时间",
+  "propro.public_irt_standard_library_detail_peptide_analyse": "肽段分析",
+  "propro.public_irt_standard_library_detail_peptide_link": "查看肽段",
+  "propro.public_irt_standard_library_detail_re_statistic_analyse":
+    "重新统计蛋白质与肽段的数目",
+  "propro.public_irt_standard_library_detail_generating_pseudopeptides":
+    "生成伪肽段",
+  "propro.public_irt_standard_library_detail_delete_pseudopeptides":
+    "删除伪肽段",
+  "propro.public_irt_standard_library_detail_modify": "修改",
+  "propro.public_irt_standard_library_detail_delete": "删除",
+  "propro.public_irt_standard_library_detail_running": "运行",
+  "propro.public_irt_standard_library_detail_success": "成功",
+  "propro.public_irt_standard_library_detail_failed": "失败",
+  "propro.public_irt_standard_library_detail_delete_warning":
+    "确认删除该校准库",
+  "propro.public_irt_standard_library_detail_delete_by_id": "删除校准库",
+  "propro.public_irt_standard_library_detail_peptide_list": "肽段列表",
+  "propro.public_irt_standard_library_detail_protein_list": "蛋白质列表",
+
   // 更新公共标准库
-  "propro.public_library_update_title": "更新公共标准库",
-  "propro.public_library_update_only_target_peptides": "仅录入真实肽段",
+  "propro.public_standard_library_update_title": "更新公共标准库",
+  "propro.public_standard_library_update_only_target_peptides":
+    "仅录入真实肽段",
   "propro.public_standard_library_update_detail_description": "详情描述",
-  "propro.public_library_update_upload_csv_library":
+  "propro.public_standard_library_update_upload_csv_library":
     "请上传CSV/TraML格式的Library",
-  "propro.public_library_update_upload_file_description":
+  "propro.public_standard_library_update_upload_file_description":
     "单击或拖动文件到此区域进行上传",
-  "propro.public_library_update_only_upload_peptide_list": "上传肽段列表",
-  "propro.public_library_update_submit": "更新",
-  "propro.public_library_update_success": "成功",
-  "propro.public_library_update_failed": "失败",
-  "propro.public_library_detail_delete_warning": "确认删除该公共标准库",
-  "propro.public_library_detail_delete_by_id": "删除公共标准库",
+  "propro.public_standard_library_update_only_upload_peptide_list":
+    "上传肽段列表",
+  "propro.public_standard_library_update_submit": "更新",
+  "propro.public_standard_library_update_success": "成功",
+  "propro.public_standard_library_update_failed": "失败",
+  "propro.public_standard_library_detail_delete_warning":
+    "确认删除该公共标准库",
+  "propro.public_standard_library_detail_delete_by_id": "删除公共标准库",
 
   // 更新标准库
   "propro.standard_library_update_title": "更新标准库",

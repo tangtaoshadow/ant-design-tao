@@ -73,11 +73,6 @@ const routes = [
         exact: true,
       },
       {
-        path: '/library/standard_library',
-        component: require('../propro/library/standard_library').default,
-        exact: true,
-      },
-      {
         path: '/standard_library/detail/*',
         component: require('../propro/standard_library/detail').default,
         exact: true,
@@ -88,8 +83,26 @@ const routes = [
         exact: true,
       },
       {
-        path: '/public_library/update/*',
-        component: require('../propro/library/public_library_update').default,
+        path: '/public_irt_standard_library/list',
+        component: require('../propro/public_irt_standard_library/list')
+          .default,
+        exact: true,
+      },
+      {
+        path: '/public_irt_standard_library/detail/*',
+        component: require('../propro/public_irt_standard_library/detail')
+          .default,
+        exact: true,
+      },
+      {
+        path: '/public_irt_standard_library/update/*',
+        component: require('../propro/public_irt_standard_library/update')
+          .default,
+        exact: true,
+      },
+      {
+        path: '/public_standard_library/update/*',
+        component: require('../propro/public_standard_library/update').default,
         exact: true,
       },
       {

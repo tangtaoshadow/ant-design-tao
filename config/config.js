@@ -62,10 +62,6 @@ export default {
           component: "propro/public_standard_library/detail"
         },
         {
-          path: "/library/standard_library",
-          component: "propro/library/standard_library"
-        },
-        {
           // 显示标准库 指定id的 详情 * id
           path: "/standard_library/detail/*",
           component: "propro/standard_library/detail"
@@ -76,9 +72,21 @@ export default {
           component: "propro/irt_standard_library/update"
         },
         {
+          path: "/public_irt_standard_library/list",
+          component: "propro/public_irt_standard_library/list"
+        },
+        {
+          path: "/public_irt_standard_library/detail/*",
+          component: "propro/public_irt_standard_library/detail"
+        },
+        {
+          path: "/public_irt_standard_library/update/*",
+          component: "propro/public_irt_standard_library/update"
+        },
+        {
           // 更新公共标准库 指定id * id_name
-          path: "/public_library/update/*",
-          component: "propro/library/public_library_update"
+          path: "/public_standard_library/update/*",
+          component: "propro/public_standard_library/update"
         },
         {
           // 更新标准库 指定id * id_name

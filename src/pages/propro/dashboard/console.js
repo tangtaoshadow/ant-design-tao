@@ -233,7 +233,7 @@ class Console extends React.Component {
           number: public_irt_count,
           name_link: "library/public_library",
           add: "",
-          list: "home"
+          list: "public_irt_standard_library/list"
         },
         {
           key: "lib_count",
