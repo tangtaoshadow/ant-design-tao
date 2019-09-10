@@ -365,9 +365,22 @@ let language_en = {
   "propro.irt_standard_library_update_submit": "Update",
   "propro.irt_standard_library_update_success": "Success",
   "propro.irt_standard_library_update_failed": "Failed",
-  "propro.public_library_detail_delete_warning":
-    "Are you sure you want to delete this public library ?",
-  "propro.public_library_detail_delete_by_id": "Delete public library",
+
+  // 更新 公共 IRT 标准库
+  "propro.public_irt_standard_library_update_title": "Update Library",
+  "propro.public_irt_standard_library_update_only_target_peptides":
+    "Only Target Peptides",
+  "propro.public_irt_standard_library_update_detail_description":
+    "Detailed description",
+  "propro.public_irt_standard_library_update_upload_csv_library":
+    "Please upload a Library in CSV/TraML format",
+  "propro.public_irt_standard_library_update_upload_file_description":
+    "Click or drag file to this area to upload",
+  "propro.public_irt_standard_library_update_only_upload_peptide_list":
+    "Upload Peptide List",
+  "propro.public_irt_standard_library_update_submit": "Update",
+  "propro.public_irt_standard_library_update_success": "Success",
+  "propro.public_irt_standard_library_update_failed": "Failed",
 
   // 标准库详情
   "propro.standard_library_detail_title": "Standard Library Detail",

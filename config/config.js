@@ -137,6 +137,11 @@ export default {
           component: "propro/standard_library/list"
         },
         {
+          // 任务 列表
+          path: "/task/list",
+          component: "propro/task/list"
+        },
+        {
           path: "/test",
           component: "propro/test"
         },

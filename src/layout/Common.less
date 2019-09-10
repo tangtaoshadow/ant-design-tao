@@ -25,7 +25,8 @@
 // 黄色 最好搭配浅色色
 @common_yellow_color: #fcc100;
 
-// 红色 搭配浅色系 用来标记错误
+// 亮红色 搭配浅色系 用来标记错误
+// 适合做字体色 不适合做背景色
 @common_red_color: #f44455;
 
 // 第二种颜色 次要颜色 主要用在和主题色搭配上
@@ -34,6 +35,8 @@
 // 蓝色
 @common_blue_color: #007bff;
 
+// 暗红色  适合做背景色 搭配白色
+@common_dark_red_color: #dc3545;
 // .my_link 只负责链接颜色
 .my_link {
   color: @common_my_link_color;
@@ -67,6 +70,11 @@
 // 蓝色背景色
 .bg_blue_color {
   background: @common_blue_color;
+}
+
+// 暗红色 背景色
+.bg_dark_red_color {
+  background: @common_dark_red_color;
 }
 
 .font_primary_color {

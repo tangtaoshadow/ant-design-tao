@@ -1056,7 +1056,9 @@ class Irt_standard_library_detail extends React.Component {
                   }
                   span={4}
                 >
-                  <Link to={"/peptide/list/" + this.state.irt_standard_library}>
+                  <Link
+                    to={"/peptide/list/" + this.state.irt_standard_library_id}
+                  >
                     <button
                       type="button"
                       className="btn btn-outline-dark"
@@ -1072,7 +1074,9 @@ class Irt_standard_library_detail extends React.Component {
                     </button>
                   </Link>
 
-                  <Link to={"/protein/list/" + this.state.irt_standard_library}>
+                  <Link
+                    to={"/protein/list/" + this.state.irt_standard_library_id}
+                  >
                     <button
                       type="button"
                       className="btn btn-outline-dark"

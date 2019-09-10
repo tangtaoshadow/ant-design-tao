@@ -769,7 +769,6 @@ class Standard_library_detail extends React.Component {
                     {0 == detail_data.type ? (
                       <FormattedHTMLMessage id="propro.standard_library" />
                     ) : (
-                      
                       <FormattedHTMLMessage id="propro.irt_standard_library" />
                     )}
                   </span>
@@ -1052,7 +1051,7 @@ class Standard_library_detail extends React.Component {
                   }
                   span={4}
                 >
-                  <Link to={"/peptide/list/" + this.state.standard_library}>
+                  <Link to={"/peptide/list/" + this.state.standard_library_id}>
                     <button
                       type="button"
                       className="btn btn-outline-dark"
@@ -1068,7 +1067,7 @@ class Standard_library_detail extends React.Component {
                     </button>
                   </Link>
 
-                  <Link to={"/protein/list/" + this.state.standard_library}>
+                  <Link to={"/protein/list/" + this.state.standard_library_id}>
                     <button
                       type="button"
                       className="btn btn-outline-dark"

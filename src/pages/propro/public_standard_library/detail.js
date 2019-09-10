@@ -1069,7 +1069,7 @@ class Public_standard_library_detail extends React.Component {
                   <Link
                     to={
                       "/peptide/list/" +
-                      this.state.public_standard_library_detail
+                      this.state.public_standard_library_detail_id
                     }
                   >
                     <button
@@ -1090,7 +1090,7 @@ class Public_standard_library_detail extends React.Component {
                   <Link
                     to={
                       "/protein/list/" +
-                      this.state.public_standard_library_detail
+                      this.state.public_standard_library_detail_id
                     }
                   >
                     <button

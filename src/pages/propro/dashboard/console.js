@@ -289,7 +289,7 @@ class Console extends React.Component {
           number: task_running_count,
           name_link: "library/public_library",
           add: "",
-          list: "home"
+          list: "task/list"
         }
       ]
     });

@@ -151,6 +151,11 @@ const routes = [
         exact: true,
       },
       {
+        path: '/task/list',
+        component: require('../propro/task/list').default,
+        exact: true,
+      },
+      {
         path: '/test',
         component: require('../propro/test').default,
         exact: true,

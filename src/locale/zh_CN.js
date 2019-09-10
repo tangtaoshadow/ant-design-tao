@@ -173,7 +173,7 @@ let language_ch = {
   "propro.irt_standard_library_list_set_public": "公开校准库",
 
   // 公共 irt 校准库 列表
-  "propro.public_irt_standard_library_list_title": "公共IRT库列表",
+  "propro.public_irt_standard_library_list_title": "公共IRT校准库列表",
   "propro.public_irt_standard_library_list_search": "搜索",
   "propro.public_irt_standard_library_list_reset": "重置",
   "propro.public_irt_standard_library_list_index": "序列号",
@@ -360,6 +360,21 @@ let language_ch = {
   "propro.irt_standard_library_update_success": "成功",
   "propro.irt_standard_library_update_failed": "失败",
 
+  // 更新 公共 irt 标准库
+  "propro.public_irt_standard_library_update_title": "更新标准库",
+  "propro.public_irt_standard_library_update_only_target_peptides":
+    "仅录入真实肽段",
+  "propro.public_irt_standard_library_update_detail_description": "详情描述",
+  "propro.public_irt_standard_library_update_upload_csv_library":
+    "请上传CSV/TraML格式的Library",
+  "propro.public_irt_standard_library_update_upload_file_description":
+    "单击或拖动文件到此区域进行上传",
+  "propro.public_irt_standard_library_update_only_upload_peptide_list":
+    "上传肽段列表",
+  "propro.public_irt_standard_library_update_submit": "更新",
+  "propro.public_irt_standard_library_update_success": "成功",
+  "propro.public_irt_standard_library_update_failed": "失败",
+
   // 标准库详情
   "propro.standard_library_detail_title": "标准库详情页",
   "propro.standard_library": "标准库",
@@ -447,6 +462,24 @@ let language_ch = {
   "propro.protein_list_search_time": "搜索用时",
   "propro.protein_list_search_numbers": "搜索结果",
   "propro.protein_list_see_detail": "查看详情",
+
+  // task list
+  "propro.task_list_index": "No.",
+  "propro.task_list_link_detail": "查看任务详情",
+  "propro.task_list_name": "任务名称",
+  "propro.task_list_id": "ID",
+  "propro.task_list_title": "任务列表",
+  "propro.task_list_status": "任务状态",
+  "propro.task_list_task_template": "任务模板",
+  "propro.task_list_reset": "重置",
+  "propro.task_list_search": "搜索",
+  "propro.task_list_create_date": "创建时间",
+  "propro.task_list_running_total_time": "运行时间",
+  "propro.task_list_last_modified_date": "最后修改时间",
+  "propro.task_list_creator": "创建者",
+  "propro.task_list_operation": "操作",
+  "propro.task_list_operation_delete": "删除任务",
+  "propro.task_list_delete_by_id_modal_warn": "确认删除该条任务",
 
   "propro.end": "end"
 };

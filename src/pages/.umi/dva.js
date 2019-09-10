@@ -40,6 +40,7 @@ app.model({ namespace: 'standard_library_create', ...(require('F:/java/antd-2/an
 app.model({ namespace: 'standard_library_detail', ...(require('F:/java/antd-2/ant-design-tao/src/models/standard_library_detail.js').default) });
 app.model({ namespace: 'standard_library_list', ...(require('F:/java/antd-2/ant-design-tao/src/models/standard_library_list.js').default) });
 app.model({ namespace: 'standard_library_update', ...(require('F:/java/antd-2/ant-design-tao/src/models/standard_library_update.js').default) });
+app.model({ namespace: 'task_list', ...(require('F:/java/antd-2/ant-design-tao/src/models/task_list.js').default) });
   return app;
 }
 

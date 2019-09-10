@@ -678,7 +678,7 @@ class Irt_standard_library_detail extends React.Component {
           <Tooltip
             placement="topLeft"
             title={
-              <FormattedHTMLMessage id="propro.public_irt_standard_library_title" />
+              <FormattedHTMLMessage id="propro.public_irt_standard_library_list_title" />
             }
           >
             <Link to="/public_irt_standard_library/list">
@@ -1088,7 +1088,8 @@ class Irt_standard_library_detail extends React.Component {
                 >
                   <Link
                     to={
-                      "/peptide/list/" + this.state.public_irt_standard_library
+                      "/peptide/list/" +
+                      this.state.public_irt_standard_library_id
                     }
                   >
                     <button
@@ -1108,7 +1109,8 @@ class Irt_standard_library_detail extends React.Component {
 
                   <Link
                     to={
-                      "/protein/list/" + this.state.public_irt_standard_library
+                      "/protein/list/" +
+                      this.state.public_irt_standard_library_id
                     }
                   >
                     <button

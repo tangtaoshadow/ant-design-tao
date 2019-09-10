@@ -647,7 +647,7 @@ class Public_irt_standard_library_update extends React.Component {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                 </Radio>
                 <Radio value="public_irt_library">
-                  <FormattedHTMLMessage id="propro.console_public_irt_lib" />
+                  <FormattedHTMLMessage id="propro.console_irt_lib" />
                   &nbsp;&nbsp;&nbsp;&nbsp;
                 </Radio>
               </Radio.Group>

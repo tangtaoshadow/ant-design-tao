@@ -186,12 +186,16 @@ class Standard_library_list extends React.Component {
       }, 200);
     } else {
       // 数据获取失败
-      // 1-弹出警告
-      Modal.error({
-        title: "False",
-        content: Languages[this.props.language]["propro.network_error"],
-        okText: Languages[this.props.language]["propro.user_modal_know"]
-      });
+
+      setTimeout(() => {
+        // 1-弹出警告
+        Modal.error({
+          title: "False",
+          content: Languages[this.props.language]["propro.network_error"],
+          okText: Languages[this.props.language]["propro.user_modal_know"]
+        });
+      }, 70);
+
       // 过一段时间 尝试再次连接服务器 这个时间要稍微长一点 用户体验会比较好
       let { standard_library_list_false_time } = this.state;
       // 2-判断是否需要再次发起请求
@@ -231,7 +235,10 @@ class Standard_library_list extends React.Component {
     if (0 < len0) {
       obj_data = new Array(len0);
       let index = 0;
+      let obj_temp = {};
+
       for (let i in library_list) {
+        obj_temp = {};
         // 提取
         let {
           id,
@@ -244,7 +251,6 @@ class Standard_library_list extends React.Component {
         } = library_list[i];
 
         // 缓存对象
-        let obj_temp = {};
         obj_temp.id = id;
 
         // 添加索引是为了展示方便
