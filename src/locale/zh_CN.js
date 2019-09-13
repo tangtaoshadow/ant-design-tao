@@ -436,13 +436,13 @@ let language_ch = {
   "propro.peptide_list_search_by_name": "请输入库名称",
   "propro.peptide_list_name": "名称",
   "propro.peptide_list_id": "ID",
-  "propro.peptide_list_total_pages": "总页数",
-  "propro.peptide_list_receive_pages": "已加载页数",
-  "propro.peptide_list_page_size": "页大小",
-  "propro.peptide_list_current_page": "当前页",
+  "propro.peptide_list_total_numbers": "总记录",
+  "propro.peptide_list_load_numbers": "已加载",
   "propro.peptide_list_search_time": "搜索用时",
   "propro.peptide_list_search_numbers": "搜索结果",
   "propro.peptide_list_see_detail": "查看详情",
+  "propro.peptide_list_load_percentage": "加载进度",
+  "propro.peptide_list_load_time": "查询时间",
 
   // 肽段列表详情
   "propro.peptide_detail_title": "肽段详情",
@@ -455,17 +455,18 @@ let language_ch = {
   "propro.protein_list_search_by_name": "请输入库名称",
   "propro.protein_list_name": "名称",
   "propro.protein_list_id": "ID",
-  "propro.protein_list_total_pages": "总页数",
-  "propro.protein_list_receive_pages": "已加载页数",
-  "propro.protein_list_page_size": "页大小",
-  "propro.protein_list_current_page": "当前页",
   "propro.protein_list_search_time": "搜索用时",
   "propro.protein_list_search_numbers": "搜索结果",
   "propro.protein_list_see_detail": "查看详情",
+  "propro.protein_list_load_percentage": "加载进度",
+  "propro.protein_list_total_numbers": "总记录",
+  "propro.protein_list_load_time": "查询时间",
 
   // task list
+  "propro.task_list_table_info": "任务信息",
   "propro.task_list_index": "No.",
   "propro.task_list_link_detail": "查看任务详情",
+  "propro.task_list_load_time": "查询时间",
   "propro.task_list_name": "任务名称",
   "propro.task_list_id": "ID",
   "propro.task_list_title": "任务列表",
@@ -480,6 +481,12 @@ let language_ch = {
   "propro.task_list_operation": "操作",
   "propro.task_list_operation_delete": "删除任务",
   "propro.task_list_delete_by_id_modal_warn": "确认删除该条任务",
+  "propro.task_list_load_numbers": "已加载",
+  "propro.task_list_total_numbers": "总记录",
+  "propro.task_list_load_percentage": "加载进度",
+  "propro.task_list_search_by_templates_title": "任务状态",
+  "propro.task_list_search_by_templates_title_prompt": "指定任务状态",
+  "propro.task_list_search": "查询任务",
 
   "propro.end": "end"
 };

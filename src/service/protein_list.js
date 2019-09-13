@@ -16,7 +16,7 @@ import tao from "../utils/common";
 export function query_protein_list(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
-  let { id = "" } = data;
+  let { id = "", page_size = 0 } = data;
   if (-1 == token || "" == data || "" == id) {
     // 不存在 token
     return "error";
@@ -24,6 +24,9 @@ export function query_protein_list(data = "") {
 
   let body_data = "";
   body_data += "libraryId" + "=" + id + "&";
+  if (0 < page_size) {
+    body_data += "pageSize" + "=" + page_size + "&";
+  }
 
   return request("/propro_server/peptide/protein", {
     headers: {

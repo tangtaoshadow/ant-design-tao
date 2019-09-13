@@ -7,7 +7,7 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @CreateTime          2019-9-7 22:12:24
- * @UpdateTime          2019-9-4 15:28:14
+ * @UpdateTime          2019-9-11 18:40:51
  * @Archive             public_irt 库 列表
  */
 
@@ -65,6 +65,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../style/dashboard/console.less";
 import "../../../layout/Common.css";
 import detail_svg from "../style/static/library/detail.svg";
+import proteins_list_svg from "../style/static/library/list.svg";
+import unordered_list_svg from "../style/static/dashboard/unordered_list.svg";
 import public_library_scg from "../style/static/library/public.svg";
 import update_library_svg from "../style/static/library/update.svg";
 import return_svg from "../style/static/dashboard/return.svg";
@@ -620,20 +622,14 @@ class Irt_standard_library_list extends React.Component {
                   </button>
                 </Link>
               </Tooltip>
-              {/* 更新标准库链接 */}
+
+              {/* 肽段列表链接 */}
               <Tooltip
                 title={
-                  <FormattedHTMLMessage id="propro.public_irt_standard_library_list_update" />
+                  <FormattedHTMLMessage id="propro.public_irt_standard_library_list_peptides_list" />
                 }
               >
-                <Link
-                  to={
-                    "/library/public_irt_standard_library/update/" +
-                    list.id +
-                    "_" +
-                    list.name
-                  }
-                >
+                <Link to={"/peptide/list/" + list.id}>
                   <button
                     type="button"
                     className={"btn " + `${styles.bg_primary_color}`}
@@ -643,7 +639,7 @@ class Irt_standard_library_list extends React.Component {
                     }}
                   >
                     <img
-                      src={update_library_svg}
+                      src={unordered_list_svg}
                       style={{
                         height: "20px"
                       }}
@@ -651,30 +647,30 @@ class Irt_standard_library_list extends React.Component {
                   </button>
                 </Link>
               </Tooltip>
-              {/* 肽段列表链接 */}
+
+              {/* 蛋白列表链接 */}
               <Tooltip
                 title={
-                  <FormattedHTMLMessage id="propro.public_irt_standard_library_list_set_public" />
+                  <FormattedHTMLMessage id="propro.public_irt_standard_library_list_protein_list" />
                 }
               >
-                <button
-                  type="button"
-                  className={"btn " + `${styles.bg_green_color}`}
-                  style={{
-                    padding: "5px 10px",
-                    margin: "5px"
-                  }}
-                  onClick={() => {
-                    this.set_this_public(list.id, list.is_public);
-                  }}
-                >
-                  <img
-                    src={public_library_scg}
+                <Link to={"/protein/list/" + list.id}>
+                  <button
+                    type="button"
+                    className={"btn " + `${styles.bg_green_color}`}
                     style={{
-                      height: "20px"
+                      padding: "5px 10px",
+                      margin: "5px"
                     }}
-                  />
-                </button>
+                  >
+                    <img
+                      src={proteins_list_svg}
+                      style={{
+                        height: "20px"
+                      }}
+                    />
+                  </button>
+                </Link>
               </Tooltip>
             </Fragment>
           );

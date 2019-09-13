@@ -8,7 +8,7 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @CreateTime          2019-9-2 11:10:36
- * @UpdateTime          2019-8-28 22:17:29
+ * @UpdateTime          2019-9-11 18:40:57
  * @Archive             蛋白质列表  公共标准库 标准库 irt 共用
  *
  */
@@ -48,7 +48,9 @@ import {
   Radio,
   Checkbox,
   Upload,
-  Timeline
+  Timeline,
+  InputNumber,
+  Slider
 } from "antd";
 const { TextArea } = Input;
 const { Option } = Select;
@@ -144,7 +146,12 @@ class Protein_list extends React.Component {
       protein_list_table_data: null,
       // 请求失败再次发起请求的尝试次数
       protein_list_false_time: 5,
-      search_text: null
+      // 页面大小 通过调整它来设置
+      page_size: null,
+      total_numbers: null,
+      load_percentage_value: null,
+      search_text: null,
+      task_list_query_time: null
     };
     // 配置 message
     message.config({
@@ -176,6 +183,19 @@ class Protein_list extends React.Component {
     }, 120);
   };
 
+  change_load_percentage_value = value => {
+    if (0 > value || 100 < value) {
+      console.warn("你在搞啥?");
+      return -1;
+    }
+
+    // 提取到最新 值
+
+    this.setState({
+      load_percentage_value: value
+    });
+  };
+
   // 处理新的肽段资源
   handle_protein_list = () => {
     // 首先时间戳归零
@@ -191,12 +211,12 @@ class Protein_list extends React.Component {
         // 提取所有数据
         let {
           searchTime,
-          searchNumbers,
+          totalNumbers: total_numbers,
           proteins,
           totalPage,
           libraryId,
           libraries,
-          pageSize,
+          pageSize: page_size,
           currentPage,
           libraryInfo
         } = protein_list_data;
@@ -223,7 +243,7 @@ class Protein_list extends React.Component {
 
         let { length: len1 } = proteins;
 
-        let proteins_arr = null;
+        let [proteins_arr, load_percentage_value] = [null, null];
         if (0 < len1) {
           // 插入数据
           proteins_arr = new Array(len1);
@@ -245,16 +265,25 @@ class Protein_list extends React.Component {
               (proteins_arr[i] = obj_temp),
               (obj_temp = {});
           }
+
+          // 计算出加载的百分比
+          load_percentage_value = Math.ceil((len1 / total_numbers) * 100);
         }
 
         //
         this.setState({
           protein_list_data_status: 0,
           protein_list_all_librarys: librarys_arr,
+
           // 蛋白质列表 表格格式化数据
           protein_list_table_data: proteins_arr,
+
           // 重新恢复初始值
-          protein_list_false_time: 5
+          protein_list_false_time: 5,
+          load_percentage_value: load_percentage_value,
+          page_size: page_size,
+          total_numbers: total_numbers,
+          task_list_query_time: tao.current_format_time()
         });
       }, 200);
     } else {
@@ -280,6 +309,7 @@ class Protein_list extends React.Component {
           protein_list_false_time: protein_list_false_time--
         });
       }, 100);
+
       // 警告
       console.warn("正在尝试重新连接到 propro-server 的服务器");
 
@@ -303,10 +333,33 @@ class Protein_list extends React.Component {
   };
 
   handle_query_protein_list_by_id = () => {
-    let { protein_list_id: id } = this.state;
+    let {
+      protein_list_id: id,
+      load_percentage_value,
+      page_size,
+      total_numbers
+    } = this.state;
+
+    // 读取加载进度
+
+    let new_page_size = null;
+
+    new_page_size = Math.ceil((total_numbers * load_percentage_value) / 100);
+
+    if (1 == load_percentage_value) {
+      // 注意 这里 1% 还有可能是用户没有设置
+      // 所以如果计算出的结果大于1000 就使用1000 大于1%就不考虑
+      // 这样做的目的也是为了性能考虑
+      // 这个1000 是服务器的默认页大小
+      new_page_size = 1000 < new_page_size ? 1000 : new_page_size;
+    }
+    // 限制最小 page_size
+    let min_size = 30;
+    // 得出真正的 value 即新的 page_size
+    // new_page_size = min_size >= new_page_size ? min_size : new_page_size;
 
     //   调用查询接口
-    this.props.query_protein_list({ id: id });
+    this.props.query_protein_list({ id: id, page_size: new_page_size });
     //  写入状态
     this.setState({
       protein_list_id: id,
@@ -413,6 +466,17 @@ class Protein_list extends React.Component {
     }
 
     let { protein_list_data: data } = this.props;
+
+    let {
+      protein_list_table_data,
+      load_percentage_value,
+      task_list_query_time
+    } = this.state;
+
+    if (null == protein_list_table_data) {
+      protein_list_table_data = [];
+    }
+
     // 计算出详情
     let library_type =
       0 == data.libraryInfo.type ? "public_library" : "standard_library";
@@ -609,32 +673,6 @@ class Protein_list extends React.Component {
                       {data.libraryInfo.id}
                     </span>
                   </Descriptions.Item>
-                  {/* 总页数 */}
-                  <Descriptions.Item
-                    label={
-                      <FormattedHTMLMessage id="propro.protein_list_total_pages" />
-                    }
-                  >
-                    <span
-                      className={
-                        0 == data.totalPage
-                          ? styles.font_red_color
-                          : styles.font_primary_color
-                      }
-                    >
-                      {data.totalPage}
-                    </span>
-                  </Descriptions.Item>
-                  {/* 已经加载的页数 */}
-                  <Descriptions.Item
-                    label={
-                      <FormattedHTMLMessage id="propro.protein_list_page_size" />
-                    }
-                  >
-                    <span className={styles.font_primary_color}>
-                      {data.pageSize}
-                    </span>
-                  </Descriptions.Item>
                   <Descriptions.Item
                     label={
                       <FormattedHTMLMessage id="propro.protein_list_search_time" />
@@ -645,22 +683,89 @@ class Protein_list extends React.Component {
                     </span>
                     &nbsp;ms
                   </Descriptions.Item>
+                  {/* 查询时间 */}
                   <Descriptions.Item
                     label={
-                      <FormattedHTMLMessage id="propro.protein_list_search_numbers" />
+                      <FormattedHTMLMessage id="propro.protein_list_load_time" />
+                    }
+                  >
+                    <span className={styles.font_primary_color}>
+                      {task_list_query_time}
+                    </span>
+                  </Descriptions.Item>
+
+                  {/* 已加载 */}
+                  <Descriptions.Item
+                    label={
+                      <FormattedHTMLMessage id="propro.task_list_load_numbers" />
                     }
                   >
                     <span
                       className={
-                        0 == data.searchNumbers
+                        0 >= protein_list_table_data.length
                           ? styles.font_red_color
                           : styles.font_primary_color
                       }
                     >
-                      {data.searchNumbers}
+                      {protein_list_table_data.length}
+                    </span>
+                  </Descriptions.Item>
+
+                  <Descriptions.Item
+                    label={
+                      <FormattedHTMLMessage id="propro.protein_list_total_numbers" />
+                    }
+                  >
+                    <span
+                      className={
+                        0 == data.totalNumbers
+                          ? styles.font_red_color
+                          : styles.font_primary_color
+                      }
+                    >
+                      {data.totalNumbers}
                     </span>
                   </Descriptions.Item>
                 </Descriptions>
+
+                {/* 显示加载百分比 */}
+                <Col span={24}>
+                  <div style={{ float: "left" }}>
+                    <div
+                      style={{
+                        float: "left",
+                        height: "30px",
+                        lineHeight: "30px"
+                      }}
+                    >
+                      <FormattedHTMLMessage id="propro.protein_list_load_percentage" />
+                      &nbsp;:
+                    </div>
+                    <div
+                      style={{
+                        width: "300px"
+                      }}
+                    >
+                      <Slider
+                        min={0}
+                        max={100}
+                        style={{ margin: "10px 0px 0px 80px", height: "30px" }}
+                        onChange={this.change_load_percentage_value}
+                        value={Math.ceil(load_percentage_value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <InputNumber
+                      min={1}
+                      max={100}
+                      style={{ marginLeft: "15px" }}
+                      value={load_percentage_value}
+                      onChange={this.change_load_percentage_value}
+                    />
+                  </div>
+                </Col>
 
                 <div>
                   <FormattedHTMLMessage id="propro.protein_list_search_by_name_title" />
@@ -731,6 +836,7 @@ class Protein_list extends React.Component {
                   fontSize: "8px"
                 }}
                 key="2019-9-2 15:01:34"
+                // 这里重新从 state 读取 而不是使用解构后的结果
                 dataSource={this.state.protein_list_table_data}
               />
             </Col>

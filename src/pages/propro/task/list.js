@@ -7,7 +7,7 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @CreateTime          2019-9-9 15:52:58
- * @UpdateTime          2019-9-9 22:07:41
+ * @UpdateTime          2019-9-10 20:03:53
  * @Archive             任务 列表
  */
 
@@ -38,9 +38,15 @@ import {
   Tooltip,
   Table,
   Divider,
-  Tag
+  Descriptions,
+  Tag,
+  // 滑动输入框
+  Slider,
+  // 数字输入 文本框
+  InputNumber
 } from "antd";
 
+let { Option } = Select;
 import Highlighter from "react-highlight-words";
 
 import tao from "../../../utils/common";
@@ -98,8 +104,6 @@ const task_list_state_to_props = state => {
     (obj.task_list_data = task_list_data),
     (obj.task_list_time = task_list_time);
 
-  console.log(obj);
-
   return obj;
 };
 
@@ -126,6 +130,13 @@ const task_list_dispatch_to_props = dispatch => {
         payload: data
       };
       dispatch(action);
+    },
+    query_task_list_by_custom: data => {
+      const action = {
+        type: "task_list/query_task_list_by_custom",
+        payload: data
+      };
+      dispatch(action);
     }
   };
 };
@@ -148,8 +159,17 @@ class Task_list extends React.Component {
       task_list_false_time: 5,
       task_list_delete_id: null,
       delete_task_list_modal_visible: false,
-      search_text: ""
-      //   language: this.props.language
+      search_text: "",
+      page_size: null,
+      total_page: null,
+      current_page: null,
+      total_numbers: null,
+      // 页面加载百分比 负数则失能
+      load_percentage_value: -1,
+      search_task_list_by_templates: null,
+      // 记录查询数据的最新时间 要用客户端的时间
+      task_list_query_time: null,
+      task_templates: null
     };
 
     // 查询 task_list 列表
@@ -157,7 +177,7 @@ class Task_list extends React.Component {
 
     // 配置 message
     message.config({
-      top: 500,
+      top: 400,
       duration: 2,
       maxCount: 5,
       getContainer: () => document.body
@@ -217,7 +237,6 @@ class Task_list extends React.Component {
   };
 
   delete_task_list_by_id = id => {
-    console.log(id);
     // 弹出警告
     // 发起警告
     this.setState({
@@ -234,6 +253,7 @@ class Task_list extends React.Component {
   };
 
   delete_task_list_by_id_confirm = () => {
+    //
     let { task_list_delete_id: id = null } = this.state;
 
     this.setState({
@@ -291,6 +311,9 @@ class Task_list extends React.Component {
           3
         );
       }, 1500);
+      setTimeout(() => {
+        this.handle_query_task_list_by_custom();
+      }, 4000);
     } else {
       // 删除失败
       setTimeout(() => {
@@ -307,8 +330,6 @@ class Task_list extends React.Component {
 
   change_task_list_data = () => {
     //   提取 model 层 传过来的数据
-
-    console.log(this.props.task_list_data);
 
     /**
         currentPage: 1
@@ -329,8 +350,15 @@ class Task_list extends React.Component {
       taskTemplates: task_templates,
       // 任务列表
       tasks,
-      totalPage: total_page
+      totalPage: total_page,
+      totalNumbers: total_numbers
     } = this.props.task_list_data;
+
+    // 计算加载的百分比
+    let load_percentage_value = -1;
+    if (0 < total_page && 0 < tasks.length && 0 < total_numbers) {
+      load_percentage_value = Math.ceil((tasks.length / total_numbers) * 100);
+    }
 
     /*
         createDate: 1567865007231
@@ -387,16 +415,70 @@ class Task_list extends React.Component {
       }
     }
 
+    // 渲染 任务状态
+    let { length: len1 } = task_templates;
+    let task_templates_arr = null;
+    if (0 < task_templates.length) {
+      task_templates_arr = new Array(len1 + 1);
+      task_templates_arr[0] = (
+        <Option key={"ALL"} value={"ALL"}>
+          {"ALL"}
+        </Option>
+      );
+      for (let i = 0, j = 1; i < len1; i++) {
+        task_templates_arr[j++] = (
+          <Option key={task_templates[i]} value={task_templates[i]}>
+            {task_templates[i]}
+          </Option>
+        );
+      }
+    }
+
     // 添加服务端数据
     this.setState({
       task_list_data: obj_data,
       // 标记 成功
       task_list_false_time: 5,
       // 标记数据为可用的状态
-      task_list_status: 0
+      task_list_status: 0,
+      page_size: page_size,
+      total_page: total_page,
+      current_page: current_page,
+      total_numbers: total_numbers,
+      // 加载的百分比
+      load_percentage_value: load_percentage_value,
+      task_templates: task_templates_arr,
+      task_list_query_time: tao.current_format_time()
     });
 
     return 0;
+  };
+
+  change_search_task_list_by_templates = value => {
+    value += "";
+
+    if (0 >= value.length) {
+      console.warn("你在搞啥?");
+      return -1;
+    }
+
+    // 设置搜索模板
+    this.setState({
+      search_task_list_by_templates: value
+    });
+  };
+
+  change_load_percentage_value = value => {
+    if (0 > value || 100 < value) {
+      console.warn("你在搞啥?");
+      return -1;
+    }
+
+    // 提取到最新 值
+
+    this.setState({
+      load_percentage_value: value
+    });
   };
 
   get_column_search_props = dataIndex => ({
@@ -468,6 +550,53 @@ class Task_list extends React.Component {
   handle_table_reset = clearFilters => {
     clearFilters();
     this.setState({ search_text: "" });
+  };
+
+  handle_query_task_list_by_custom = () => {
+    // 用户发起自定义查询
+    // 尝试提取自定义的参数
+    let {
+      load_percentage_value,
+      search_task_list_by_templates,
+      page_size,
+      total_page,
+      task_templates,
+      total_numbers
+    } = this.state;
+    let value =
+      100 <= load_percentage_value ? 100 : Math.ceil(load_percentage_value);
+
+    let new_page_size = null;
+    // 根据 value 推算出 pageSize
+
+    if (0 < parseInt(total_numbers)) {
+      new_page_size = Math.ceil((total_numbers * value) / 100);
+    }
+
+    // 限制最小 page_size
+    let min_size = 30;
+    // 得出真正的 value 即新的 page_size
+    new_page_size = min_size >= new_page_size ? min_size : new_page_size;
+
+    if (
+      0 >= (search_task_list_by_templates + "").length ||
+      "ALL" == search_task_list_by_templates
+    ) {
+      // 数值为空 或者 指定 查询全部
+      search_task_list_by_templates = null;
+    }
+    let obj = {
+      // 根据自定义的加载百分比得出页大小
+      page_size: new_page_size,
+      // 指定的查询参数
+      search_task_list_by_templates: search_task_list_by_templates
+    };
+
+    this.props.query_task_list_by_custom(obj);
+    // 设置数据为不可用状态
+    this.setState({
+      task_list_status: -1
+    });
   };
 
   render() {
@@ -563,6 +692,7 @@ class Task_list extends React.Component {
         )
       },
       {
+        // "UNKNOWN", "WAITING", "RUNNING", "SUCCESS", "FAILED"
         //   任务状态
         title: (
           <span
@@ -579,15 +709,41 @@ class Task_list extends React.Component {
         key: "status",
         ...this.get_column_search_props("status"),
 
-        render: text => (
-          <span
-            style={{
-              fontSize: "8px"
-            }}
-          >
-            {text}
-          </span>
-        )
+        render: text => {
+          let class_name = null;
+
+          switch (text) {
+            case "SUCCESS":
+              class_name = styles.font_green_color;
+              break;
+            case "FAILED":
+              class_name = styles.font_red_color;
+              break;
+            case "RUNNING":
+              class_name = styles.font_primary_color;
+              break;
+            case "WAITING":
+              class_name = styles.font_yellow_color;
+              break;
+            case "UNKNOWN":
+              // 暗红色
+              class_name = styles.font_dark_red_color;
+              break;
+            default:
+              class_name = null;
+          }
+
+          return (
+            <span
+              style={{
+                fontSize: "8px"
+              }}
+              className={`${class_name}`}
+            >
+              {text}
+            </span>
+          );
+        }
       },
       {
         //   任务创建时间
@@ -775,6 +931,18 @@ class Task_list extends React.Component {
       this.handle_delete_task_list_by_id();
     }
 
+    // 提取必要的参数
+    let {
+      load_percentage_value,
+      task_list_data,
+      task_templates,
+      total_numbers,
+      task_list_query_time
+    } = this.state;
+
+    if (null == task_list_data) {
+      task_list_data = [];
+    }
     return (
       <div>
         <div
@@ -821,25 +989,172 @@ class Task_list extends React.Component {
           </div>
         </Modal>
 
-        <div
-          style={{
-            background: "#FFFFFF",
-            padding: "5px",
-            border: "1px solid #e5e9f2",
-            overflow: "auto"
-          }}
-        >
-          <Table
-            size={"middle"}
-            columns={task_list_table_columns}
-            pagination={{
-              position: "top",
-              hideOnSinglePage: true,
-              defaultPageSize: 100
-            }}
-            dataSource={this.state.task_list_data}
-          />
-        </div>
+        <Row>
+          <Col lg={24} xl={24} xxl={24}>
+            <Col
+              span={24}
+              style={{
+                background: "#FFFFFF",
+                padding: "20px",
+                fontSize: "14px",
+                border: "1px solid #e5e9f2",
+                // maxWidth: "600px",
+                overflow: "auto"
+              }}
+            >
+              <Descriptions
+                title={
+                  <FormattedHTMLMessage id="propro.task_list_table_info" />
+                }
+              >
+                {/* 查询时间 */}
+                <Descriptions.Item
+                  label={
+                    <FormattedHTMLMessage id="propro.task_list_load_time" />
+                  }
+                >
+                  <span className={styles.font_primary_color}>
+                    {task_list_query_time}
+                  </span>
+                </Descriptions.Item>
+
+                {/* 已加载 */}
+                <Descriptions.Item
+                  label={
+                    <FormattedHTMLMessage id="propro.task_list_load_numbers" />
+                  }
+                >
+                  <span
+                    className={
+                      0 >= task_list_data.length
+                        ? styles.font_red_color
+                        : styles.font_primary_color
+                    }
+                  >
+                    {task_list_data.length}
+                  </span>
+                </Descriptions.Item>
+
+                {/* 总数目 */}
+                <Descriptions.Item
+                  label={
+                    <FormattedHTMLMessage id="propro.task_list_total_numbers" />
+                  }
+                >
+                  <span
+                    className={
+                      0 >= total_numbers
+                        ? styles.font_red_color
+                        : styles.font_primary_color
+                    }
+                  >
+                    {total_numbers}
+                  </span>
+                </Descriptions.Item>
+              </Descriptions>
+              {/* 显示加载百分比 */}
+              <Col span={24}>
+                <div style={{ float: "left" }}>
+                  <div
+                    style={{
+                      float: "left",
+                      height: "30px",
+                      lineHeight: "30px"
+                    }}
+                  >
+                    <FormattedHTMLMessage id="propro.task_list_load_percentage" />
+                    &nbsp;:
+                  </div>
+                  <div
+                    style={{
+                      width: "300px"
+                    }}
+                  >
+                    <Slider
+                      min={0}
+                      max={100}
+                      style={{ margin: "10px 0px 0px 80px", height: "30px" }}
+                      onChange={this.change_load_percentage_value}
+                      value={Math.ceil(load_percentage_value)}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <InputNumber
+                    min={1}
+                    max={100}
+                    style={{ marginLeft: "15px" }}
+                    value={load_percentage_value}
+                    onChange={this.change_load_percentage_value}
+                  />
+                </div>
+              </Col>
+
+              <Col span={24}>
+                <div>
+                  <FormattedHTMLMessage id="propro.task_list_search_by_templates_title" />
+                  &nbsp;:&nbsp;&nbsp;
+                  <Select
+                    showSearch
+                    style={{ width: "300px" }}
+                    defaultValue="ALL"
+                    placeholder={
+                      <FormattedHTMLMessage id="propro.task_list_search_by_templates_title_prompt" />
+                    }
+                    disabled={null == task_templates}
+                    onChange={this.change_search_task_list_by_templates}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      option.props.children
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                  >
+                    {this.state.task_templates}
+                  </Select>
+                  <Button
+                    type="primary"
+                    style={{
+                      padding: "0px 15px",
+                      margin: "0px 50px 0px 10px",
+                      height: "32px",
+                      lineHeight: "32px"
+                    }}
+                    onClick={this.handle_query_task_list_by_custom}
+                  >
+                    <span>
+                      &nbsp;
+                      <FormattedHTMLMessage id="propro.task_list_search" />
+                    </span>
+                  </Button>
+                </div>
+              </Col>
+            </Col>
+            <Col
+              span={24}
+              style={{
+                background: "#FFFFFF",
+                padding: "20px",
+                fontSize: "14px",
+                margin: "30px 0px",
+                border: "1px solid #e5e9f2",
+                overflow: "auto"
+              }}
+            >
+              <Table
+                size={"middle"}
+                columns={task_list_table_columns}
+                pagination={{
+                  position: "top",
+                  hideOnSinglePage: true,
+                  defaultPageSize: 100
+                }}
+                dataSource={task_list_data}
+              />
+            </Col>
+          </Col>
+        </Row>
       </div>
     );
   }

@@ -59,6 +59,23 @@ let model = {
         payload: result
       });
       return 0;
+    },
+    *query_task_list_by_custom({ payload }, sagaEffects) {
+      const { call, put } = sagaEffects;
+      let result = "";
+      try {
+        result = yield call(
+          task_list_service.query_task_list_by_custom,
+          payload
+        );
+      } catch (e) {
+        result = "";
+      }
+      yield put({
+        type: "query_task_list_result",
+        payload: result
+      });
+      return 0;
     }
   },
 

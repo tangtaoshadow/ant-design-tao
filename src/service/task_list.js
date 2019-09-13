@@ -55,3 +55,40 @@ export function delete_task_list_by_id(data) {
     body: body_data
   });
 }
+
+// 查询自定义规则的任务列表
+export function query_task_list_by_custom(data) {
+  // 读取最新的 token
+  let token = tao.get_token();
+  let {
+    search_task_list_by_templates: templates = null,
+    page_size = null
+  } = data;
+
+  if (-1 == token || "" == data) {
+    // 不存在 token
+    return "error";
+  }
+
+  let body_data = "";
+
+  if (null != page_size && 0 < page_size) {
+    body_data += "pageSize" + "=" + page_size + "&";
+  }
+
+  if (null != templates) {
+    body_data += "taskTemplate" + "=" + templates + "&";
+  }
+
+  console.log(body_data);
+  return request("/propro_server/task/list", {
+    headers: {
+      // 'content-type': 'application/json',
+      // "X-Requested-With": "XMLHttpRequest",
+      token: token,
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    },
+    method: "POST",
+    body: body_data
+  });
+}

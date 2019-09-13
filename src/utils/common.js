@@ -117,4 +117,34 @@ tao.format_number = function(n) {
   return n[1] ? n : "0" + n;
 };
 
+/***
+ * @Author              TangTao https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @CreateTime          2019-9-11 13:43:41
+ * @UpdateTime          2019-9-11 13:45:03
+ * @Archive             输出格式化好的当前时间
+ */
+tao.current_format_time = function() {
+  let current_date = new Date();
+  let date =
+    current_date.getFullYear() +
+    "-" +
+    sup(current_date.getMonth() + 1) +
+    "-" +
+    sup(current_date.getDate());
+  let time =
+    sup(current_date.getHours()) +
+    ":" +
+    sup(current_date.getMinutes()) +
+    ":" +
+    sup(current_date.getSeconds());
+  function sup(n) {
+    return n < 10 ? "0" + n : n;
+  }
+  let format_time = date + " " + time;
+  return format_time;
+};
+
 export default tao;
