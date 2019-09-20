@@ -22,6 +22,7 @@ export function _onCreate() {
   
   app.model({ namespace: 'analysis_detail', ...(require('F:/java/antd-2/ant-design-tao/src/models/analysis_detail.js').default) });
 app.model({ namespace: 'analysis_list', ...(require('F:/java/antd-2/ant-design-tao/src/models/analysis_list.js').default) });
+app.model({ namespace: 'analysis_xic', ...(require('F:/java/antd-2/ant-design-tao/src/models/analysis_xic.js').default) });
 app.model({ namespace: 'console', ...(require('F:/java/antd-2/ant-design-tao/src/models/console.js').default) });
 app.model({ namespace: 'irt_standard_library_detail', ...(require('F:/java/antd-2/ant-design-tao/src/models/irt_standard_library_detail.js').default) });
 app.model({ namespace: 'irt_standard_library_list', ...(require('F:/java/antd-2/ant-design-tao/src/models/irt_standard_library_list.js').default) });

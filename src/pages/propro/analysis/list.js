@@ -933,7 +933,7 @@ class Analysis_list extends React.Component {
                   <FormattedHTMLMessage id="propro.analysis_list_xic_tip" />
                 }
               >
-                <Link to={"/analysis/detail/" + list.id}>
+                <Link to={"/analysis/xic/" + list.id}>
                   <div
                     className={"badge btn-primary"}
                     style={{

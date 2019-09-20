@@ -152,7 +152,11 @@ export default {
           path: "/analysis/detail/*",
           component: "propro/analysis/detail"
         },
-
+        {
+          // 分析 详情
+          path: "/analysis/xic/*",
+          component: "propro/analysis/xic"
+        },
         {
           path: "/test",
           component: "propro/test"

@@ -1,4 +1,4 @@
-// src/pages/propro/analysis/detail.js
+// src/pages/propro/analysis/xic.js
 // 分析概览详情页面
 
 /***
@@ -6,9 +6,9 @@
  * @Email               tangtao2099@outlook.com
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
- * @CreateTime          2019-9-18 10:47:50
+ * @CreateTime          2019-9-20 15:49:44
  * @UpdateTime          2019-9-20 15:44:11
- * @Archive             分析详情页面
+ * @Archive             xic 数据
  */
 
 /****************  导入组件 ***************************/
@@ -79,7 +79,7 @@ import preloader_svg from "../style/static/dashboard/preloader.svg";
 /***********  analysis View 初始化   ***************/
 /***********  analysis View 初始化   ***************/
 
-const analysis_state_to_props = state => {
+const analysis_xic_state_to_props = state => {
   // 发送的对象
   let obj = {};
 
@@ -90,31 +90,31 @@ const analysis_state_to_props = state => {
   }
 
   let {
-    analysis_detail_status = -1,
-    analysis_detail_time = 0,
-    analysis_detail_data = {}
-  } = state["analysis_detail"];
+    analysis_xic_status = -1,
+    analysis_xic_time = 0,
+    analysis_xic_data = {}
+  } = state["analysis_xic"];
 
-  (obj.analysis_detail_status = analysis_detail_status),
-    (obj.analysis_detail_time = analysis_detail_time),
-    (obj.analysis_detail_data = analysis_detail_data);
+  (obj.analysis_xic_status = analysis_xic_status),
+    (obj.analysis_xic_time = analysis_xic_time),
+    (obj.analysis_xic_data = analysis_xic_data);
 
   return obj;
 };
 
-const analysis_dispatch_to_props = dispatch => {
+const analysis_xic_dispatch_to_props = dispatch => {
   return {
     // 更新触发器
-    get_analysis_detail: data => {
+    get_analysis_xic: data => {
       const action = {
-        type: "analysis_detail/get_analysis_detail",
+        type: "analysis_xic/get_analysis_xic",
         payload: data
       };
       dispatch(action);
     },
     set_state_newvalue: data => {
       const action = {
-        type: "analysis_detail/set_state_newvalue",
+        type: "analysis_xic/set_state_newvalue",
         payload: data
       };
       dispatch(action);
@@ -125,27 +125,27 @@ const analysis_dispatch_to_props = dispatch => {
 /***********  analysis View 初始化 end  ***************/
 
 @connect(
-  analysis_state_to_props,
-  analysis_dispatch_to_props
+  analysis_xic_state_to_props,
+  analysis_xic_dispatch_to_props
 )
-class Analysis_detail extends React.Component {
+class Xic extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       //   查询到的标准库数据
-      analysis_detail_id: null,
-      analysis_detail_data: [],
+      analysis_xic_id: null,
+      analysis_xic_data: [],
       // 默认没有数据 状态为 -1 这个变量 暂时用不着 但是后续扩展会用到
-      analysis_detail_status: -1,
+      analysis_xic_status: -1,
       // 请求失败再次发起请求的尝试次数
-      analysis_detail_false_time: 5,
-      analysis_detail_feature_scores_weights_data: null,
+      analysis_xic_false_time: 5,
+      analysis_xic_feature_scores_weights_data: null,
       search_text: ""
       //   language: this.props.language
     };
 
     setTimeout(() => {
-      this.get_current_analysis_detail_id();
+      this.get_current_analysis_xic_id();
     }, 100);
 
     // 配置 message
@@ -158,35 +158,37 @@ class Analysis_detail extends React.Component {
   }
 
   // 解析url 获取到id 发起查询
-  get_current_analysis_detail_id = () => {
-    // /analysis/detail/5d36ed2d9063e34625b75fad
+  get_current_analysis_xic_id = () => {
+    // /analysis/xic/5d36ed2d9063e34625b75fad
     let url = this.props.history.location.pathname;
+    console.log(url);
     // 提取 id
-    let index = url.lastIndexOf("detail/");
-    let id = url.substring(index + 7);
+    let index = url.lastIndexOf("xic/");
+    let id = url.substring(index + 4);
     console.log("id" + id);
-    this.props.get_analysis_detail({ id: id });
+    this.props.get_analysis_xic({ id: id });
     setTimeout(() => {
       // 写入 id
       this.setState({
-        analysis_detail_id: id
+        analysis_xic_id: id
       });
     }, 40);
   };
 
-  handle_analysis_detail = () => {
+  handle_analysis_xic = () => {
     // 时间戳设置为 0
     this.props.set_state_newvalue({
-      target: "analysis_detail_time",
+      target: "analysis_xic_time",
       value: 0
     });
 
     // 检查状态
-    if (0 == this.props.analysis_detail_status) {
+    if (0 == this.props.analysis_xic_status) {
       // 数据获取成功
+
       setTimeout(() => {
         // 调用 添加更新数据函数
-        this.change_analysis_detail_data();
+        this.change_analysis_xic_data();
       }, 200);
     } else {
       // 数据获取失败
@@ -197,9 +199,9 @@ class Analysis_detail extends React.Component {
         okText: Languages[this.props.language]["propro.user_modal_know"]
       });
       // 过一段时间 尝试再次连接服务器 这个时间要稍微长一点 用户体验会比较好
-      let { analysis_detail_false_time } = this.state;
+      let { analysis_xic_false_time } = this.state;
       // 2-判断是否需要再次发起请求
-      if (0 >= analysis_detail_false_time) {
+      if (0 >= analysis_xic_false_time) {
         console.error(
           "@Author:tangtao; 系统已终止运行,请重新刷新页面; ",
           "初步诊断:未能成功连接到 propro-server 的服务器或者未能成功解析返回的数据"
@@ -211,7 +213,7 @@ class Analysis_detail extends React.Component {
       // 写入新的请求失败参数
       setTimeout(() => {
         this.setState({
-          analysis_detail_false_time: analysis_detail_false_time--
+          analysis_xic_false_time: analysis_xic_false_time--
         });
       }, 120);
 
@@ -221,9 +223,10 @@ class Analysis_detail extends React.Component {
     return 0;
   };
 
-  change_analysis_detail_data = () => {
-    console.log(this.props.analysis_detail_data);
+  change_analysis_xic_data = () => {
+    console.log(this.props.analysis_xic_data);
 
+    return -1;
     /*
         badRts: [{bestRt: 1813.7325774549008, rt: 22}, {bestRt: 1311.3478990274189, rt: 10},…]
         decoyMap: {$ref: "$.data.overview.decoyDistributions"}
@@ -247,7 +250,7 @@ class Analysis_detail extends React.Component {
       // 斜率
       slope,
       targetMap: target_Map
-    } = this.props.analysis_detail_data;
+    } = this.props.analysis_xic_data;
 
     let { weights = null } = overview;
     // 默认为空
@@ -307,12 +310,12 @@ class Analysis_detail extends React.Component {
       */
 
     this.setState({
-      analysis_detail_data: this.props.analysis_detail_data,
+      analysis_xic_data: this.props.analysis_xic_data,
       // 标记 成功
-      analysis_detail_false_time: 5,
-      analysis_detail_feature_scores_weights_data: arr_scores_weights,
+      analysis_xic_false_time: 5,
+      analysis_xic_feature_scores_weights_data: arr_scores_weights,
       // 标记数据为可用的状态
-      analysis_detail_status: 0
+      analysis_xic_status: 0
     });
 
     return 0;
@@ -345,14 +348,14 @@ class Analysis_detail extends React.Component {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          <FormattedHTMLMessage id="propro.analysis_detail_search" />
+          <FormattedHTMLMessage id="propro.analysis_xic_search" />
         </Button>
         <Button
           onClick={() => this.handle_table_reset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          <FormattedHTMLMessage id="propro.analysis_detail_reset" />
+          <FormattedHTMLMessage id="propro.analysis_xic_reset" />
         </Button>
       </div>
     ),
@@ -391,7 +394,7 @@ class Analysis_detail extends React.Component {
 
   render() {
     // 定义 解析 配置 表格
-    const analysis_detail_feature_scores_weights_table_columns = [
+    const analysis_xic_feature_scores_weights_table_columns = [
       {
         // 1  排序
         title: (
@@ -402,7 +405,7 @@ class Analysis_detail extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_detail_feature_scores_weights_index" />
+            <FormattedHTMLMessage id="propro.analysis_xic_feature_scores_weights_index" />
           </div>
         ),
         dataIndex: "index",
@@ -432,7 +435,7 @@ class Analysis_detail extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_detail_feature_scores_weights_type" />
+            <FormattedHTMLMessage id="propro.analysis_xic_feature_scores_weights_type" />
           </span>
         ),
         dataIndex: "name",
@@ -465,7 +468,7 @@ class Analysis_detail extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_detail_feature_scores_weights_weights" />
+            <FormattedHTMLMessage id="propro.analysis_xic_feature_scores_weights_weights" />
           </span>
         ),
         dataIndex: "value",
@@ -490,13 +493,13 @@ class Analysis_detail extends React.Component {
       }
     ];
 
-    // 监控 analysis_detail 数据变化
-    if (10000 < this.props.analysis_detail_time) {
+    // 监控 analysis_xic 数据变化
+    if (10000 < this.props.analysis_xic_time) {
       // 资源有更新
-      this.handle_analysis_detail();
+      this.handle_analysis_xic();
     }
 
-    if (0 != this.state.analysis_detail_status) {
+    if (0 != this.state.analysis_xic_status) {
       return (
         <Fragment>
           <Row>
@@ -519,7 +522,7 @@ class Analysis_detail extends React.Component {
       library,
       slope: data_slope,
       intercept: data_intercept
-    } = this.props.analysis_detail_data;
+    } = this.props.analysis_xic_data;
 
     return (
       <div>
@@ -545,7 +548,7 @@ class Analysis_detail extends React.Component {
               />
             </Link>
           </Tooltip>
-          <FormattedHTMLMessage id="propro.analysis_detail_title" />
+          <FormattedHTMLMessage id="propro.analysis_xic_title" />
         </div>
         <div
           style={{
@@ -576,9 +579,7 @@ class Analysis_detail extends React.Component {
               >
                 {/* id */}
                 <Descriptions.Item
-                  label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_id" />
-                  }
+                  label={<FormattedHTMLMessage id="propro.analysis_xic_id" />}
                   span={2}
                 >
                   {overview.id}
@@ -587,7 +588,7 @@ class Analysis_detail extends React.Component {
                 {/* 实验名称 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_experiment_name" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_experiment_name" />
                   }
                   span={2}
                 >
@@ -597,7 +598,7 @@ class Analysis_detail extends React.Component {
                 {/* 分析代号 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_analyse_code" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_analyse_code" />
                   }
                   span={4}
                 >
@@ -606,7 +607,7 @@ class Analysis_detail extends React.Component {
                 {/* 关联标准库 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_association_library_name" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_association_library_name" />
                   }
                   span={2}
                 >
@@ -636,7 +637,7 @@ class Analysis_detail extends React.Component {
                 {/* rz/mz */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_rz_mz" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_rz_mz" />
                   }
                   span={2}
                 >
@@ -648,7 +649,7 @@ class Analysis_detail extends React.Component {
                 {/* 斜率/截距 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_slope_intercept" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_slope_intercept" />
                   }
                   span={4}
                 >
@@ -664,7 +665,7 @@ class Analysis_detail extends React.Component {
                 {/* sigma/spacing */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_sigma_spacing" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_sigma_spacing" />
                   }
                   span={2}
                 >
@@ -675,7 +676,7 @@ class Analysis_detail extends React.Component {
                 {/* 肽段识别比例 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_peptide_recognized_ratio" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_peptide_recognized_ratio" />
                   }
                   span={2}
                 >
@@ -692,7 +693,7 @@ class Analysis_detail extends React.Component {
                 {/* 负责人 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_creator" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_creator" />
                   }
                   span={2}
                 >
@@ -713,7 +714,7 @@ class Analysis_detail extends React.Component {
                 {/* 创建时间 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_create_time" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_create_time" />
                   }
                   span={2}
                 >
@@ -724,7 +725,7 @@ class Analysis_detail extends React.Component {
                 {/* 更新时间 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_update_time" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_update_time" />
                   }
                   span={2}
                 >
@@ -735,7 +736,7 @@ class Analysis_detail extends React.Component {
                 {/* PeakGroup数目 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_peakgroup_count" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_peakgroup_count" />
                   }
                   span={2}
                 >
@@ -751,9 +752,7 @@ class Analysis_detail extends React.Component {
                 </Descriptions.Item>
                 {/* FDR */}
                 <Descriptions.Item
-                  label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_fdr" />
-                  }
+                  label={<FormattedHTMLMessage id="propro.analysis_xic_fdr" />}
                   span={2}
                 >
                   {0 != overview.fdr ? (
@@ -769,7 +768,7 @@ class Analysis_detail extends React.Component {
                 {/* 蛋白质数目 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_proteins_count" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_proteins_count" />
                   }
                   span={2}
                 >
@@ -787,7 +786,7 @@ class Analysis_detail extends React.Component {
                 {/* PP Rate */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_pp_rate" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_pp_rate" />
                   }
                   span={2}
                 >
@@ -804,7 +803,7 @@ class Analysis_detail extends React.Component {
                 {/* PP Rate of library */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_pp_rate_library" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_pp_rate_library" />
                   }
                   span={2}
                 >
@@ -819,15 +818,13 @@ class Analysis_detail extends React.Component {
                 {/* 特征分数 权重 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_feature_scores_weights" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_feature_scores_weights" />
                   }
                   span={4}
                 >
                   <Table
                     size={"small"}
-                    columns={
-                      analysis_detail_feature_scores_weights_table_columns
-                    }
+                    columns={analysis_xic_feature_scores_weights_table_columns}
                     pagination={{
                       position: "bottom",
                       hideOnSinglePage: true,
@@ -836,14 +833,14 @@ class Analysis_detail extends React.Component {
                     scroll={{ y: 300 }}
                     bordered={true}
                     dataSource={
-                      this.state.analysis_detail_feature_scores_weights_data
+                      this.state.analysis_xic_feature_scores_weights_data
                     }
                   />
                 </Descriptions.Item>
                 {/* operation */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_detail_operation" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_operation" />
                   }
                   span={2}
                 >
@@ -854,7 +851,7 @@ class Analysis_detail extends React.Component {
                       <FormattedHTMLMessage id="propro.analysis_list_report_tip" />
                     }
                   >
-                    <Link to={"/analysis/detail/" + overview.id}>
+                    <Link to={"/analysis/xic/" + overview.id}>
                       <div
                         className={"badge btn-warning"}
                         style={{
@@ -878,7 +875,7 @@ class Analysis_detail extends React.Component {
                       <FormattedHTMLMessage id="propro.analysis_list_xic_tip" />
                     }
                   >
-                    <Link to={"/analysis/detail/" + overview.id}>
+                    <Link to={"/analysis/xic/" + overview.id}>
                       <div
                         className={"badge btn-primary"}
                         style={{
@@ -902,7 +899,7 @@ class Analysis_detail extends React.Component {
                       <FormattedHTMLMessage id="propro.analysis_list_score_tip" />
                     }
                   >
-                    <Link to={"/analysis/detail/" + overview.id}>
+                    <Link to={"/analysis/xic/" + overview.id}>
                       <div
                         className={"badge btn-primary"}
                         style={{
@@ -926,7 +923,7 @@ class Analysis_detail extends React.Component {
                       <FormattedHTMLMessage id="propro.analysis_list_identification_tip" />
                     }
                   >
-                    <Link to={"/analysis/detail/" + overview.id}>
+                    <Link to={"/analysis/xic/" + overview.id}>
                       <div
                         className={"badge btn-primary"}
                         style={{
@@ -950,7 +947,7 @@ class Analysis_detail extends React.Component {
                       <FormattedHTMLMessage id="propro.analysis_list_export_tip" />
                     }
                   >
-                    <Link to={"/analysis/detail/" + overview.id}>
+                    <Link to={"/analysis/xic/" + overview.id}>
                       <div
                         className={"badge btn-secondary"}
                         style={{
@@ -974,7 +971,7 @@ class Analysis_detail extends React.Component {
                       <FormattedHTMLMessage id="propro.analysis_list_delete_tip" />
                     }
                   >
-                    <Link to={"/analysis/detail/" + overview.id}>
+                    <Link to={"/analysis/xic/" + overview.id}>
                       <div
                         className={"badge btn-danger"}
                         style={{
@@ -1016,4 +1013,4 @@ class Analysis_detail extends React.Component {
   }
 }
 
-export default Analysis_detail;
+export default Xic;

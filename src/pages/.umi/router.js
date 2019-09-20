@@ -166,6 +166,11 @@ const routes = [
         exact: true,
       },
       {
+        path: '/analysis/xic/*',
+        component: require('../propro/analysis/xic').default,
+        exact: true,
+      },
+      {
         path: '/test',
         component: require('../propro/test').default,
         exact: true,
