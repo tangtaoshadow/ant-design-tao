@@ -141,6 +141,18 @@ export default {
           path: "/task/list",
           component: "propro/task/list"
         },
+
+        {
+          // 分析 列表
+          path: "/analysis/list",
+          component: "propro/analysis/list"
+        },
+        {
+          // 分析 详情
+          path: "/analysis/detail/*",
+          component: "propro/analysis/detail"
+        },
+
         {
           path: "/test",
           component: "propro/test"

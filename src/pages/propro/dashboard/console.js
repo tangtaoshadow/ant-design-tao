@@ -279,9 +279,9 @@ class Console extends React.Component {
           key: "overview_count",
           name: <FormattedHTMLMessage id="propro.console_overview" />,
           number: overview_count,
-          name_link: "library/public_library",
+          name_link: "analysis/list",
           add: "",
-          list: "home"
+          list: "analysis/list"
         },
         {
           key: "task_running_count",

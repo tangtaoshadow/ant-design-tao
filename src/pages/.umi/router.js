@@ -156,6 +156,16 @@ const routes = [
         exact: true,
       },
       {
+        path: '/analysis/list',
+        component: require('../propro/analysis/list').default,
+        exact: true,
+      },
+      {
+        path: '/analysis/detail/*',
+        component: require('../propro/analysis/detail').default,
+        exact: true,
+      },
+      {
         path: '/test',
         component: require('../propro/test').default,
         exact: true,

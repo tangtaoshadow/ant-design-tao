@@ -7,7 +7,7 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @CreateTime          2019-9-13 15:18:17  今天是中秋节
- * @UpdateTime          2019-9-11 18:40:51
+ * @UpdateTime          2019-9-18 10:09:56
  * @Archive             分析列表
  */
 
@@ -69,6 +69,12 @@ import proteins_list_svg from "../style/static/library/list.svg";
 import unordered_list_svg from "../style/static/dashboard/unordered_list.svg";
 import public_library_scg from "../style/static/library/public.svg";
 import update_library_svg from "../style/static/library/update.svg";
+import report_svg from "../style/static/analysis/report.svg";
+import list_svg from "../style/static/analysis/list.svg";
+import score_svg from "../style/static/analysis/score.svg";
+import identification_svg from "../style/static/analysis/identification.svg";
+import export_svg from "../style/static/analysis/export.svg";
+import delete_svg from "../style/static/analysis/delete.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
 
@@ -90,15 +96,10 @@ const analysis_state_to_props = state => {
   let {
     analysis_list_status = -1,
     analysis_list_time = 0,
-    analysis_list_data = {},
-    // 设置更新的状态标记
-    analysis_list_set_public_status,
-    analysis_list_set_public_time
+    analysis_list_data = {}
   } = state["analysis_list"];
 
-  (obj.analysis_list_set_public_status = analysis_list_set_public_status),
-    (obj.analysis_list_set_public_time = analysis_list_set_public_time),
-    (obj.analysis_list_status = analysis_list_status),
+  (obj.analysis_list_status = analysis_list_status),
     (obj.analysis_list_time = analysis_list_time),
     (obj.analysis_list_data = analysis_list_data);
 
@@ -121,13 +122,6 @@ const analysis_dispatch_to_props = dispatch => {
         payload: data
       };
       dispatch(action);
-    },
-    set_library_public_by_id: data => {
-      const action = {
-        type: "analysis_list/set_library_public_by_id",
-        payload: data
-      };
-      dispatch(action);
     }
   };
 };
@@ -138,7 +132,7 @@ const analysis_dispatch_to_props = dispatch => {
   analysis_state_to_props,
   analysis_dispatch_to_props
 )
-class Irt_standard_library_list extends React.Component {
+class Analysis_list extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -177,13 +171,6 @@ class Irt_standard_library_list extends React.Component {
       setTimeout(() => {
         // 调用 添加更新数据函数
         this.change_analysis_list_data();
-        // 添加服务端数据
-        this.setState({
-          // 标记 成功
-          analysis_list_false_time: 5,
-          // 标记数据为可用的状态
-          analysis_list_status: 0
-        });
       }, 200);
     } else {
       // 数据获取失败
@@ -219,53 +206,166 @@ class Irt_standard_library_list extends React.Component {
   };
 
   change_analysis_list_data = () => {
+    console.log(this.props.analysis_list_data);
+
+    /*
+        TotalNumbers: 15
+        currentPage: 1
+        overviews: (15) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+        pageSize: 500
+        scores: (20) ["MainScore", "BseriesScore", "IntensityScore", "IsotopeCorrelationScore", "IsotopeOverlapScore", "LibraryCorr", "LibraryRsmd", "LogSnScore", "MassdevScore", "MassdevScoreWeighted", "NormRtScore", "XcorrCoelution", "XcorrCoelutionWeighted", "XcorrShape", "XcorrShapeWeighted", "LibraryDotprod", "LibraryManhattan", "LibrarySangle", "LibraryRootmeansquare", "YseriesScore"]
+        totalPage: 1
+      */
     //   提取 model 层 传过来的数据
     const {
-      libraryList: library_list,
       totalPage: total_page,
       pageSize: page_size,
-      currentPage: current_page
+      currentPage: current_page,
+      TotalNumbers: total_numbers,
+      overviews: overviews_list,
+      scores: scores_list
     } = this.props.analysis_list_data;
 
-    let { length: len0 } = library_list;
+    let { length: len0 } = overviews_list;
     let obj_data = null;
+
+    /*
+        classifier: "lda"
+        createDate: 1563880749512
+        decoyDistributions: {0-0_001: 12, 0_9-1_0: 0, 0_007-0_008: 24, 0_09-0_1: 484, 0_03-0_04: 348, …}
+        expId: "5d22faca8536e9793683a57e"
+        // 实验名称
+        expName: "C20181210yix_HCC_DIA_T_24A"
+        fdr: 0.01
+        // 分析概览 id
+        id: "5d36ed2d9063e34625b75fad"
+        intercept: -49.09821384487065
+        lastModifiedDate: 1563881359694
+        libraryId: "5d0848fee0073c6ffc69752d"
+        // 库名称
+        libraryName: "HCC_QE3_Lib"
+        libraryPeptideCount: 300507
+        matchedPeptideCount: 15823
+        matchedProteinCount: 0
+        mzExtractWindow: 0.03
+        // 分析名称
+        name: "C20181210yix_HCC_DIA_T_24A-HCC_QE3_Lib-20190723191909"
+        note: ""
+        ownerName: "lms"
+        peakCount: 577264
+        rtExtractWindow: 600
+        scoreTypes: (21) ["MainScore", "WeightedTotalScore", "BseriesScore", "IntensityScore", "IsotopeCorrelationScore", "IsotopeOverlapScore", "LibraryCorr", "LibraryRsmd", "LogSnScore", "MassdevScore", "MassdevScoreWeighted", "NormRtScore", "XcorrCoelution", "XcorrCoelutionWeighted", "XcorrShape", "XcorrShapeWeighted", "LibraryDotprod", "LibraryManhattan", "LibrarySangle", "LibraryRootmeansquare", "YseriesScore"]
+        shapeScoreThreshold: 0.5
+        shapeScoreWeightThreshold: 0.6
+        sigma: 3.75
+        slope: 0.04273035759500789
+        spacing: 0.01
+        targetDistributions: {0-0_001: 8899, 0_9-1_0: 0, 0_007-0_008: 423, 0_09-0_1: 884, 0_03-0_04: 1512, …}
+        totalPeptideCount: 212722
+        type: "DIA_SWATH"
+        */
+    // return -1;
     if (0 < len0) {
       obj_data = new Array(len0);
       let index = 0;
-      for (let i in library_list) {
+      for (let i in overviews_list) {
         // 提取
         let {
+          // 分析id
           id,
+
+          // 分析代码
           name,
-          doPublic,
-          creator,
-          createDate,
-          proteinCount,
-          totalCount
-        } = library_list[i];
+
+          // 	实验名称
+          expName: exp_name,
+
+          // 标准库名称
+          libraryName: library_name,
+
+          // 实验参数
+          rtExtractWindow: rt_extract_window,
+          mzExtractWindow: mz_extract_window,
+          sigma,
+          spacing,
+          shapeScoreThreshold: shape_score_threshold,
+          shapeScoreWeightThreshold: shape_score_weight_threshold,
+          slope,
+          intercept,
+          fdr,
+          classifier,
+          calPPRate: calpprate,
+
+          // 识别结果
+          matchedPeptideCount: matched_peptide_count,
+          matchedProteinCount: matched_protein_count,
+          totalPeptideCount: total_peptide_count,
+          libraryPeptideCount: library_peptide_count,
+
+          // 负责人
+          ownerName: owner_name,
+
+          // 备忘录
+          note,
+
+          // 创建时间
+          createDate: create_date,
+
+          // 最近修改时间
+          lastModifiedDate: last_modified_date
+          // 操作
+        } = overviews_list[i];
 
         // 缓存对象
         let obj_temp = {};
-        obj_temp.id = id;
 
         // 添加索引是为了展示方便
         (obj_temp.index = index + 1),
           (obj_temp.key = "analysis_list_" + i),
+          // 分析id
+          (obj_temp.id = id),
+          // 分析代码
           (obj_temp.name = name),
-          (obj_temp.is_public = doPublic),
-          (obj_temp.creator = creator),
-          // 转换时间戳为指定的日期格式
-          (obj_temp.create_date = tao.format_time(createDate)),
-          // 蛋白质数目
-          (obj_temp.protein_count = proteinCount),
-          // 肽段数目
-          (obj_temp.total_count = totalCount),
+          // 	实验名称
+          (obj_temp.exp_name = exp_name),
+          // 标准库名称
+          (obj_temp.library_name = library_name),
+          // 实验参数
+          (obj_temp.rt_extract_window = rt_extract_window),
+          (obj_temp.mz_extract_window = mz_extract_window),
+          (obj_temp.sigma = sigma),
+          (obj_temp.spacing = spacing),
+          (obj_temp.shape_score_threshold = shape_score_threshold),
+          (obj_temp.shape_score_weight_threshold = shape_score_weight_threshold),
+          (obj_temp.slope = slope),
+          (obj_temp.intercept = intercept),
+          (obj_temp.fdr = fdr),
+          (obj_temp.classifier = classifier),
+          (obj_temp.calpprate = calpprate),
+          // 识别结果
+          (obj_temp.matched_peptide_count = matched_peptide_count),
+          (obj_temp.matched_protein_count = matched_protein_count),
+          (obj_temp.total_peptide_count = total_peptide_count),
+          (obj_temp.library_peptide_count = library_peptide_count),
+          // 负责人
+          (obj_temp.owner_name = owner_name),
+          // 备忘录
+          (obj_temp.note = note),
+          // 创建时间
+          (obj_temp.create_date = tao.format_time(create_date)),
+          // 最近修改时间
+          (obj_temp.last_modified_date = tao.format_time(last_modified_date)),
+          // 存入数组中
           (obj_data[index++] = obj_temp);
       }
     }
 
     this.setState({
-      analysis_list_data: obj_data
+      analysis_list_data: obj_data,
+      // 标记 成功
+      analysis_list_false_time: 5,
+      // 标记数据为可用的状态
+      analysis_list_status: 0
     });
 
     return 0;
@@ -342,80 +442,11 @@ class Irt_standard_library_list extends React.Component {
     this.setState({ search_text: "" });
   };
 
-  set_this_public = (id = "", status) => {
-    let { language } = this.props;
-    if (false == status && 5 < id.length) {
-      // 调用 公开标准库接口
-      // 提示
-      message.loading(
-        Languages[language]["propro.analysis_list_set_public"] +
-          " : " +
-          Languages[language]["propro.prompt_running"],
-        1
-      );
-      // 调用 更新接口
-      this.props.set_library_public_by_id({ id: id });
-    } else {
-      // 不需要更新
-      message.info(
-        Languages[language]["propro.analysis_list_set_public"] +
-          " : " +
-          Languages[language]["propro.prompt_cancel"],
-        1
-      );
-      return -1;
-    }
-  };
-
-  handle_analysis_list_set_public = () => {
-    // 时间戳设置为 0
-    this.props.set_state_newvalue({
-      target: "analysis_list_set_public_time",
-      value: 0
-    });
-
-    // 提取返回状态
-    let { analysis_list_set_public_status, language } = this.props;
-
-    if (0 == analysis_list_set_public_status) {
-      // 更新成功
-      // 进入延时刷新
-      setTimeout(() => {
-        this.setState({ analysis_list_status: -1 });
-      }, 800);
-      setTimeout(() => {
-        // 调用重新获取数据接口 注意演示 防止过度刷新请求
-        this.props.get_analysis_list();
-      }, 1100);
-
-      setTimeout(() => {
-        // 提示
-        message.success(
-          Languages[language]["propro.analysis_list_set_public"] +
-            " : " +
-            Languages[language]["propro.prompt_success"],
-          2
-        );
-      }, 520);
-    } else {
-      // 执行公开 失败
-      setTimeout(() => {
-        // 提示
-        message.error(
-          Languages[language]["propro.analysis_list_set_public"] +
-            " : " +
-            Languages[language]["propro.prompt_failed"],
-          4
-        );
-      }, 520);
-    }
-  };
-
   render() {
     // 定义 解析 配置 表格
     const analysis_list_table_columns = [
       {
-        //   序列号
+        // 1  序列号
         title: (
           <span
             style={{
@@ -428,10 +459,94 @@ class Irt_standard_library_list extends React.Component {
           </span>
         ),
         dataIndex: "index",
-        key: "index"
+        key: "index",
+        render: text => {
+          return (
+            <span
+              className={styles.font_second_color}
+              style={{
+                fontSize: "8px",
+                fontWeight: "600"
+              }}
+            >
+              {text}
+            </span>
+          );
+        }
+      },
+
+      {
+        // 2  实验名称
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.analysis_list_exp_name" />
+          </span>
+        ),
+        key: "exp_name",
+        ...this.get_column_search_props("exp_name"),
+        render: list => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "80px",
+                maxWidth: "80px"
+              }}
+            >
+              <Link
+                to={"/library/analysis/detail/" + list.id}
+                style={{
+                  fontSize: "8px"
+                }}
+              >
+                {list.exp_name}
+              </Link>
+            </div>
+          );
+        }
       },
       {
-        //   标准库名称
+        // 3  分析概览 id
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.analysis_list_id" />
+          </span>
+        ),
+        dataIndex: "id",
+        key: "id",
+        ...this.get_column_search_props("id"),
+        render: text => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "80px",
+                maxWidth: "80px"
+              }}
+            >
+              {text}
+            </div>
+          );
+        }
+      },
+      {
+        // 4  分析代号
         title: (
           <span
             style={{
@@ -447,12 +562,24 @@ class Irt_standard_library_list extends React.Component {
         ...this.get_column_search_props("name"),
         render: list => {
           return (
-            <Link to={"/library/analysis/detail/" + list.id}>{list.name}</Link>
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "100px",
+                maxWidth: "100px"
+              }}
+            >
+              <Link to={"/library/analysis/detail/" + list.id}>
+                {list.name}
+              </Link>
+            </div>
           );
         }
       },
       {
-        //   标准库id
+        //  5   标准库名称
         title: (
           <span
             style={{
@@ -461,44 +588,34 @@ class Irt_standard_library_list extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_list_id" />
+            <FormattedHTMLMessage id="propro.analysis_list_library_name" />
           </span>
         ),
-        dataIndex: "id",
-        key: "id",
-        ...this.get_column_search_props("id")
-      },
-      {
-        //   是否公开
-        title: (
-          <span
-            style={{
-              fontSize: "14px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.analysis_list_is_public" />
-          </span>
-        ),
-        dataIndex: "is_public",
-        key: "is_public",
+        dataIndex: "library_name",
+        key: "library_name",
         render: text => (
-          <span
+          <div
             style={{
-              fontSize: "14px"
+              fontSize: "8px",
+              wordWrap: "break-word",
+              wordBreak: "break-all",
+              minWidth: "50px",
+              maxWidth: "50px"
             }}
           >
-            {true == text ? (
-              <span className={`${styles.font_green_color}`}>True</span>
-            ) : (
-              <span className={`${styles.font_red_color}`}>False</span>
-            )}
-          </span>
+            <span
+              className={"badge btn-warning"}
+              style={{
+                padding: "5px 5px"
+              }}
+            >
+              {text}
+            </span>
+          </div>
         )
       },
       {
-        //   蛋白质数目
+        // 6  实验参数
         title: (
           <span
             style={{
@@ -507,51 +624,72 @@ class Irt_standard_library_list extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_list_protein_count" />
+            <FormattedHTMLMessage id="propro.analysis_list_exp_params" />
           </span>
         ),
-        dataIndex: "protein_count",
-        key: "protein_count"
-      },
-      {
-        //   肽段数目
-        title: (
-          <span
-            style={{
-              fontSize: "14px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.analysis_list_protein_count" />
-          </span>
-        ),
-        dataIndex: "total_count",
-        key: "total_count"
-      },
-      {
-        //   创建时间
-        title: (
-          <span
-            style={{
-              fontSize: "14px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.analysis_list_create_time" />
-          </span>
-        ),
-        dataIndex: "create_date",
-        key: "create_date",
+        key: "protein_count",
+        render: list => {
+          // 参考 theamleaf
+          // <div th:text="|ExtractParams : ${overview.rtExtractWindow}/${overview.mzExtractWindow}|"></div>
+          //                 <div th:text="|SigmaSpacing : ${overview.sigma}/${overview.spacing}|"></div>
+          //                 <div th:text="|Threshold : ${overview.shapeScoreThreshold}/${overview.shapeScoreWeightThreshold}|"></div>
+          //                 <div th:text="|SlopeIntercept : ${overview.slope}/${overview.intercept}|"></div>
+          //                 <div th:text="|Fdr : ${overview.fdr}|"></div>
+          //                 <div th:text="|Classifier : ${overview.classifier}|"></div>
+          //   <div th: text="|PP Rate : ${overview.calPPRate()}|"></div>
 
-        ...this.get_column_search_props("create_date"),
-        render: my_date => {
-          return <span className={styles.font_primary_color}>{my_date}</span>;
+          let cal_pprate = 0;
+          if (list.matched_protein_count != 0) {
+            cal_pprate =
+              list.matched_peptide_count / list.matched_protein_count;
+          }
+
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "150px",
+                maxWidth: "150px"
+              }}
+            >
+              ExtractParams:&nbsp;
+              <span className={styles.font_primary_color}>
+                {list.rt_extract_window}/{list.mz_extract_window}
+              </span>
+              <br />
+              SigmaSpacing:&nbsp;
+              <span className={styles.font_primary_color}>
+                {list.sigma}/{list.spacing}
+              </span>
+              <br />
+              Threshold:&nbsp;
+              <span className={styles.font_primary_color}>
+                {list.shape_score_threshold}/{list.shape_score_weight_threshold}
+              </span>
+              <br />
+              SlopeIntercept:&nbsp;
+              <span className={styles.font_primary_color}>
+                {list.slope}/{list.intercept}
+              </span>
+              <br />
+              Fdr:&nbsp;
+              <span className={styles.font_primary_color}>{list.fdr}</span>
+              <br />
+              Classifier:&nbsp;
+              <span className={styles.font_primary_color}>
+                {list.classifier}
+              </span>
+              <br />
+              PP Rate:&nbsp;
+              <span className={styles.font_primary_color}>{cal_pprate}</span>
+            </div>
+          );
         }
       },
       {
-        //   创建者
+        // 7  识别结果
         title: (
           <span
             style={{
@@ -560,14 +698,186 @@ class Irt_standard_library_list extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_list_creator" />
+            <FormattedHTMLMessage id="propro.analysis_list_recognition_result" />
           </span>
         ),
-        dataIndex: "creator",
-        key: "creator",
-        ...this.get_column_search_props("creator")
+        key: "total_count",
+        render: list => {
+          // <div th:text="|Peptides : ${overview.matchedPeptideCount}|"></div>
+          // <div th:text="|Proteins : ${overview.matchedProteinCount}|"></div>
+          // <div th:text="|XIC Peptides : ${overview.totalPeptideCount}|"></div>
+          // <div th:text="|Library Peptides : ${overview.libraryPeptideCount}|"></div>
+
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "130px",
+                maxWidth: "130px"
+              }}
+            >
+              Peptides:&nbsp;
+              <span className={styles.font_primary_color}>
+                {list.matched_peptide_count}
+              </span>
+              <br />
+              Proteins:&nbsp;
+              <span className={styles.font_primary_color}>
+                {list.matched_protein_count}
+              </span>
+              <br />
+              XIC Peptides:&nbsp;
+              <span className={styles.font_primary_color}>
+                {list.total_peptide_count}
+              </span>
+              <br />
+              Library Peptides:&nbsp;
+              <span className={styles.font_primary_color}>
+                {list.library_peptide_count}
+              </span>
+              <br />
+            </div>
+          );
+        }
       },
       {
+        // 8  负责人
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.analysis_list_owner_name" />
+          </span>
+        ),
+        dataIndex: "owner_name",
+        key: "owner_name",
+        ...this.get_column_search_props("owner_name"),
+        render: text => {
+          return (
+            <span
+              className={"badge " + styles.bg_second_color}
+              style={{
+                padding: "5px 5px"
+              }}
+            >
+              <span className={styles.font_white_color}>{text}</span>
+            </span>
+          );
+        }
+      },
+      {
+        // 9    备忘录
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.analysis_list_memorandum" />
+          </span>
+        ),
+        dataIndex: "note",
+        key: "note",
+        ...this.get_column_search_props("note"),
+        render: text => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "60px",
+                maxWidth: "60px"
+              }}
+            >
+              {text}
+            </div>
+          );
+        }
+      },
+
+      {
+        // 10   时间 创建/最后修改时间
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.analysis_list_all_times" />
+          </span>
+        ),
+        dataIndex: "last_modified_date",
+        key: "last_modified_date",
+        render: (text, list) => {
+          // 返回 创建时间 和 最后修改时间
+          return (
+            <span
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "170px",
+                maxWidth: "170px"
+              }}
+            >
+              <FormattedHTMLMessage id="propro.analysis_list_create_time" />
+              &nbsp;
+              <span
+                className={"badge " + styles.bg_green_color}
+                style={{
+                  padding: "5px 5px"
+                }}
+              >
+                <span className={styles.font_white_color}>
+                  {list.create_date}
+                </span>
+              </span>
+              <div
+                style={{
+                  height: "10px",
+                  width: "40px"
+                }}
+              >
+                &nbsp;
+              </div>
+              <FormattedHTMLMessage id="propro.analysis_list_update_time" />
+              &nbsp;
+              <span
+                className={"badge " + styles.bg_primary_color}
+                style={{
+                  padding: "5px 5px"
+                }}
+              >
+                <span className={styles.font_white_color}>
+                  {list.last_modified_date}
+                </span>
+              </span>
+              <div
+                style={{
+                  height: "10px",
+                  width: "40px"
+                }}
+              >
+                &nbsp;
+              </div>
+            </span>
+          );
+        }
+      },
+
+      {
+        // 11  操作
         title: (
           <span
             style={{
@@ -579,86 +889,164 @@ class Irt_standard_library_list extends React.Component {
             <FormattedHTMLMessage id="propro.analysis_list_operation" />
           </span>
         ),
-        key: "action",
+        key: "operation",
         render: list => {
-          // 返回 三个链接
+          // 返回 创建时间 和 最后修改时间
           return (
-            <Fragment key="2019-8-16 00:32:54">
-              {/* 详情链接 */}
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "150px",
+                maxWidth: "150px"
+              }}
+            >
+              {/* 报告 */}
               <Tooltip
+                placement="topLeft"
                 title={
-                  <FormattedHTMLMessage id="propro.analysis_list_detail" />
+                  <FormattedHTMLMessage id="propro.analysis_list_report_tip" />
                 }
               >
                 <Link to={"/analysis/detail/" + list.id}>
-                  <button
-                    type="button"
-                    className={"btn " + `${styles.bg_second_color}`}
+                  <div
+                    className={"badge btn-warning"}
                     style={{
-                      padding: "5px 10px",
-                      margin: "5px 5px"
+                      padding: "3px 3px",
+                      margin: "3px"
                     }}
                   >
                     <img
-                      src={detail_svg}
+                      src={report_svg}
                       style={{
-                        height: "20px"
+                        width: "20px"
                       }}
                     />
-                  </button>
+                  </div>
                 </Link>
               </Tooltip>
-
-              {/* 肽段列表链接 */}
+              {/* xic 数据 */}
               <Tooltip
+                placement="topLeft"
                 title={
-                  <FormattedHTMLMessage id="propro.analysis_list_peptides_list" />
+                  <FormattedHTMLMessage id="propro.analysis_list_xic_tip" />
                 }
               >
-                <Link to={"/peptide/list/" + list.id}>
-                  <button
-                    type="button"
-                    className={"btn " + `${styles.bg_primary_color}`}
+                <Link to={"/analysis/detail/" + list.id}>
+                  <div
+                    className={"badge btn-primary"}
                     style={{
-                      padding: "5px 10px",
-                      margin: "5px"
+                      padding: "3px 3px",
+                      margin: "3px"
                     }}
                   >
                     <img
-                      src={unordered_list_svg}
+                      src={list_svg}
                       style={{
-                        height: "20px"
+                        width: "20px"
                       }}
                     />
-                  </button>
+                  </div>
                 </Link>
               </Tooltip>
-
-              {/* 蛋白列表链接 */}
+              {/* 打分数据 */}
               <Tooltip
+                placement="topLeft"
                 title={
-                  <FormattedHTMLMessage id="propro.analysis_list_protein_list" />
+                  <FormattedHTMLMessage id="propro.analysis_list_score_tip" />
                 }
               >
-                <Link to={"/protein/list/" + list.id}>
-                  <button
-                    type="button"
-                    className={"btn " + `${styles.bg_green_color}`}
+                <Link to={"/analysis/detail/" + list.id}>
+                  <div
+                    className={"badge btn-primary"}
                     style={{
-                      padding: "5px 10px",
-                      margin: "5px"
+                      padding: "3px 3px",
+                      margin: "3px"
                     }}
                   >
                     <img
-                      src={proteins_list_svg}
+                      src={score_svg}
                       style={{
-                        height: "20px"
+                        width: "20px"
                       }}
                     />
-                  </button>
+                  </div>
                 </Link>
               </Tooltip>
-            </Fragment>
+              {/* 鉴定肽段 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.analysis_list_identification_tip" />
+                }
+              >
+                <Link to={"/analysis/detail/" + list.id}>
+                  <div
+                    className={"badge btn-primary"}
+                    style={{
+                      padding: "3px 3px",
+                      margin: "3px"
+                    }}
+                  >
+                    <img
+                      src={identification_svg}
+                      style={{
+                        width: "20px"
+                      }}
+                    />
+                  </div>
+                </Link>
+              </Tooltip>
+              {/* 导出肽段 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.analysis_list_export_tip" />
+                }
+              >
+                <Link to={"/analysis/detail/" + list.id}>
+                  <div
+                    className={"badge btn-secondary"}
+                    style={{
+                      padding: "3px 3px",
+                      margin: "3px"
+                    }}
+                  >
+                    <img
+                      src={export_svg}
+                      style={{
+                        width: "20px"
+                      }}
+                    />
+                  </div>
+                </Link>
+              </Tooltip>
+              {/* 删除 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.analysis_list_delete_tip" />
+                }
+              >
+                <Link to={"/analysis/detail/" + list.id}>
+                  <div
+                    className={"badge btn-danger"}
+                    style={{
+                      padding: "4px 4px",
+                      margin: "3px"
+                    }}
+                  >
+                    <img
+                      src={delete_svg}
+                      style={{
+                        width: "20px"
+                      }}
+                    />
+                  </div>
+                </Link>
+              </Tooltip>
+            </div>
           );
         }
       }
@@ -686,10 +1074,6 @@ class Irt_standard_library_list extends React.Component {
           </Row>
         </Fragment>
       );
-    }
-
-    if (10000 < this.props.analysis_list_set_public_time) {
-      this.handle_analysis_list_set_public();
     }
 
     return (
@@ -731,7 +1115,8 @@ class Irt_standard_library_list extends React.Component {
             columns={analysis_list_table_columns}
             pagination={{
               position: "bottom",
-              hideOnSinglePage: true
+              hideOnSinglePage: true,
+              defaultPageSize: 100
             }}
             dataSource={this.state.analysis_list_data}
           />
@@ -741,4 +1126,4 @@ class Irt_standard_library_list extends React.Component {
   }
 }
 
-export default Irt_standard_library_list;
+export default Analysis_list;
